@@ -1,0 +1,55 @@
+package com.oway.ui.login;
+
+import com.oway.R;
+import com.oway.base.BasePresenter;
+import com.oway.base.MvpView;
+import com.oway.datasource.implementation.ApiService;
+import com.oway.model.request.LoginRequest;
+import com.oway.model.response.LoginResponse;
+import com.oway.utillis.ConstsCore;
+import com.oway.utillis.NetworkUtils;
+
+import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class LoginActivityPresenter<V extends MvpView> extends BasePresenter<LoginActivityView> {
+
+    @Inject
+    public LoginActivityPresenter(ApiService apiService) {
+        super(apiService);
+    }
+
+    public void login(LoginRequest loginRequest) {
+
+        if (!NetworkUtils.isNetworkConnected(getMvpView().getActivityContext())) {
+            getMvpView().showMessage(R.string.internet_check);
+            return;
+        }
+        showLoading();
+        apiService.login(loginRequest).enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                dismissLoading();
+                LoginResponse body = response.body();
+                if (isBodyVerified(response.body()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
+                    getMvpView().onSuccess(body);
+                }
+                else
+                {
+                   getMvpView().onFailure(body.getMessage());
+                }
+            }
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                dismissLoading();
+                if (getMvpView() != null) {
+                    String msg = t.getMessage();
+                    getMvpView().showMessage(R.string.something_went_wrong);
+                }
+            }
+        });
+    }
+}
