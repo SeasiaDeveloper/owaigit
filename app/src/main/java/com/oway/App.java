@@ -2,11 +2,14 @@ package com.oway;
 
 import android.app.Application;
 import android.os.StrictMode;
+
 import com.oway.datasource.implementation.ApiService;
 import com.oway.di.component.ApplicationComponent;
 import com.oway.di.component.DaggerApplicationComponent;
 import com.oway.di.module.ApplicationModule;
+
 import javax.inject.Inject;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
@@ -43,4 +46,4 @@ public class App extends Application {
         return app;
     }
 
-    }
+}
