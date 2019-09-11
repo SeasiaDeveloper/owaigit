@@ -7,5 +7,7 @@
     <string name="tv_login">Login111</string>
     <string name="validate_name">Please enter user name</string>
     <string name="validate_password">Please enter password</string>
-
+    <string name="FACEBOOK_APP_ID">658871691141399</string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN">7dd46ce0e21eed587d5aff96030a61ee</string>
+    <string name="ak_login_protocol_scheme">ak658871691141399</string>
 </resources>
