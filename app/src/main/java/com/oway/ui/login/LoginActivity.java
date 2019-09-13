@@ -82,7 +82,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
 
     private void hitLoginApi() {
         login();
-       /* boolean isValid = validationUtils.isLoginDataValid(etxName, etxPassword);
+        boolean isValid = validationUtils.isLoginDataValid(etxName, etxPassword);
 
 
         if (isValid) {
@@ -92,7 +92,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
             loginRequest.setDevicetype("Android");
             loginRequest.setVersion("sdsd");
             loginActivityPresenter.login(loginRequest);
-        }*/
+        }
     }
     @Override
     protected void onResume() {
