@@ -11,10 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import com.oway.R;
-import com.oway.ui.LoginActivity;
+import com.oway.ui.login.LoginActivity;
 
 import java.util.Objects;
 

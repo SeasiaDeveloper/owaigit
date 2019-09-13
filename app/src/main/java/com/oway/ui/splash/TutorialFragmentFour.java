@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.oway.R;
-import com.oway.ui.LoginActivity;
+import com.oway.ui.login.LoginActivity;
 
 import java.util.Objects;
 

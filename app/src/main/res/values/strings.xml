@@ -50,4 +50,30 @@
     <string name="validate_propinsi">Please Enter Propinsi Lokasi</string>
 
 
+
+    <!--Slider -->
+    <string name="coming_soon">Coming Soon !!!</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="tv_dashboard">DashBoard</string>
+    <string name="tv_profile">User Profile</string>
+    <string name="tv_requestie">Requisite &amp; Certain</string>
+    <string name="tv_privacy_policy">Privacy Policy</string>
+    <string name="tv_faq">Faq</string>
+    <string name="tv_app_rate">App Rate</string>
+    <string name="tv_logout">Logout</string>
+    <string name="tv_logout_text">Are you sure you want to Logout?</string>
+   <!--bootom Navigation drawer -->
+    <string name="tv_home">Home</string>
+    <string name="tv_activity">Activity</string>
+    <string name="tv_payment">Payment</string>
+    <string name="tv_account">Account</string>
+   <!-- register_now-->
+    <string name="regText">Bayar Transportasi di OWAI den beli makanan\nlebih mudah dengan saldo OTU</string>
+    <string name="reg_ups">UPS!</string>
+    <string name="reg_text_two">Supertinya Anda belum punya akun OTU</string>
+    <string name="reg_text_bottom">Sebentar lagi anda akan masuk di OTU ZONE\n\"Ayo registrasi sekarang,aktifkan saldo OTU mu\"
+    </string>
+
+
 </resources>

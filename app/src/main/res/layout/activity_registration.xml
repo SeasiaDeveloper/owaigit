@@ -5,15 +5,79 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.registration.Registration">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_green_dark"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    >
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@color/design_default_color_primary"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="@dimen/_230sdp"
+        android:layout_height="@dimen/_140sdp"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:src="@drawable/registr_now"
+        android:id="@+id/ivxRegister"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <com.oway.customviews.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/regText"
+        android:gravity="center"
+        android:id="@+id/reg_text_one"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivxRegister"
+        />
+
+    <com.oway.customviews.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/reg_ups"
+        android:layout_marginTop="@dimen/_60sdp"
+        android:text="@string/reg_ups"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="@dimen/_30sdp"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/reg_text_one" />
+
+    <com.oway.customviews.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/reg_otu"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:text="@string/reg_text_two"
+        android:gravity="center"
+        android:textSize="@dimen/_10sdp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/reg_ups" />
+
+    <com.oway.customviews.CustomTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/reg_text_bottom"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:text="@string/reg_text_bottom"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/reg_ups" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,5 +100,7 @@
             android:textAllCaps="true"
             android:textColor="#017525" />
     </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
