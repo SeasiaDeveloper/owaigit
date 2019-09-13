@@ -28,6 +28,8 @@
     <string name="tv_activity">Activity</string>
     <string name="tv_payment">Payment</string>
     <string name="tv_account">Account</string>
+    <!--dashboard -->
+    <string name="tv_otu">OTU Saldo</string>
 
 
 </resources>
