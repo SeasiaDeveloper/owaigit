@@ -152,7 +152,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     public void openActivityOnTokenExpire() {
-        //  startActivity(LoginActivity.getStartIntent(this));
+        //  startActivity(MainActivity.getStartIntent(this));
         finish();
     }
 
@@ -203,7 +203,7 @@ public abstract class BaseActivity extends AppCompatActivity
                 this);
         alertDialogBuilder.setTitle("Logout");
         alertDialogBuilder
-                .setMessage("Are you sure you want to Logout?")
+                .setMessage(getResources().getString(R.string.tv_logout_text))
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

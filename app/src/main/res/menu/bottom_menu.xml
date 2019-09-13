@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/profile_placeholder"
+        android:title="@string/tv_home" />
+
+    <item
+        android:id="@+id/navigation_activity"
+        android:icon="@drawable/activity"
+        android:title="@string/tv_activity" />
+
+    <item
+        android:id="@+id/navigation_payment"
+        android:icon="@drawable/payment"
+        android:title="@string/tv_payment" />
+
+    <item
+        android:id="@+id/navigation_account"
+        android:icon="@drawable/account"
+        android:title="@string/tv_account" />
+
+</menu>

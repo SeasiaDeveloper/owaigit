@@ -3,9 +3,7 @@ package com.oway.ui.login;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.facebook.accountkit.AccountKitLoginResult;
@@ -15,22 +13,19 @@ import com.facebook.accountkit.ui.SkinManager;
 import com.facebook.accountkit.ui.UIManager;
 import com.oway.R;
 import com.oway.base.BaseActivity;
-import com.oway.customviews.CustomEditText;
 import com.oway.datasource.pref.PreferencesHelper;
-import com.oway.model.request.LoginRequest;
 import com.oway.model.response.LoginResponse;
+import com.oway.ui.home.MainActivity;
 import com.oway.utillis.ToastUtils;
 import com.oway.utillis.ValidationUtils;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity implements LoginActivityView {
 
-    private static final int APP_REQUEST_CODE =101 ;
+    private static final int APP_REQUEST_CODE = 101;
     @Inject
     ValidationUtils validationUtils;
     @Inject
@@ -38,29 +33,21 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
     @Inject
     LoginActivityPresenter<LoginActivityView> loginActivityPresenter;
 
-    @BindView(R.id.etxName)
-    EditText etxName;
-
-    @BindView(R.id.etxPassword)
-    EditText etxPassword;
-
-    @BindView(R.id.btnLogin)
-    Button btnLogin;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         getActivityComponent().inject(this);
-        //setUp();
+        setUp();
         loginActivityPresenter.onAttach(LoginActivity.this);
+        MainActivity.start(this);
 
     }
 
     @Override
     protected void setUp() {
+        Log.e("detailss","detalss");
 
     }
 
@@ -75,10 +62,6 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
 
     }
 
-    @OnClick(R.id.btnLogin)
-    public void onLoginClick(View view) {
-        hitLoginApi();
-    }
 
     private void hitLoginApi() {
         login();
@@ -91,13 +74,16 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
             loginRequest.setPassword(etxPassword.getText().toString());
             loginRequest.setDevicetype("Android");
             loginRequest.setVersion("sdsd");
+
             loginActivityPresenter.login(loginRequest);
         }*/
     }
+
     @Override
     protected void onResume() {
         super.onResume();
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -114,7 +100,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
                 String toastMessage = "";
                 if (loginResult.getError() != null) {
                     toastMessage = loginResult.getError().getErrorType().getMessage();
-                   // errorDialog(loginResult.getError().toString());
+                    // errorDialog(loginResult.getError().toString());
                     //Log.d(TAG, "Error " + loginResult.getError().toString());
                 } else if (loginResult.wasCancelled()) {
                     toastMessage = "Login Cancelled";
@@ -130,11 +116,11 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
             }
 
         } else {
-           // login.setVisibility(View.VISIBLE);
+            // login.setVisibility(View.VISIBLE);
         }
     }
-    public void login()
-    {
+
+    public void login() {
         final Intent intent = new Intent(this, AccountKitActivity.class);
         UIManager uiManager;
         AccountKitConfiguration.AccountKitConfigurationBuilder configurationBuilder =

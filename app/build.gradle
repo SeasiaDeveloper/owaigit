@@ -9,7 +9,7 @@ android {
     buildToolsVersion "29.0.0"
     defaultConfig {
         applicationId "com.oway"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -46,5 +46,8 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     implementation "com.google.android.material:material:1.1.0-alpha06"
     implementation 'com.facebook.android:account-kit-sdk:5.+'
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.mikhaellopez:circularimageview:3.0.2'
+    implementation 'com.github.ksoichiro:android-observablescrollview:1.5.0'
 
 }
