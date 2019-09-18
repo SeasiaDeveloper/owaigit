@@ -135,7 +135,6 @@ public final class CommonUtils {
         context.startActivity(intent);
     }
 
-
     public static int convertDPtoPX(int dpValue, Context mContext) {
         Resources r = mContext.getResources();
         return (int) TypedValue.applyDimension(
