@@ -25,9 +25,7 @@ public class TutorialViewPagerAdapter extends FragmentPagerAdapter {
     public TutorialViewPagerAdapter(Context contextOne, FragmentManager fm) {
         super(fm);
         context = contextOne;
-
     }
-
 
     @Override
     public Fragment getItem(int position) {
@@ -40,8 +38,6 @@ public class TutorialViewPagerAdapter extends FragmentPagerAdapter {
         } else if (position == 3) {
             return new TutorialFragmentFour();
         } else
-
-
             return null;
     }
 
@@ -49,6 +45,5 @@ public class TutorialViewPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return 4;
     }
-
 
 }

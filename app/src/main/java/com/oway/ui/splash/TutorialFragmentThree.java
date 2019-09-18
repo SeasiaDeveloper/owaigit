@@ -13,9 +13,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.oway.R;
+import com.oway.datasource.pref.PreferenceHandler;
+import com.oway.datasource.pref.PreferencesHelper;
+import com.oway.ui.LoginSignUpChoice;
 import com.oway.ui.login.LoginActivity;
+import com.oway.utillis.AppConstants;
 
 import java.util.Objects;
+
+import javax.inject.Inject;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,57 +84,33 @@ public class TutorialFragmentThree extends Fragment {
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_tutorial_fragment_three, container, false);
 
-        skipThree=(Button) view.findViewById(R.id.bt_skip_three);
-        skipThree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                Intent intent;
-                intent = new Intent(getActivity(), LoginActivity.class);
-                ((Tutorial) Objects.requireNonNull(getActivity())).startActivity(intent);
-
-            }
-        });
+        ButterKnife.bind(this,view);
         return view;
     }
+    @Inject
+    PreferenceHandler preferencesHelper;
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-       /* if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }*/
+    @OnClick(R.id.bt_skip_three)
+    public void onClick(){
+        preferencesHelper.writeBoolean(getActivity(),AppConstants.TOTURIAL_STATUS,true);
+        Intent intent;
+        intent = new Intent(getActivity(), LoginSignUpChoice.class);
+        ((Tutorial) Objects.requireNonNull(getActivity())).startActivity(intent);
+        ((Tutorial) Objects.requireNonNull(getActivity())).finish();
     }
+
+
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-       /* if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-      //  mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    /*public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }*/
+
 }

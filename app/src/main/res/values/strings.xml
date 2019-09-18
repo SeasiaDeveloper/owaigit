@@ -4,7 +4,7 @@
     <string name="something_went_wrong">Something Went Wrong !!</string>
     <string name="internet_check">Please check your internet connection</string>
     <string name="some_error">Some Error occured</string>
-    <string name="tv_login">Login111</string>
+    <string name="tv_login">Login</string>
     <string name="validate_name">Please enter user name</string>
     <string name="validate_password">Please enter password</string>
     <string name="FACEBOOK_APP_ID">658871691141399</string>
@@ -39,7 +39,7 @@
     <string name="propinsiHint">Propinsi Lokasi</string>
     <string name="kotaHint">Kota Lokasi</string>
 
-<!--
+    <!--
     Registration Validations
 -->
     <string name="validate_sponsorId">Please Enter Sponsor Id</string>
@@ -48,7 +48,6 @@
     <string name="validate_alamat">Please Enter Alamat Rumah</string>
     <string name="validate_kota">Please Enter Kota Lokasi</string>
     <string name="validate_propinsi">Please Enter Propinsi Lokasi</string>
-
 
 
     <!--Slider -->
@@ -63,17 +62,29 @@
     <string name="tv_app_rate">App Rate</string>
     <string name="tv_logout">Logout</string>
     <string name="tv_logout_text">Are you sure you want to Logout?</string>
-   <!--bootom Navigation drawer -->
+    <!--bootom Navigation drawer -->
     <string name="tv_home">Home</string>
     <string name="tv_activity">Activity</string>
     <string name="tv_payment">Payment</string>
     <string name="tv_account">Account</string>
-   <!-- register_now-->
+    <!-- register_now-->
     <string name="regText">Bayar Transportasi di OWAI den beli makanan\nlebih mudah dengan saldo OTU</string>
     <string name="reg_ups">UPS!</string>
     <string name="reg_text_two">Supertinya Anda belum punya akun OTU</string>
     <string name="reg_text_bottom">Sebentar lagi anda akan masuk di OTU ZONE\n\"Ayo registrasi sekarang,aktifkan saldo OTU mu\"
     </string>
+    <!--dashboard -->
+    <string name="tv_otu">OTU Saldo</string>
+    <string name="goodDay">Have a good day ...</string>
+    <string name="login_choice">HAVE ACCOUNT</string>
+    <string name="signUp_Choice">Dont Have Account</string>
+    <string name="forgotPassword">Forgot password</string>
+    <string name="loginScreenContent">Gunakan password akun OTU anda</string>
+    <string name="loginScreenContentTop">hallo JHON KEY, selamat datang kembali ...</string>
+    <string name="dashboard">Rp 1,000,000</string>
+    <string name="topUp">TOP UP</string>
+    <string name="dashboard_text">Bonus Rp 1.234.567.890</string>
+    <string name="verification">Verification With Facebook</string>
 
 
 </resources>

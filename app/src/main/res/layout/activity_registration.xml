@@ -18,7 +18,7 @@
     <ImageView
         android:layout_width="@dimen/_230sdp"
         android:layout_height="@dimen/_140sdp"
-        android:layout_marginTop="@dimen/_50sdp"
+        android:layout_marginTop="@dimen/_30sdp"
         android:src="@drawable/registr_now"
         android:id="@+id/ivxRegister"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
         android:text="@string/reg_ups"
         android:gravity="center"
         android:textStyle="bold"
-        android:textSize="@dimen/_30sdp"
+        android:textSize="@dimen/_20sdp"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

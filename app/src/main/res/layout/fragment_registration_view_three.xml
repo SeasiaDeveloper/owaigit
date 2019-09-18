@@ -27,6 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
+                android:layout_gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -35,80 +36,84 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0">
 
-                <TextView
-                    android:id="@+id/tv_one"
-                    android:layout_width="0dp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/circular_text_white"
-                    android:gravity="center"
-                    android:text="@string/one"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginStart="@dimen/_30sdp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginLeft="@dimen/_30sdp"
-                    android:layout_marginTop="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_30sdp"
-                    android:textColor="#01581C"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                     />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
-                <View
-                    android:id="@+id/view_line"
-                    android:layout_width="@dimen/_80sdp"
-                    android:layout_height="@dimen/_4sdp"
-                    android:layout_marginTop="@dimen/_38sdp"
-                    android:background="#01581C"
-                    app:layout_constraintStart_toEndOf="@id/tv_one"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <com.oway.customviews.CustomTextView
+                        android:id="@+id/tv_one"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/circular_text_white"
+                        android:gravity="center"
+                        android:text="@string/one"
+                        android:textColor="#01581C"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_two"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="30dp"
-                    android:background="@drawable/circular_text_white"
-                    android:gravity="center"
-                    android:text="@string/two"
-                    android:textColor="#01581C"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/view_line"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <View
+                        android:id="@+id/view_line"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_2sdp"
+                        android:layout_marginTop="@dimen/_40sdp"
+                        android:background="#01581C"
+                        app:layout_constraintStart_toEndOf="@id/tv_one"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <View
-                    android:id="@+id/view_line_two"
-                    android:layout_width="@dimen/_80sdp"
-                    android:layout_height="@dimen/_4sdp"
-                    android:layout_marginTop="@dimen/_38sdp"
-                    android:background="#01581C"
-                    app:layout_constraintStart_toEndOf="@id/tv_two"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <com.oway.customviews.CustomTextView
+                        android:id="@+id/tv_two"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_30sdp"
+                        android:layout_marginBottom="@dimen/_30sdp"
+                        android:background="@drawable/circular_text_white"
+                        android:gravity="center"
+                        android:text="@string/two"
+                        android:textColor="#01581C"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/view_line"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_three"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="30dp"
-                    android:background="@drawable/circular_text_view"
-                    android:gravity="center"
-                    android:text="@string/three"
-                    android:textColor="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/view_line_two"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <View
+                        android:id="@+id/view_line_two"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_2sdp"
+                        android:layout_marginTop="@dimen/_40sdp"
+                        android:background="#01581C"
+                        app:layout_constraintStart_toEndOf="@id/tv_two"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.oway.customviews.CustomTextView
+                        android:id="@+id/tv_three"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_30sdp"
+                        android:layout_marginBottom="@dimen/_30sdp"
+                        android:background="@drawable/circular_text_view"
+                        android:gravity="center"
+                        android:text="@string/three"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/view_line_two"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="7dp"
-                android:layout_marginLeft="7dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="7dp"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:layout_marginLeft="@dimen/_7sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
                 android:layout_gravity="center"
                 android:background="@drawable/register_button_shape"
                 android:orientation="vertical"
@@ -304,8 +309,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/et_kota"
-                        app:layout_constraintTop_toBottomOf="@id/tv_propinsi"
-                         />
+                        app:layout_constraintTop_toBottomOf="@id/tv_propinsi" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

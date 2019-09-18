@@ -8,6 +8,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.oway.R;
+import com.oway.ui.home.MainActivity;
+import com.oway.ui.login.LoginActivity;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class Registration extends AppCompatActivity {
 
@@ -16,14 +22,16 @@ public class Registration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        Button regNow=(Button)findViewById(R.id.bt_reg);
-        regNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(Registration.this,RegisterPayment.class);
-                startActivity(intent);
-            }
-        });
+        ButterKnife.bind(this);
+
 
     }
+    @OnClick(R.id.bt_reg)
+    public void onVC(){
+        Intent intent=new Intent(Registration.this, RegisterPayment.class);
+        startActivity(intent);
+    }
+
+
+
 }

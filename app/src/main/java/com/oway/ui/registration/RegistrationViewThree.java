@@ -1,6 +1,7 @@
 package com.oway.ui.registration;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -13,45 +14,33 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.oway.R;
+import com.oway.base.BaseActivity;
+import com.oway.ui.LoginSignUpChoice;
+import com.oway.ui.home.MainActivity;
+import com.oway.ui.home.dashboard.DashBoardFragment;
+import com.oway.ui.splash.Tutorial;
 import com.oway.utillis.ValidationUtils;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * to handle interaction events.
- * Use the {@link RegistrationViewThree#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.Objects;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+
 public class RegistrationViewThree extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-//    private OnFragmentInteractionListener mListener;
+    ValidationUtils validationUtils=new ValidationUtils(getContext());
 
     public RegistrationViewThree() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RegistrationViewThree.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static RegistrationViewThree newInstance(String param1, String param2) {
         RegistrationViewThree fragment = new RegistrationViewThree();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,73 +48,51 @@ public class RegistrationViewThree extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
+    @BindView(R.id.sponsor_et)
+    EditText sponsorId;
+    @BindView(R.id.et_mail)
+    EditText emailId;
+    @BindView(R.id.et_password)
+    EditText password;
+    @BindView(R.id.et_pincode)
+    EditText pin;
+    @BindView(R.id.et_alamat)
+    EditText alamat;
+    @BindView(R.id.et_kota)
+    EditText kota;
+    @BindView(R.id.et_propinsi)
+    EditText propinsi;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_registration_view_three, container, false);
-        EditText sponsorId=view.findViewById(R.id.sponsor_et);
-        EditText emailId=view.findViewById(R.id.et_mail);
-        EditText password=view.findViewById(R.id.et_password);
-        EditText pin=view.findViewById(R.id.et_pincode);
-        EditText alamat=view.findViewById(R.id.et_alamat);
-        EditText kota=view.findViewById(R.id.et_kota);
-        EditText propinsi=view.findViewById(R.id.et_propinsi);
-        Button registrationButton=view.findViewById(R.id.buttonReg);
+        ButterKnife.bind(this,view);
 
-        ValidationUtils validationUtils=new ValidationUtils(getContext());
-registrationButton.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        validationUtils.isRegistrationValid(sponsorId,emailId,password,pin,alamat,kota,propinsi);
-
-    }
-});
 
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        /*if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }*/
+    @OnClick(R.id.buttonReg)
+    public void onReg(){
+        Intent main=new Intent(getActivity(),MainActivity.class);
+        startActivity(main);
     }
+
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        /*if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-      //  mListener = null;
+
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-    /* *//*
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }*/
 }
