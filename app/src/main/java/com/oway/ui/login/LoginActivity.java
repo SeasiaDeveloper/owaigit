@@ -1,16 +1,13 @@
 package com.oway.ui.login;
 
 import android.content.Intent;
-import android.os.Build;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
-import com.facebook.accountkit.AccountKitLoginResult;
-import com.facebook.accountkit.ui.AccountKitActivity;
-import com.facebook.accountkit.ui.AccountKitConfiguration;
-import com.facebook.accountkit.ui.SkinManager;
-import com.facebook.accountkit.ui.UIManager;
 import com.oway.R;
 import com.oway.base.BaseActivity;
 import com.oway.datasource.pref.PreferencesHelper;
@@ -21,7 +18,9 @@ import com.oway.utillis.ValidationUtils;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity implements LoginActivityView {
 
@@ -33,6 +32,11 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
     @Inject
     LoginActivityPresenter<LoginActivityView> loginActivityPresenter;
 
+    @BindView(R.id.btn_login)
+    Button btn;
+    @BindView(R.id.tv_forgot_password)
+    TextView etxForgotPassword;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,9 +44,17 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
         ButterKnife.bind(this);
         getActivityComponent().inject(this);
         setUp();
-        loginActivityPresenter.onAttach(LoginActivity.this);
-        MainActivity.start(this);
+        etxForgotPassword.setPaintFlags(etxForgotPassword.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
 
+
+        loginActivityPresenter.onAttach(LoginActivity.this);
+       /* MainActivity.start(this);
+*/
+    }
+    @OnClick(R.id.btn_login)
+    public void onVC(){
+        Intent intent=new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -63,21 +75,6 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
     }
 
 
-    private void hitLoginApi() {
-        login();
-       /* boolean isValid = validationUtils.isLoginDataValid(etxName, etxPassword);
-
-
-        if (isValid) {
-            LoginRequest loginRequest = new LoginRequest();
-            loginRequest.setCardnum(etxName.getText().toString());
-            loginRequest.setPassword(etxPassword.getText().toString());
-            loginRequest.setDevicetype("Android");
-            loginRequest.setVersion("sdsd");
-
-            loginActivityPresenter.login(loginRequest);
-        }*/
-    }
 
     @Override
     protected void onResume() {
@@ -90,54 +87,6 @@ public class LoginActivity extends BaseActivity implements LoginActivityView {
         loginActivityPresenter.onDetach();
     }
 
-    @Override
-    public void onActivityResult(final int requestCode, final int resultCode,
-                                 final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == APP_REQUEST_CODE) { // confirm that this response matches your request
-            if (data != null) {
-                AccountKitLoginResult loginResult = data.getParcelableExtra(AccountKitLoginResult.RESULT_KEY);
-                String toastMessage = "";
-                if (loginResult.getError() != null) {
-                    toastMessage = loginResult.getError().getErrorType().getMessage();
-                    // errorDialog(loginResult.getError().toString());
-                    //Log.d(TAG, "Error " + loginResult.getError().toString());
-                } else if (loginResult.wasCancelled()) {
-                    toastMessage = "Login Cancelled";
-                } else {
-                    // Success! Start your next activity...
-                    //getCurrentAccount();
-                    toastMessage = "login";
-                }
-                if (!toastMessage.isEmpty())
-                    Toast.makeText(this, toastMessage, Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Something went wrong. Please try again", Toast.LENGTH_LONG).show();
-            }
 
-        } else {
-            // login.setVisibility(View.VISIBLE);
-        }
-    }
 
-    public void login() {
-        final Intent intent = new Intent(this, AccountKitActivity.class);
-        UIManager uiManager;
-        AccountKitConfiguration.AccountKitConfigurationBuilder configurationBuilder =
-                new AccountKitConfiguration.AccountKitConfigurationBuilder(
-                        com.facebook.accountkit.ui.LoginType.PHONE,
-                        AccountKitActivity.ResponseType.TOKEN); // or .ResponseType.TOKEN
-
-        //di param UI Manager di hilangkan parameter com.facebook.accountkit.ui.LoginType.PHONE
-        uiManager = new SkinManager(SkinManager.Skin.TRANSLUCENT,
-                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? getResources().getColor(R.color.colorPrimaryDark, null) : getResources().getColor(R.color.colorPrimaryDark)),
-                R.drawable.ic_background,
-                SkinManager.Tint.WHITE,
-                0.55
-        );
-        configurationBuilder.setDefaultCountryCode("ID");
-        configurationBuilder.setUIManager(uiManager);
-        intent.putExtra(AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION, configurationBuilder.build());
-        startActivityForResult(intent, APP_REQUEST_CODE);
-    }
 }

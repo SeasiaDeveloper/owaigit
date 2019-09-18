@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -12,7 +13,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_200sdp"
+            android:layout_height="@dimen/_235sdp"
             android:background="@drawable/home_back"
             android:orientation="vertical">
 
@@ -65,10 +66,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_80sdp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginRight="@dimen/_10sdp"
-                android:background="@drawable/saldo_back">
+                android:background="@drawable/saldo_back"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -79,20 +82,135 @@
                     <ImageView
                         android:layout_width="@dimen/_15sdp"
                         android:layout_height="@dimen/_15sdp"
-                        android:background="@drawable/walletselected"></ImageView>
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:background="@drawable/walletselected">
+
+                    </ImageView>
 
                     <com.oway.customviews.CustomTextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textColor="@color/white"
-                        android:gravity="center_vertical"
-                        android:textSize="@dimen/_14sdp"
-                        android:textStyle="bold"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        android:text="@string/tv_otu" />
+                        android:gravity="center_vertical"
+                        android:text="@string/tv_otu"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_14sdp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="start"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <com.oway.customviews.CustomTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="#9E0F94"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginLeft="@dimen/_20sdp"
+                        android:layout_weight="2.4"
+                        android:text="@string/dashboard"
+                        android:textSize="@dimen/_13sdp" />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/flip"
+                        android:layout_marginRight="@dimen/_6sdp"
+                        android:layout_weight="0.3"
+                        android:layout_marginEnd="@dimen/_6sdp"
+                       >
+
+                    </ImageView>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_gravity="center"
+                        android:text="@string/topUp"
+                        android:textColor="@android:color/white"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:background="@drawable/top_up_button_shape"
+                        android:layout_marginLeft="@dimen/_10sdp" />
+
+                </LinearLayout>
+                <com.oway.customviews.CustomTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/dashboard_text"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginLeft="@dimen/_14sdp" />
+
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginLeft="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:cardCornerRadius="@dimen/_5sdp">
+
+
+                    <com.yyydjk.library.BannerLayout
+                        android:id="@+id/bannerLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_80sdp"
+                        android:layout_gravity="center"
+                        app:autoPlayDuration="4000"
+                        app:indicatorMargin="@dimen/_10sdp"
+                        app:indicatorPosition="centerBottom"
+                        app:indicatorShape="oval"
+                        app:indicatorSpace="@dimen/_4sdp"
+                        app:isAutoPlay="true"
+                        app:scrollDuration="1000"
+                        app:selectedIndicatorColor="@android:color/holo_orange_light"
+                        app:selectedIndicatorHeight="@dimen/_6sdp"
+                        app:selectedIndicatorWidth="@dimen/_6sdp"
+                        app:unSelectedIndicatorColor="#99ffffff"
+                        app:unSelectedIndicatorHeight="@dimen/_6sdp"
+                        app:unSelectedIndicatorWidth="@dimen/_6sdp" />
+
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
         </LinearLayout>
+
+        <com.oway.customviews.CustomTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_margin="@dimen/_5sdp"
+            android:text="@string/goodDay"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvxRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_gravity="center">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
     </LinearLayout>
 </ScrollView>
