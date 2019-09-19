@@ -25,6 +25,9 @@ public final class AppConstants {
     static final String COMPRESSES_IMAGES = ".COMPRESSES_IMAGES";
     public static final String PREF_NAME = "owai_pref";
     public static final String TOTURIAL_STATUS = "toturial_status";
+    public static final String PICK_UP="Pick_status";
+    public static final String DROP_DOWN="Drop_status";
+
 
     private AppConstants() {
         // This utility class is not publicly instantiable

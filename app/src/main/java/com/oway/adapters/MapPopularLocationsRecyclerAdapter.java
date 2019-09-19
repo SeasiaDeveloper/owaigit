@@ -10,34 +10,34 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.oway.R;
 import com.oway.callbacks.DashbordRecyclerItemclick;
-import com.oway.model.DashboardGridItemsModal;
+import com.oway.callbacks.PopularLocationsCallBack;
+import com.oway.model.PopularLocationsModal;
 
 import java.util.ArrayList;
 
-public class DashboardRecyclerAdapter extends RecyclerView.Adapter<DashboardRecyclerAdapter.ViewHolder>
-{
-    private Context context;
-    private ArrayList<DashboardGridItemsModal> itemList;
-    private DashbordRecyclerItemclick listener;
 
-    public DashboardRecyclerAdapter(ArrayList<DashboardGridItemsModal> itemList, Context context,DashbordRecyclerItemclick listener) {
+public class MapPopularLocationsRecyclerAdapter extends RecyclerView.Adapter<MapPopularLocationsRecyclerAdapter.ViewHolder> {
+    private Context context;
+    private ArrayList<PopularLocationsModal> itemList;
+    private PopularLocationsCallBack listener;
+
+    public MapPopularLocationsRecyclerAdapter(ArrayList<PopularLocationsModal> itemList, Context context, PopularLocationsCallBack listener) {
         this.context = context;
         this.itemList = itemList;
-        this.listener=listener;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_screen_recyclar_items, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.map_popular,parent,false);
         ViewHolder holder = new ViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onItemClick(view,holder.getPosition());
+                listener.onItemClick(view, holder.textView.getText().toString());
             }
         });
         return holder;
@@ -45,8 +45,8 @@ public class DashboardRecyclerAdapter extends RecyclerView.Adapter<DashboardRecy
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Glide.with(context).load(itemList.get(position).getImageUrl()).into(holder.imageView);
-        holder.textView.setText(itemList.get(position).getItemText());
+
+        holder.textView.setText(itemList.get(position).getAddress());
     }
 
 
@@ -56,13 +56,13 @@ public class DashboardRecyclerAdapter extends RecyclerView.Adapter<DashboardRecy
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
+
         TextView textView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.ivxItems);
-            textView = itemView.findViewById(R.id.tvxItemText);
+            textView = itemView.findViewById(R.id.tvxItemLocation);
         }
     }
 }
+
