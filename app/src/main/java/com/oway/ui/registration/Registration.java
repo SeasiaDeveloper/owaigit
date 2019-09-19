@@ -1,13 +1,11 @@
 package com.oway.ui.registration;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.oway.R;
 import com.oway.base.BaseActivity;
-import com.oway.ui.home.MainActivity;
+import com.oway.ui.login.LoginActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -31,9 +29,15 @@ public class Registration extends BaseActivity {
         Intent intent = new Intent(baseActivity, Registration.class);
         baseActivity.startActivity(intent);
     }
+
+    @OnClick(R.id.btnLogin)
+    public void onLoginClick() {
+        LoginActivity.start(this);
+    }
+
     @OnClick(R.id.bt_reg)
-    public void onVC(){
-        Intent intent=new Intent(Registration.this, RegisterPayment.class);
+    public void onVC() {
+        Intent intent = new Intent(Registration.this, RegisterPayment.class);
         startActivity(intent);
     }
 }

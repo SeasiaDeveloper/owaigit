@@ -114,8 +114,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
         <com.mikhaellopez.circularimageview.CircularImageView
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_width="@dimen/_65sdp"
+            android:layout_height="@dimen/_65sdp"
             android:src="@drawable/avatar"
             android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/profile_pic"

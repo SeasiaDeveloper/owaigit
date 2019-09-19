@@ -10,10 +10,12 @@ import android.widget.EditText;
 import com.oway.R;
 import com.oway.base.BaseActivity;
 import com.oway.base.BaseFragment;
+import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.request.RegisterRequest;
 import com.oway.model.response.RegisterResponse;
 import com.oway.ui.home.MainActivity;
 import com.oway.ui.login.LoginActivityView;
+import com.oway.utillis.AppConstants;
 import com.oway.utillis.ToastUtils;
 import com.oway.utillis.ValidationUtils;
 
@@ -25,6 +27,10 @@ import butterknife.OnClick;
 
 
 public class RegistrationViewThree extends BaseFragment implements RegisterActivityView {
+
+
+    @BindView(R.id.phone_et)
+    EditText phone_et;
 
     @BindView(R.id.sponsor_et)
     EditText sponsorId;
@@ -56,6 +62,9 @@ public class RegistrationViewThree extends BaseFragment implements RegisterActiv
 
     private boolean isValid;
 
+   /* @Inject
+    PreferenceHandler mHandler;*/
+
 
     public static RegistrationViewThree newInstance(String param1, String param2) {
         RegistrationViewThree fragment = new RegistrationViewThree();
@@ -82,18 +91,23 @@ public class RegistrationViewThree extends BaseFragment implements RegisterActiv
 
     @OnClick(R.id.buttonReg)
     public void onReg() {
-        isValid = validationUtils.isRegistrationValid(sponsorId, emailId, password, pin, alamat, kota, propinsi);
+        isValid = validationUtils.isRegistrationValid(phone_et, sponsorId, emailId, password, pin, alamat, kota, propinsi);
         if (isValid) {
             RegisterRequest request = new RegisterRequest();
-            request.setNama("Suku");
+           // request.setNama(mHandler.readString(getActivity(), AppConstants.USER_NAME,""));
             request.setEmail(emailId.getText().toString());
             request.setPassword(password.getText().toString());
             request.setPin(pin.getText().toString());
-            request.setUplineID(sponsorId.getText().toString());
-            request.setPhone_number("904167182323");
+            if (sponsorId.getText().toString().isEmpty())
+                request.setUplineID(getResources().getString(R.string.dummy_upline_id));
+            else
+                request.setUplineID(sponsorId.getText().toString());
+            request.setPhone_number(phone_et.getText().toString());
+            request.setAddress(alamat.getText().toString());
+            request.setCity(kota.getText().toString());
+            request.setProvince(propinsi.getText().toString());
             registerActivityPresenter.register(request);
         }
-
     }
 
     @Override

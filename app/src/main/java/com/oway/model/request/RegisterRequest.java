@@ -19,6 +19,34 @@ public class RegisterRequest {
     private String pin;
     private String uplineID;
     private String phone_number;
+    private String address;
+    private String city;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    private String province;
 
     public String getNama() {
         return nama;

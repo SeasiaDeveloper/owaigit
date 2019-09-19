@@ -1,10 +1,10 @@
 package com.oway.ui.registration;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.viewpager.widget.ViewPager;
 
 import com.oway.R;
 import com.oway.adapters.RegistrationViewPagerAdapter;
@@ -31,6 +31,11 @@ public class RegisterPayment extends BaseActivity {
     @Override
     protected void setUp() {
 
+    }
+
+    public static void start(BaseActivity baseActivity) {
+        Intent intent = new Intent(baseActivity, RegisterPayment.class);
+        baseActivity.startActivity(intent);
     }
 
     public void next_fragment(View view) {

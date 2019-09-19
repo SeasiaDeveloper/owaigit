@@ -21,6 +21,7 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name="com.oway.ui.registration.Registration"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.oway.ui.splash.Splash"
@@ -35,9 +36,11 @@
         </activity>
         <activity
             android:name="com.oway.ui.splash.Tutorial"
+            android:theme="@style/NoActionBar"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.oway.ui.login.LoginActivity"
+            android:theme="@style/NoActionBar"
             android:screenOrientation="portrait" />
 
         <activity

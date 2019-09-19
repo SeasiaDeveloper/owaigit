@@ -26,8 +26,8 @@
                 android:id="@+id/cl_upper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
                 android:layout_gravity="center"
+                android:background="#FFFFFF"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -40,22 +40,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
-
-                    <com.oway.customviews.CustomTextView
-                        android:id="@+id/tv_one"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/circular_text_white"
-                        android:gravity="center"
-                        android:text="@string/one"
-                        android:textColor="#01581C"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <View
                         android:id="@+id/view_line"
@@ -64,6 +52,15 @@
                         android:layout_marginTop="@dimen/_40sdp"
                         android:background="#01581C"
                         app:layout_constraintStart_toEndOf="@id/tv_one"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/view_line_two"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_2sdp"
+                        android:layout_marginTop="@dimen/_40sdp"
+                        android:background="#01581C"
+                        app:layout_constraintStart_toEndOf="@id/tv_two"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.oway.customviews.CustomTextView
@@ -80,13 +77,16 @@
                         app:layout_constraintStart_toEndOf="@id/view_line"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <View
-                        android:id="@+id/view_line_two"
-                        android:layout_width="@dimen/_80sdp"
-                        android:layout_height="@dimen/_2sdp"
-                        android:layout_marginTop="@dimen/_40sdp"
-                        android:background="#01581C"
-                        app:layout_constraintStart_toEndOf="@id/tv_two"
+                    <com.oway.customviews.CustomTextView
+                        android:id="@+id/tv_one"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/circular_text_white"
+                        android:gravity="center"
+                        android:text="@string/one"
+                        android:textColor="#01581C"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.oway.customviews.CustomTextView
@@ -110,149 +110,17 @@
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_7sdp"
                 android:layout_marginLeft="@dimen/_7sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_7sdp"
-                android:layout_gravity="center"
                 android:background="@drawable/register_button_shape"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@+id/buttonReg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cl_upper">
-
-                <com.oway.customviews.CustomTextView
-                    android:id="@+id/tv_sponsor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="start"
-                    android:paddingStart="@dimen/_4sdp"
-                    android:textStyle="bold"
-                    android:text="@string/sponsorID"
-                    android:textColor="#008033"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:paddingEnd="@dimen/_4sdp" />
-
-                <com.oway.customviews.CustomEditText
-                    android:id="@+id/sponsor_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="start"
-                    android:hint="@string/sponsorHint"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_sponsor" />
-
-                <com.oway.customviews.CustomTextView
-                    android:id="@+id/tv_mail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="start"
-                    android:textStyle="bold"
-                    android:paddingStart="@dimen/_4sdp"
-                    android:text="@string/mail"
-                    android:textColor="#008033"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/sponsor_et"
-                    android:paddingEnd="@dimen/_4sdp" />
-
-                <com.oway.customviews.CustomEditText
-                    android:id="@+id/et_mail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="start"
-                    android:hint="@string/mailHint"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_mail" />
-
-
-                <com.oway.customviews.CustomTextView
-                    android:id="@+id/tv_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="start"
-                    android:paddingStart="@dimen/_4sdp"
-                    android:text="@string/password"
-                    android:textStyle="bold"
-                    android:textColor="#008033"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/et_mail"
-                    android:paddingEnd="@dimen/_4sdp" />
-
-                <com.oway.customviews.CustomEditText
-                    android:id="@+id/et_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="start"
-                    android:hint="@string/passwordHint"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_password" />
-
-
-                <com.oway.customviews.CustomTextView
-                    android:id="@+id/tv_pin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="start"
-                    android:text="@string/pin"
-                    android:textStyle="bold"
-                    android:paddingStart="@dimen/_4sdp"
-                    android:textColor="#008033"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/et_password"
-                    android:paddingEnd="@dimen/_4sdp" />
-
-                <com.oway.customviews.CustomEditText
-                    android:id="@+id/et_pincode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="start"
-                    android:hint="@string/pinHint"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_pin" />
-
-                <com.oway.customviews.CustomTextView
-                    android:id="@+id/tv_alamat"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="start"
-                    android:paddingStart="@dimen/_4sdp"
-                    android:text="@string/alamat"
-                    android:textStyle="bold"
-                    android:textColor="#008033"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/et_pincode"
-                    android:paddingEnd="@dimen/_4sdp" />
-
-                <com.oway.customviews.CustomEditText
-                    android:id="@+id/et_alamat"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="start"
-                    android:hint="@string/alamatHint"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_alamat" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -263,19 +131,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/et_alamat">
 
-                    <com.oway.customviews.CustomTextView
-                        android:id="@+id/tv_kota"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="start"
-                        android:text="@string/kota"
-                        android:textStyle="bold"
-                        android:paddingStart="@dimen/_4sdp"
-                        android:textColor="#008033"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:paddingEnd="@dimen/_4sdp" />
-
                     <com.oway.customviews.CustomEditText
                         android:id="@+id/et_kota"
                         android:layout_width="0dp"
@@ -285,19 +140,6 @@
                         app:layout_constraintEnd_toStartOf="@id/et_propinsi"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_kota" />
-
-                    <com.oway.customviews.CustomTextView
-                        android:id="@+id/tv_propinsi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="start"
-                        android:paddingStart="@dimen/_4sdp"
-                        android:paddingEnd="@dimen/_4sdp"
-                        android:text="@string/propinsi"
-                        android:textStyle="bold"
-                        android:textColor="#008033"
-                        app:layout_constraintStart_toEndOf="@id/et_kota"
-                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.oway.customviews.CustomEditText
                         android:id="@+id/et_propinsi"
@@ -311,8 +153,193 @@
                         app:layout_constraintStart_toEndOf="@id/et_kota"
                         app:layout_constraintTop_toBottomOf="@id/tv_propinsi" />
 
+                    <com.oway.customviews.CustomTextView
+                        android:id="@+id/tv_propinsi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:paddingStart="@dimen/_4sdp"
+                        android:paddingEnd="@dimen/_4sdp"
+                        android:text="@string/propinsi"
+                        android:textColor="#008033"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@id/et_kota"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.oway.customviews.CustomTextView
+                        android:id="@+id/tv_kota"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:paddingStart="@dimen/_4sdp"
+                        android:paddingEnd="@dimen/_4sdp"
+                        android:text="@string/kota"
+                        android:textColor="#008033"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.oway.customviews.CustomEditText
+                    android:id="@+id/phone_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:inputType="number"
+                    android:gravity="start"
+                    android:hint="@string/tv_phone_hint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_phone" />
+
+                <com.oway.customviews.CustomEditText
+                    android:id="@+id/sponsor_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="start"
+                    android:hint="@string/sponsorHint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_sponsor" />
+
+                <com.oway.customviews.CustomEditText
+                    android:id="@+id/et_mail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="start"
+                    android:hint="@string/mailHint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_mail" />
+
+                <com.oway.customviews.CustomEditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="start"
+                    android:hint="@string/passwordHint"
+                    android:inputType="textPassword"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_password" />
+
+                <com.oway.customviews.CustomEditText
+                    android:id="@+id/et_pincode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="start"
+                    android:hint="@string/pinHint"
+                    android:inputType="textPassword"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_pin" />
+
+
+                <com.oway.customviews.CustomEditText
+                    android:id="@+id/et_alamat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="start"
+                    android:hint="@string/alamatHint"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_alamat" />
+
+                <com.oway.customviews.CustomTextView
+                    android:id="@+id/tv_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="start"
+                    android:paddingStart="@dimen/_4sdp"
+                    android:paddingEnd="@dimen/_4sdp"
+                    android:text="@string/tv_phone"
+                    android:textColor="#008033"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <com.oway.customviews.CustomTextView
+                    android:id="@+id/tv_sponsor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="start"
+                    android:paddingStart="@dimen/_4sdp"
+                    android:paddingEnd="@dimen/_4sdp"
+                    android:text="@string/sponsorID"
+                    android:textColor="#008033"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/phone_et" />
+
+                <com.oway.customviews.CustomTextView
+                    android:id="@+id/tv_mail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="start"
+                    android:paddingStart="@dimen/_4sdp"
+                    android:paddingEnd="@dimen/_4sdp"
+                    android:text="@string/mail"
+                    android:textColor="#008033"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/sponsor_et" />
+
+                <com.oway.customviews.CustomTextView
+                    android:id="@+id/tv_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="start"
+                    android:paddingStart="@dimen/_4sdp"
+                    android:paddingEnd="@dimen/_4sdp"
+                    android:text="@string/password"
+                    android:textColor="#008033"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/et_mail" />
+
+                <com.oway.customviews.CustomTextView
+                    android:id="@+id/tv_pin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="start"
+                    android:paddingStart="@dimen/_4sdp"
+                    android:paddingEnd="@dimen/_4sdp"
+                    android:text="@string/pin"
+                    android:textColor="#008033"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/et_password" />
+
+                <com.oway.customviews.CustomTextView
+                    android:id="@+id/tv_alamat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="start"
+                    android:paddingStart="@dimen/_4sdp"
+                    android:paddingEnd="@dimen/_4sdp"
+                    android:text="@string/alamat"
+                    android:textColor="#008033"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/et_pincode" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

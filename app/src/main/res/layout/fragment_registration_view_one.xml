@@ -36,6 +36,7 @@
         app:layout_constraintTop_toBottomOf="@id/cl_upper">
 
         <com.oway.customviews.CustomEditText
+            android:id="@+id/etxName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"

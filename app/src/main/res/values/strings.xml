@@ -8,6 +8,7 @@
     <string name="validate_name">Please enter user name</string>
     <string name="validate_password">Please enter password</string>
     <string name="FACEBOOK_APP_ID">658871691141399</string>
+    <string name="dummy_upline_id">EKL0000000</string>
     <string name="ACCOUNT_KIT_CLIENT_TOKEN">7dd46ce0e21eed587d5aff96030a61ee</string>
     <string name="ak_login_protocol_scheme">ak658871691141399</string>
 
@@ -16,6 +17,8 @@
     <string name="skip">Skip</string>
     <string name="next">Next</string>
     <string name="register">Register Now</string>
+    <string name="otu_account">I have otu account</string>
+
     <string name="one">1</string>
     <string name="two">2</string>
     <string name="three">3</string>
@@ -25,6 +28,9 @@
     <string name="pic_content">Tambehkan</string>
     <string name="pic_content_two">Photo Profile Anda</string>
     <string name="sponsorID">ID Sponsor</string>
+    <string name="tv_phone">Phone</string>
+    <string name="tv_phone_hint">Masukan Nomor HP</string>
+
     <string name="sponsorHint">Masukan Kode ID</string>
     <string name="mail">Email</string>
     <string name="mailHint">xxxx@mail.com</string>
@@ -50,6 +56,7 @@
     <string name="validate_alamat">Please Enter Alamat Rumah</string>
     <string name="validate_kota">Please Enter Kota Lokasi</string>
     <string name="validate_propinsi">Please Enter Propinsi Lokasi</string>
+    <string name="validate_phonenumber">Please Enter Phone Number</string>
 
 
     <!--Slider -->
@@ -81,7 +88,11 @@
     <string name="login_choice">HAVE ACCOUNT</string>
     <string name="signUp_Choice">Dont Have Account</string>
     <string name="forgotPassword">Forgot password</string>
+    <string name="tv_register">Register</string>
+
     <string name="loginScreenContent">Gunakan password akun OTU anda</string>
+    <string name="phone">Phone</string>
+
     <string name="loginScreenContentTop">hallo JHON KEY, selamat datang kembali ...</string>
     <string name="dashboard">Rp 1,000,000</string>
     <string name="topUp">TOP UP</string>
