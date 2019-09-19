@@ -7,8 +7,6 @@ import com.oway.R;
 
 public class ValidationUtils {
 
-    private static final int CARD_MIN_LENGTH = 10;
-    private final static String NULL = "null";
     private Context context;
 
     public ValidationUtils(Context context) {
@@ -49,7 +47,7 @@ public class ValidationUtils {
         } else if (etxKota.getText().toString().isEmpty()) {
             etxKota.setError(context.getString(R.string.validate_kota));
             return false;
-        }else if (etxPropinsi.getText().toString().isEmpty()){
+        } else if (etxPropinsi.getText().toString().isEmpty()) {
             etxPropinsi.setError(context.getString(R.string.validate_propinsi));
             return false;
         }

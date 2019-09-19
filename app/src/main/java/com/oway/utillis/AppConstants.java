@@ -25,6 +25,8 @@ public final class AppConstants {
     static final String COMPRESSES_IMAGES = ".COMPRESSES_IMAGES";
     public static final String PREF_NAME = "owai_pref";
     public static final String TOTURIAL_STATUS = "toturial_status";
+    public static final String USER_ID = "user_id";
+    public static final String MBR_TOKEN = "mbr_token";
 
     private AppConstants() {
         // This utility class is not publicly instantiable

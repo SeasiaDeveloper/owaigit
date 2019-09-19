@@ -40,7 +40,7 @@ import com.oway.utillis.FontCache;
 import javax.inject.Inject;
 
 public abstract class BaseActivity extends AppCompatActivity
-        implements MvpView, BaseFragment.Callback {
+        implements com.oway.base.MvpView, com.oway.base.BaseFragment.Callback {
 
     private ProgressDialog mProgressDialog;
     private ActivityComponent mActivityComponent;

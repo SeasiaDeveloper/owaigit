@@ -1,6 +1,5 @@
 package com.oway.utillis;
 
-import android.app.Activity;
 import android.content.Context;
 import android.widget.ImageView;
 

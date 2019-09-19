@@ -29,6 +29,8 @@
     <string name="mail">Email</string>
     <string name="mailHint">xxxx@mail.com</string>
     <string name="password">Password</string>
+    <string name="userName">User Name</string>
+
     <string name="passwordHint">Minimal 8 character</string>
     <string name="pin">PIN</string>
     <string name="pinHint">Masukan 6 Digit Angka</string>
@@ -86,5 +88,7 @@
     <string name="dashboard_text">Bonus Rp 1.234.567.890</string>
     <string name="verification">Verification With Facebook</string>
 
+    <!--Login -->
+    <string name="logged_in">Login Successfully</string>
 
 </resources>

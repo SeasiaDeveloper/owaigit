@@ -5,7 +5,7 @@ package com.oway.model.response;
  * Created by KaurAmanpreet on 29-Jun-18.
  */
 
-public class LoginResponse {
+public class RegisterResponse {
 
 
     /**

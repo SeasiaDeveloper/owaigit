@@ -2,11 +2,9 @@ package com.oway.base;
 
 import android.util.Log;
 
-import com.oway.R;
 import com.oway.datasource.implementation.ApiService;
 import com.oway.model.Response;
 import com.oway.utillis.ConstsCore;
-import com.oway.utillis.ToastUtils;
 
 import javax.inject.Inject;
 
@@ -46,31 +44,18 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
 
     @Override
     public boolean isBodyVerified(Response response) {
-       /* if (AppConstants.isDashBoard) {
-            HMSPreference.writeLong(App.getInstance(),
-                    HMSPreference.PREF_TIME_OUT, System.currentTimeMillis());
-        }*/
         if (response != null && response.getCode() == ConstsCore.STATUS_CODE_SUCCESS)
             return true;
-        else if (response != null && response.getCode() == ConstsCore.STATUS_CODE_SESSION_EXPIRED) {
-            //ToastUtils.shortToast(response.getMessage());
-            if (getMvpView() != null) {
-                getMvpView().logout();
-            }
-            return false;
-        } else if (response != null && response.getCode() != ConstsCore.STATUS_CODE_SUCCESS) {
-            String msg = getMsgfromCode(response.getCode(), response.getMessage());
-            if (msg != null && !msg.isEmpty() && (!msg.equalsIgnoreCase("No fields have been changed") ||
-                    !msg.equalsIgnoreCase("error")))
-                ToastUtils.shortToast(response.getMessage());
-            //getMvpView().onError(getMsgfromCode(response.getCode(), response.getMessage()));
-        } else {
-            if (getMvpView() != null)
-                ToastUtils.shortToast(R.string.something_went_wrong);
-            //getMvpView().onError(R.string.something_went_wrong);
-        }
         return false;
     }
+
+    @Override
+    public boolean isBodyVerified(int response) {
+        if (response == ConstsCore.STATUS_CODE_SUCCESS)
+            return true;
+        return false;
+    }
+
 
     public boolean isViewAttached() {
         return mMvpView != null;

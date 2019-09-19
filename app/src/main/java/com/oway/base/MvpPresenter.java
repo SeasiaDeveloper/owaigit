@@ -15,4 +15,7 @@ public interface MvpPresenter <V extends MvpView>{
 
     boolean isBodyVerified(Response response);
 
+    boolean isBodyVerified(int response);
+
+
 }

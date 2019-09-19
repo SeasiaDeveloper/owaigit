@@ -1,12 +1,12 @@
-package com.oway.ui.login;
+package com.oway.ui.registration;
 
 import com.oway.App;
 import com.oway.R;
 import com.oway.base.BasePresenter;
 import com.oway.base.MvpView;
 import com.oway.datasource.implementation.ApiService;
-import com.oway.model.request.LoginRequest;
-import com.oway.model.response.LoginResponse;
+import com.oway.model.request.RegisterRequest;
+import com.oway.model.response.RegisterResponse;
 import com.oway.utillis.ConstsCore;
 import com.oway.utillis.NetworkUtils;
 
@@ -16,25 +16,25 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivityPresenter<V extends MvpView> extends BasePresenter<LoginActivityView> {
+public class RegisterActivityPresenter<V extends MvpView> extends BasePresenter<RegisterActivityView> {
 
     @Inject
-    public LoginActivityPresenter(ApiService apiService) {
+    public RegisterActivityPresenter(ApiService apiService) {
         super(apiService);
     }
 
-    public void login(LoginRequest loginRequest) {
+    public void register(RegisterRequest registerRequest) {
 
         if (!NetworkUtils.isNetworkConnected(getMvpView().getActivityContext())) {
             getMvpView().showMessage(R.string.internet_check);
             return;
         }
         showLoading();
-        apiService.login(loginRequest).enqueue(new Callback<LoginResponse>() {
+        apiService.register(registerRequest).enqueue(new Callback<RegisterResponse>() {
             @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 dismissLoading();
-                LoginResponse body = response.body();
+                RegisterResponse body = response.body();
                 if (body != null) {
                     if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
                         getMvpView().onSuccess(body);
@@ -47,7 +47,7 @@ public class LoginActivityPresenter<V extends MvpView> extends BasePresenter<Log
             }
 
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
+            public void onFailure(Call<RegisterResponse> call, Throwable t) {
                 dismissLoading();
                 if (getMvpView() != null) {
                     String msg = t.getMessage();

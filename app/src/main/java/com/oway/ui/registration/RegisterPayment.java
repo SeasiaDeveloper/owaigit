@@ -8,11 +8,12 @@ import android.view.View;
 
 import com.oway.R;
 import com.oway.adapters.RegistrationViewPagerAdapter;
+import com.oway.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RegisterPayment extends AppCompatActivity {
+public class RegisterPayment extends BaseActivity {
 
     @BindView(R.id.register_viewpager)
     ViewPager registrationPager;
@@ -24,6 +25,11 @@ public class RegisterPayment extends AppCompatActivity {
         ButterKnife.bind(this);
         RegistrationViewPagerAdapter registerPagerAdapter = new RegistrationViewPagerAdapter(this, getSupportFragmentManager());
         registrationPager.setAdapter(registerPagerAdapter);
+
+    }
+
+    @Override
+    protected void setUp() {
 
     }
 

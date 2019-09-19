@@ -30,7 +30,6 @@
                 android:layout_margin="@dimen/_10sdp"
                 android:gravity="center"
                 android:paddingStart="@dimen/_10sdp"
-
                 android:paddingLeft="@dimen/_10sdp"
                 android:text="@string/loginScreenContentTop"
                 android:textColor="@android:color/black" />
@@ -51,6 +50,26 @@
                 android:textColor="@android:color/black" />
 
             <com.oway.customviews.CustomEditText
+                android:id="@+id/etxUserName"
+                android:text="085859334418"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_40sdp"
+                android:layout_marginLeft="@dimen/_40sdp"
+                android:layout_marginEnd="@dimen/_40sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:background="@drawable/login_edittext"
+                android:singleLine="true"
+                android:gravity="center"
+                android:textCursorDrawable="@drawable/password_cursor_yellow"
+                android:hint="@string/userName" />
+
+            <com.oway.customviews.CustomEditText
+                android:id="@+id/etxPassword"
+                android:text="Piscesboy7"
+                android:inputType="textPassword"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_gravity="center"

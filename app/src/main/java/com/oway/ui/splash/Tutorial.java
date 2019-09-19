@@ -2,8 +2,6 @@ package com.oway.ui.splash;
 
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -13,7 +11,6 @@ import com.oway.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Optional;
 
 public class Tutorial extends BaseActivity {
 

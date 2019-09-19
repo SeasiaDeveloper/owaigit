@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.oway.R;
 import com.oway.datasource.pref.PreferenceHandler;
-import com.oway.datasource.pref.PreferencesHelper;
 import com.oway.ui.LoginSignUpChoice;
 import com.oway.utillis.AppConstants;
 
@@ -61,8 +60,8 @@ public class TutorialFragmentFour extends Fragment {
         preferencesHelper.writeBoolean(getActivity(),AppConstants.TOTURIAL_STATUS,true);
         Intent intent;
         intent = new Intent(getActivity(), LoginSignUpChoice.class);
-        ((Tutorial) Objects.requireNonNull(getActivity())).startActivity(intent);
-        ((Tutorial) Objects.requireNonNull(getActivity())).finish();
+        ((com.oway.ui.splash.Tutorial) Objects.requireNonNull(getActivity())).startActivity(intent);
+        ((com.oway.ui.splash.Tutorial) Objects.requireNonNull(getActivity())).finish();
     }
     @Override
     public void onAttach(Context context) {

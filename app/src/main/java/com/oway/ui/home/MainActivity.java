@@ -191,7 +191,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         showMessage(R.string.coming_soon);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        @SuppressLint("WrongViewCast") DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -202,7 +202,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     @Override
-    public void onFailure(String msg) {
+    public void onFailure(String response) {
 
     }
 
