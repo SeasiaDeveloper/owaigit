@@ -63,7 +63,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityView, Re
         isVerified = validationUtils.isLoginDataValid(etxUserName, etxPassword);
         if (isVerified) {
             LoginRequest loginRequest = new LoginRequest();
-            loginRequest.setReg_id(CommonUtils.getFirebaseId());
+           // loginRequest.setReg_id(CommonUtils.getFirebaseId());
             loginRequest.setPassword(etxPassword.getText().toString());
             loginRequest.setUsername(etxUserName.getText().toString());
             loginActivityPresenter.login(loginRequest);

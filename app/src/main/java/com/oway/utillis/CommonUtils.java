@@ -53,8 +53,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+/*import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;*/
 import com.oway.R;
 import com.oway.callbacks.RegisterButtonclick;
 
@@ -88,6 +88,9 @@ public final class CommonUtils {
         progressDialog.setCanceledOnTouchOutside(false);
         return progressDialog;
     }
+   /* public static Dialog cancelOrderDialog(Context context){
+
+    }*/
 
     @SuppressLint("all")
     public static String getDeviceId(Context context) {
@@ -374,7 +377,7 @@ public final class CommonUtils {
         button.setTypeface(font);
     }
 
-    public static String getFirebaseId() {
+ /*   public static String getFirebaseId() {
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -388,7 +391,7 @@ public final class CommonUtils {
                     }
                 });
         return token;
-    }
+    }*/
 
     public static void showLoginDialog(Context context, String string, RegisterButtonclick mClick) {
         final Dialog dialog = new Dialog(context);

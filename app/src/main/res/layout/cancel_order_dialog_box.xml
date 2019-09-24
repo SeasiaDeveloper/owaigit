@@ -55,6 +55,7 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:buttonTint="@color/col_orange"
                     android:paddingStart="@dimen/_10sdp"
                     android:paddingEnd="@dimen/_10sdp"
@@ -63,6 +64,7 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:buttonTint="@color/col_orange"
                     android:paddingStart="@dimen/_10sdp"
                     android:paddingEnd="@dimen/_10sdp"
@@ -71,6 +73,7 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:buttonTint="@color/col_orange"
                     android:paddingStart="@dimen/_10sdp"
                     android:paddingEnd="@dimen/_10sdp"
@@ -84,6 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_70sdp"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/order_dialog_shape"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp">
@@ -93,6 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|center"
                     android:maxLines="5"
+                    android:maxLength="100"
                     android:textColorHint="@color/cencel"
                     android:textSize="@dimen/_10sdp"
                     android:paddingStart="@dimen/_8sdp"
@@ -104,12 +109,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:layout_marginTop="@dimen/_10sdp"
     android:weightSum="2">
     <Button
         android:layout_width="wrap_content"
         android:layout_height="@dimen/_60sdp"
         android:layout_weight="1"
         android:layout_gravity="center"
+        android:background="@color/cencel_button"
         android:text="@string/cencel"
         />
     <Button
