@@ -2,12 +2,9 @@ package com.oway.adapters;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-
-import android.content.Context;
 
 import com.oway.ui.splash.TutorialFragmentFour;
 import com.oway.ui.splash.TutorialFragmentThree;

@@ -10,9 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.oway.R;
+import com.oway.base.BaseActivity;
 import com.oway.datasource.pref.PreferenceHandler;
-import com.oway.datasource.pref.PreferencesHelper;
 import com.oway.ui.LoginSignUpChoice;
+import com.oway.ui.registration.Registration;
 import com.oway.utillis.AppConstants;
 
 import java.util.Objects;
@@ -59,10 +60,8 @@ public class TutorialFragmentFour extends Fragment {
     @OnClick(R.id.bt_next)
     public void onClick(){
         preferencesHelper.writeBoolean(getActivity(),AppConstants.TOTURIAL_STATUS,true);
-        Intent intent;
-        intent = new Intent(getActivity(), LoginSignUpChoice.class);
-        ((Tutorial) Objects.requireNonNull(getActivity())).startActivity(intent);
-        ((Tutorial) Objects.requireNonNull(getActivity())).finish();
+        Registration.start((BaseActivity) getActivity());
+        ((com.oway.ui.splash.Tutorial) Objects.requireNonNull(getActivity())).finish();
     }
     @Override
     public void onAttach(Context context) {

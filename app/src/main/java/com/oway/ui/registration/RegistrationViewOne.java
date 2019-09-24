@@ -1,24 +1,35 @@
 package com.oway.ui.registration;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.EditText;
+
+import androidx.fragment.app.Fragment;
 
 import com.oway.R;
-import com.oway.ui.splash.Tutorial;
+import com.oway.datasource.pref.PreferenceHandler;
+import com.oway.utillis.AppConstants;
 
 import java.util.Objects;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class RegistrationViewOne extends Fragment {
 
+    @BindView(R.id.etxName)
+    EditText etxName;
+    private View mView;
+
+    @Inject
+    PreferenceHandler mHandler;
 
     public RegistrationViewOne() {
     }
@@ -40,20 +51,10 @@ public class RegistrationViewOne extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_registration_view_one, container, false);
-        Button btnxNext = (Button) view.findViewById(R.id.btn_next);
-        btnxNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((RegisterPayment) Objects.requireNonNull(getActivity())).next_fragment(view);
-            }
-        });
-
+        mView = view;
+        ButterKnife.bind(Objects.requireNonNull(this), view);
         return view;
-
     }
-
-
-
 
     @Override
     public void onAttach(Context context) {
@@ -65,4 +66,13 @@ public class RegistrationViewOne extends Fragment {
         super.onDetach();
     }
 
+    @OnClick(R.id.btn_next)
+    public void onNextClick() {
+         mHandler.writeString(getActivity(), AppConstants.USER_NAME,etxName.getText().toString());
+        ((RegisterPayment) Objects.requireNonNull(getActivity())).next_fragment(mView);
     }
+    @OnClick(R.id.backBtn)
+    public void onBackClick() {
+        getActivity().finish();
+    }
+}

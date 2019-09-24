@@ -3,41 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.oway">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
     <application
-        android:name=".App"
-        android:hardwareAccelerated="true"
+        android:name="com.oway.App"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.trip.SearchPlaces"></activity>
+        <activity android:name="com.oway.ui.login.LoginVerification"></activity>
         <activity
-            android:name=".ui.trip.MotorTripActivity"
+            android:name="com.oway.ui.LoginSignUpChoice"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.oway.ui.registration.RegisterPayment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".ui.login.LoginVerification"
-            android:screenOrientation="portrait" />
+            android:name="com.oway.ui.registration.Registration"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.LoginSignUpChoice"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.registration.RegisterPayment"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.registration.Registration"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.splash.Splash"
+            android:name="com.oway.ui.splash.Splash"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -48,13 +35,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.splash.Tutorial"
-            android:screenOrientation="portrait" />
+            android:name="com.oway.ui.splash.Tutorial"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
         <activity
-            android:name=".ui.login.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:name="com.oway.ui.login.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
+
         <activity
-            android:name=".ui.home.MainActivity"
+            android:name="com.oway.ui.home.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
+
+        <activity
+            android:name=".ui.trip.MotorTripActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".ui.login.WelcomeScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
@@ -98,5 +97,9 @@
         <meta-data android:name="com.here.android.maps.license.key"
             android:value="{j2kliOj91LaU3T/b8WUc3WUdwq8NelFkDCBrr3EM4iQgSaQwRdWIBF2pH+JYtrIdZCRTps5oX6UMzWNVhTFdTgRic4r4I8hQ7b03H3KGvUwXBkJ4TNyIfNIqWheZYsOuQQSfQvrtIioOD/MI67a8t2eWAvSwboD2vLCukjyrtXxulvuAhfotLYCE5dzrpl+4pQX7s1Idq3xo1yAfR82kgLf5eDme7/tTmX38DQVAareL4qEMy8pYv5K2rz1Dn6tJkLXUY69z69TVUpk4x1AHRgPKFPI+TMv0bfKHQzNrm0sN4rAHF8kRaJRFyIXewsFWxiR4cNOluvsM3DNi0XyAR1Uy+lTp364icAz0n41Eu+LbBeeH/lVQaw+lHRzf3YVADt1a0S7zPv+1NwO5PwNQwQ3+XsEuQcc+RaZzwc0eII1DF0KgVbdmm5P7aTBQPSHBxvI3csf1oJEfXi2HXVGrIFxPagp8z7UrzmzXQnnkj+24KdVfX2o+dXsi9+wflAILXnn/StNw3oQV6rH8bITnCZEFFtF8/Lte6EHUbN5qSUjetePfewKXFt9KHn+gCPxLuP1+yZAQxSB0Rgv5tCWATzFK75w0OCBb2EBmLbKie4HvUD+jqDPhcaZhAxCCyYmXHFePxKaohcDS1n4WSS5ipQMd26+0arxzm82wjUq65xQ=}"/>
     </application>
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

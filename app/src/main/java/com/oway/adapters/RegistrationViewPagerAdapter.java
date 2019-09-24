@@ -35,8 +35,6 @@ public class RegistrationViewPagerAdapter extends FragmentPagerAdapter {
             return  new RegistrationViewThree();
         }
          else
-
-
             return null;
     }
 

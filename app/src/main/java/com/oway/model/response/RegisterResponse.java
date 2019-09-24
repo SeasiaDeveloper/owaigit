@@ -5,7 +5,7 @@ package com.oway.model.response;
  * Created by KaurAmanpreet on 29-Jun-18.
  */
 
-public class LoginResponse {
+public class RegisterResponse {
 
 
     /**
@@ -30,14 +30,6 @@ public class LoginResponse {
     private String respMessage;
     private int Code;
 
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
-
     public String getNama() {
         return nama;
     }
@@ -46,8 +38,18 @@ public class LoginResponse {
         this.nama = nama;
     }
 
-    private String foto;
+
+
     private String nama;
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public String getErrNumber() {
         return errNumber;

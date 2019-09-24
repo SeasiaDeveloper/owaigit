@@ -1,46 +1,74 @@
 package com.oway.ui.registration;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.oway.R;
 import com.oway.base.BaseActivity;
-import com.oway.ui.LoginSignUpChoice;
-import com.oway.ui.home.MainActivity;
-import com.oway.ui.home.dashboard.DashBoardFragment;
-import com.oway.ui.splash.Tutorial;
+import com.oway.base.BaseFragment;
+import com.oway.datasource.pref.PreferenceHandler;
+import com.oway.model.request.RegisterRequest;
+import com.oway.model.response.RegisterResponse;
+import com.oway.ui.login.LoginActivityView;
+import com.oway.ui.login.WelcomeScreenActivity;
+import com.oway.utillis.AppConstants;
+import com.oway.utillis.ToastUtils;
 import com.oway.utillis.ValidationUtils;
 
-import java.util.Objects;
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class RegistrationViewThree extends Fragment {
+public class RegistrationViewThree extends BaseFragment implements RegisterActivityView {
 
-    ValidationUtils validationUtils=new ValidationUtils(getContext());
 
-    public RegistrationViewThree() {
-        // Required empty public constructor
-    }
+    @BindView(R.id.phone_et)
+    EditText phone_et;
+
+    @BindView(R.id.sponsor_et)
+    EditText sponsorId;
+
+    @BindView(R.id.et_mail)
+    EditText emailId;
+
+    @BindView(R.id.et_password)
+    EditText password;
+
+    @BindView(R.id.et_pincode)
+    EditText pin;
+
+    @BindView(R.id.et_alamat)
+    EditText alamat;
+
+    @BindView(R.id.et_kota)
+    EditText kota;
+
+    @BindView(R.id.et_propinsi)
+    EditText propinsi;
+
+    @Inject
+    ValidationUtils validationUtils;
+
+
+    @Inject
+    RegisterActivityPresenter<LoginActivityView> registerActivityPresenter;
+
+    private boolean isValid;
+
+   /* @Inject
+    PreferenceHandler mHandler;*/
 
 
     public static RegistrationViewThree newInstance(String param1, String param2) {
         RegistrationViewThree fragment = new RegistrationViewThree();
         Bundle args = new Bundle();
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,38 +78,38 @@ public class RegistrationViewThree extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
-    @BindView(R.id.sponsor_et)
-    EditText sponsorId;
-    @BindView(R.id.et_mail)
-    EditText emailId;
-    @BindView(R.id.et_password)
-    EditText password;
-    @BindView(R.id.et_pincode)
-    EditText pin;
-    @BindView(R.id.et_alamat)
-    EditText alamat;
-    @BindView(R.id.et_kota)
-    EditText kota;
-    @BindView(R.id.et_propinsi)
-    EditText propinsi;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_registration_view_three, container, false);
-        ButterKnife.bind(this,view);
-
-
+        View view = inflater.inflate(R.layout.fragment_registration_view_three, container, false);
+        ButterKnife.bind(this, view);
+        getActivityComponent().inject(this);
+        registerActivityPresenter.onAttach(this);
         return view;
     }
 
     @OnClick(R.id.buttonReg)
-    public void onReg(){
-        Intent main=new Intent(getActivity(),MainActivity.class);
-        startActivity(main);
+    public void onReg() {
+        isValid = validationUtils.isRegistrationValid(phone_et, sponsorId, emailId, password, pin, alamat, kota, propinsi);
+        if (isValid) {
+            RegisterRequest request = new RegisterRequest();
+            request.setNama(PreferenceHandler.readString(getActivity(), AppConstants.USER_NAME, ""));
+            request.setEmail(emailId.getText().toString());
+            request.setPassword(password.getText().toString());
+            request.setPin(pin.getText().toString());
+            if (sponsorId.getText().toString().isEmpty())
+                request.setUplineID(getResources().getString(R.string.dummy_upline_id));
+            else
+                request.setUplineID(sponsorId.getText().toString());
+            request.setPhone_number(phone_et.getText().toString());
+            request.setAddress(alamat.getText().toString());
+            request.setCity(kota.getText().toString());
+            request.setProvince(propinsi.getText().toString());
+            request.setImage(PreferenceHandler.readString(getActivity(), AppConstants.IMAGE_PATH, ""));
+            registerActivityPresenter.register(request);
+        }
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -92,7 +120,29 @@ public class RegistrationViewThree extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    protected void setUp(View view) {
 
     }
 
+    @Override
+    public void onSuccess(RegisterResponse status) {
+        PreferenceHandler.writeString(getActivity(), AppConstants.USER_ID, status.getUserID());
+        PreferenceHandler.writeString(getActivity(), AppConstants.MBR_TOKEN, status.getMbr_token());
+        PreferenceHandler.writeString(getActivity(), AppConstants.IMAGE_PATH, status.getImage());
+        PreferenceHandler.writeString(getActivity(), AppConstants.USER_NAME, status.getNama());
+        ToastUtils.shortToast(status.getRespMessage());
+        WelcomeScreenActivity.start((BaseActivity) getActivity());
+        getActivity().finish();
+    }
+    @OnClick(R.id.backBtn)
+    public void onBackClick() {
+        getActivity().finish();
+    }
+    @Override
+    public void onFailure(String response) {
+        ToastUtils.shortToast(response);
+    }
 }

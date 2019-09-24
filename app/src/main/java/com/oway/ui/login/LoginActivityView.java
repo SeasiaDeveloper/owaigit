@@ -6,7 +6,5 @@ import com.oway.model.response.LoginResponse;
 
 public interface LoginActivityView extends MvpView {
     void onSuccess(LoginResponse status);
-
-    void onFailure(String msg);
-
+    void onFailure(String response);
 }

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "14281509936",
+    "firebase_url": "https://owai-v2.firebaseio.com",
+    "project_id": "owai-v2",
+    "storage_bucket": "owai-v2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:14281509936:android:de2dae4ff16d5115ef71f5",
+        "android_client_info": {
+          "package_name": "id.eklanku.owai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "14281509936-qa4jhsnvmmnfgku5p185oaamd2734uf0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.eklanku.owai",
+            "certificate_hash": "76804496727f5e1b32feb43fcd2e255953c6e56b"
+          }
+        },
+        {
+          "client_id": "14281509936-cdplsbhpen7hn7pd2ieinbh00bdf8hot.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGL0SCbVy0-dADqb_9aDr9ihuVKeB0fiI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "14281509936-cdplsbhpen7hn7pd2ieinbh00bdf8hot.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

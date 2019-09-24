@@ -1,40 +1,25 @@
 package com.oway.model.request;
 
-/**
- * Created by KaurAmanpreet on 29-Jun-18.
- */
+
 
 public class LoginRequest {
-    private String cardnum;
 
+    /**
+     * username : 085859334418
+     * password : Piscesboy7
+     * reg_id : sfdgsdvdfgdfvxcvdfvdvcdvdfgfgdfervxcvfd
+     */
+
+    private String username;
     private String password;
+    private String reg_id;
 
-    private String devicetype;
-
-    public String getDevicetype() {
-        return devicetype;
+    public String getUsername() {
+        return username;
     }
 
-    public void setDevicetype(String devicetype) {
-        this.devicetype = devicetype;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    private String version;
-
-    public String getCardnum() {
-        return cardnum;
-    }
-
-    public void setCardnum(String cardnum) {
-        this.cardnum = cardnum;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -45,8 +30,11 @@ public class LoginRequest {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "LoginRequest [cardnum = " + cardnum + ", password = " + password + "]";
+    public String getReg_id() {
+        return reg_id;
+    }
+
+    public void setReg_id(String reg_id) {
+        this.reg_id = reg_id;
     }
 }

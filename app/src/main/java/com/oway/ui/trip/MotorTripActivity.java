@@ -126,7 +126,6 @@ public class MotorTripActivity extends BaseActivity {
                 dialog.dismiss();
             }
         });
-
         dialog.show();
     }
 
@@ -212,14 +211,11 @@ public class MotorTripActivity extends BaseActivity {
                     etxPickUp.setText(address);
                 } else {
                     etxDropDown.setText(address);
-
                 }
             }
         });
         recyclerView.setAdapter(adapter);
-
     }
-
 
     @Override
     protected void setUp() {

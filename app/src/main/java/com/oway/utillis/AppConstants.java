@@ -25,6 +25,12 @@ public final class AppConstants {
     static final String COMPRESSES_IMAGES = ".COMPRESSES_IMAGES";
     public static final String PREF_NAME = "owai_pref";
     public static final String TOTURIAL_STATUS = "toturial_status";
+    public static final String USER_NAME = "user_name";
+    public static final String IMAGE_PATH = "image_path";
+    public static final String USER_ID = "user_id";
+    public static final String MBR_TOKEN = "mbr_token";
+    public static final String REGISTER = "/api/customer/register";
+
     public static final String PICK_UP="Pick_status";
     public static final String DROP_DOWN="Drop_status";
 

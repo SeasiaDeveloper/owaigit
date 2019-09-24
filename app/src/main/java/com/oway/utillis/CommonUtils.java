@@ -17,7 +17,7 @@ package com.oway.utillis;
 
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -32,10 +32,8 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -43,26 +41,28 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.oway.R;
+import com.oway.callbacks.RegisterButtonclick;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.RoundingMode;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -70,6 +70,7 @@ import java.util.regex.Pattern;
 public final class CommonUtils {
 
     private static final String TAG = "CommonUtils";
+    private static String token = null;
 
     private CommonUtils() {
         // This utility class is not publicly instantiable
@@ -135,7 +136,6 @@ public final class CommonUtils {
         context.startActivity(intent);
     }
 
-
     public static int convertDPtoPX(int dpValue, Context mContext) {
         Resources r = mContext.getResources();
         return (int) TypedValue.applyDimension(
@@ -173,8 +173,8 @@ public final class CommonUtils {
 
         float maxHeight = 600.0f;
         float maxWidth = 500.0f;
-       // float maxHeight = 816.0f;
-       //  float maxWidth = 612.0f;
+        // float maxHeight = 816.0f;
+        //  float maxWidth = 612.0f;
 
         float imgRatio = actualWidth / actualHeight;
         float maxRatio = maxWidth / maxHeight;
@@ -372,5 +372,45 @@ public final class CommonUtils {
     public static void setTypeFace(Button button, Context context) {
         Typeface font = Typeface.createFromAsset(context.getAssets(), FontCache.REGULAR_FONT);
         button.setTypeface(font);
+    }
+
+    public static String getFirebaseId() {
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            return;
+                        }
+                        // Get new Instance ID token
+                        token = task.getResult().getToken();
+                        // Log and toast
+                    }
+                });
+        return token;
+    }
+
+    public static void showLoginDialog(Context context, String string, RegisterButtonclick mClick) {
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.custom_pop_login);
+        TextView text = (TextView) dialog.findViewById(R.id.tvHeader);
+        text.setText(string);
+        Button btnRegisterNow = (Button) dialog.findViewById(R.id.btnRegisterNow);
+       /* if (!string.contains(context.getResources().getString(R.string.phone_string)))
+            btnRegisterNow.setVisibility(View.GONE);*/
+        btnRegisterNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                mClick.onRegisterButtonClick();
+            }
+        });
+        dialog.show();
+        WindowManager.LayoutParams lWindowParams = new WindowManager.LayoutParams();
+        //lWindowParams.copyFrom(context.getResources().getDialog().getWindow().getAttributes());
+        lWindowParams.width = WindowManager.LayoutParams.FILL_PARENT; // this is where the magic happens
+        lWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lWindowParams);
     }
 }

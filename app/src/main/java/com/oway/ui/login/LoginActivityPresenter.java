@@ -1,5 +1,6 @@
 package com.oway.ui.login;
 
+import com.oway.App;
 import com.oway.R;
 import com.oway.base.BasePresenter;
 import com.oway.base.MvpView;
@@ -34,14 +35,17 @@ public class LoginActivityPresenter<V extends MvpView> extends BasePresenter<Log
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 dismissLoading();
                 LoginResponse body = response.body();
-                if (isBodyVerified(response.body()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
-                    getMvpView().onSuccess(body);
-                }
-                else
-                {
-                   getMvpView().onFailure(body.getMessage());
+                if (body != null) {
+                    if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
+                        getMvpView().onSuccess(body);
+                    } else if (response.body().getCode() == ConstsCore.STATUS_CODE_FAILED) {
+                        getMvpView().onFailure(body.getRespMessage());
+                    }
+                } else {
+                    getMvpView().onFailure(App.getInstance().getResources().getString(R.string.something_went_wrong));
                 }
             }
+
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 dismissLoading();

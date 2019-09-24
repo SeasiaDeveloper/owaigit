@@ -2,7 +2,6 @@ package com.oway.ui.splash;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,10 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.oway.R;
+import com.oway.base.BaseActivity;
 import com.oway.datasource.pref.PreferenceHandler;
-import com.oway.datasource.pref.PreferencesHelper;
 import com.oway.ui.LoginSignUpChoice;
-import com.oway.ui.login.LoginActivity;
+import com.oway.ui.registration.Registration;
 import com.oway.utillis.AppConstants;
 
 import java.util.Objects;
@@ -87,16 +86,15 @@ public class TutorialFragmentThree extends Fragment {
         ButterKnife.bind(this,view);
         return view;
     }
+
     @Inject
     PreferenceHandler preferencesHelper;
 
     @OnClick(R.id.bt_skip_three)
     public void onClick(){
         preferencesHelper.writeBoolean(getActivity(),AppConstants.TOTURIAL_STATUS,true);
-        Intent intent;
-        intent = new Intent(getActivity(), LoginSignUpChoice.class);
-        ((Tutorial) Objects.requireNonNull(getActivity())).startActivity(intent);
-        ((Tutorial) Objects.requireNonNull(getActivity())).finish();
+        Registration.start((BaseActivity) getActivity());
+        ((com.oway.ui.splash.Tutorial) Objects.requireNonNull(getActivity())).finish();
     }
 
 

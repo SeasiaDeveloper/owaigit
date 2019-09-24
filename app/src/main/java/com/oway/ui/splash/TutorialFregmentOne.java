@@ -6,13 +6,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
 import com.oway.R;
+import com.oway.base.BaseActivity;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.ui.LoginSignUpChoice;
+import com.oway.ui.registration.Registration;
 import com.oway.utillis.AppConstants;
 
 import java.util.Objects;
@@ -60,10 +61,8 @@ public class TutorialFregmentOne extends Fragment {
     @OnClick(R.id.bt_skip_one)
     public void onClick() {
         preferenceHandler.writeBoolean(getActivity(), AppConstants.TOTURIAL_STATUS, true);
-        Intent intent;
-        intent = new Intent(getActivity(), LoginSignUpChoice.class);
-        ((Tutorial) Objects.requireNonNull(getActivity())).startActivity(intent);
-        ((Tutorial) Objects.requireNonNull(getActivity())).finish();
+        Registration.start((BaseActivity) getActivity());
+        ((com.oway.ui.splash.Tutorial) Objects.requireNonNull(getActivity())).finish();
     }
 
 

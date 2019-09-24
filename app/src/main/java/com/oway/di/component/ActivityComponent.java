@@ -8,12 +8,15 @@ import com.oway.ui.home.Profile.ProfileFragment;
 import com.oway.ui.home.RequisiteAndCertain.RequisiteAndCertainFragment;
 import com.oway.ui.home.dashboard.DashBoardFragment;
 import com.oway.ui.login.LoginActivity;
+import com.oway.ui.login.WelcomeScreenActivity;
+import com.oway.ui.registration.Registration;
+import com.oway.ui.registration.RegistrationViewThree;
 
 import dagger.Component;
 
 
 @PerActivity
-@Component(dependencies = ApplicationComponent.class, modules = ActivityModule.class)
+@Component(dependencies = com.oway.di.component.ApplicationComponent.class, modules = ActivityModule.class)
 public interface ActivityComponent {
     void inject(LoginActivity loginActivity);
 
@@ -24,5 +27,13 @@ public interface ActivityComponent {
     void inject(ProfileFragment profileFragment);
 
     void inject(RequisiteAndCertainFragment requisiteAndCertainFragment);
+
+    void inject(RegistrationViewThree threeFragemnt);
+
+    void inject(WelcomeScreenActivity welcomeScreenActivity);
+
+    void inject(Registration register);
+
+
 
 }

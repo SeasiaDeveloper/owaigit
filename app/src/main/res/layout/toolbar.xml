@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#008033"
+    android:minHeight="?attr/actionBarSize"
+    app:theme="@style/ToolbarColoredBackArrow"
+    app:titleTextAppearance="@style/toolbarText">
+
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_gravity="left"
+        android:background="@drawable/back_arrow"
+         />
+
+    <com.oway.customviews.CustomTextView
+        android:id="@+id/titleToolbarHeader"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="start"
+        android:layout_marginLeft="@dimen/_30sdp"
+        android:paddingRight="@dimen/_10sdp"
+        android:text="@string/tv_register_payment"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_15sdp" />
+
+</androidx.appcompat.widget.Toolbar>

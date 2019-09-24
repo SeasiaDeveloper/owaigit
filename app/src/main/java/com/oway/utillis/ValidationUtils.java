@@ -7,8 +7,6 @@ import com.oway.R;
 
 public class ValidationUtils {
 
-    private static final int CARD_MIN_LENGTH = 10;
-    private final static String NULL = "null";
     private Context context;
 
     public ValidationUtils(Context context) {
@@ -27,14 +25,18 @@ public class ValidationUtils {
         return true;
     }
 
-    public boolean isRegistrationValid(EditText etxsponsorId, EditText etxEmail,
-                                       EditText etxPassword, EditText etxPin, EditText etxAlamat, EditText etxKota
-            , EditText etxPropinsi
+    public boolean isRegistrationValid(EditText etxPhoneNumber,EditText etxsponsorId, EditText etxEmail,
+                                       EditText etxPassword, EditText etxPin, EditText etxAlamat, EditText etxKota, EditText etxPropinsi
     ) {
-        if (etxsponsorId.getText().toString().isEmpty()) {
+        if(etxPhoneNumber.getText().toString().isEmpty())
+        {
+            etxPhoneNumber.setError(context.getString(R.string.validate_phonenumber));
+            return false;
+        }
+       /* else if (etxsponsorId.getText().toString().isEmpty()) {
             etxsponsorId.setError(context.getString(R.string.validate_sponsorId));
             return false;
-        } else if (etxEmail.getText().toString().isEmpty()) {
+        }*/ else if (etxEmail.getText().toString().isEmpty()) {
             etxEmail.setError(context.getString(R.string.validate_email));
             return false;
         } else if (etxPassword.getText().toString().isEmpty()) {
@@ -49,7 +51,7 @@ public class ValidationUtils {
         } else if (etxKota.getText().toString().isEmpty()) {
             etxKota.setError(context.getString(R.string.validate_kota));
             return false;
-        }else if (etxPropinsi.getText().toString().isEmpty()){
+        } else if (etxPropinsi.getText().toString().isEmpty()) {
             etxPropinsi.setError(context.getString(R.string.validate_propinsi));
             return false;
         }

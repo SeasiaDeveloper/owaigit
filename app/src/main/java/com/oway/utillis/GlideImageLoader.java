@@ -1,12 +1,10 @@
 package com.oway.utillis;
 
-import android.app.Activity;
 import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
-import com.oway.R;
 import com.yyydjk.library.BannerLayout;
 
 public class GlideImageLoader implements BannerLayout.ImageLoader {
@@ -20,8 +18,6 @@ public class GlideImageLoader implements BannerLayout.ImageLoader {
        /* if(context == null || context instanceof Activity && DialogUtils.isActivityFinishedOrDestroyed(((Activity)context))){
             return;
         }*/
-        Glide.with(context).load(s).error(context.getResources().getDrawable(R.drawable.account)).placeholder(R.drawable.account).centerCrop().into(imageView);
-
-
+        Glide.with(context).load(s).into(imageView);
     }
 }
