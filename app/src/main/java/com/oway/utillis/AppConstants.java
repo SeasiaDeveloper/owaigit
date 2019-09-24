@@ -29,6 +29,11 @@ public final class AppConstants {
     public static final String IMAGE_PATH = "image_path";
     public static final String USER_ID = "user_id";
     public static final String MBR_TOKEN = "mbr_token";
+    public static final String REGISTER = "/api/customer/register";
+
+    public static final String PICK_UP="Pick_status";
+    public static final String DROP_DOWN="Drop_status";
+
 
     private AppConstants() {
         // This utility class is not publicly instantiable

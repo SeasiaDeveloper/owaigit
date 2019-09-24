@@ -27,6 +27,7 @@ public class RegistrationViewOne extends Fragment {
     @BindView(R.id.etxName)
     EditText etxName;
     private View mView;
+
     @Inject
     PreferenceHandler mHandler;
 
@@ -69,5 +70,9 @@ public class RegistrationViewOne extends Fragment {
     public void onNextClick() {
          mHandler.writeString(getActivity(), AppConstants.USER_NAME,etxName.getText().toString());
         ((RegisterPayment) Objects.requireNonNull(getActivity())).next_fragment(mView);
+    }
+    @OnClick(R.id.backBtn)
+    public void onBackClick() {
+        getActivity().finish();
     }
 }

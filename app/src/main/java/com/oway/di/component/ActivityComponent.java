@@ -8,6 +8,7 @@ import com.oway.ui.home.Profile.ProfileFragment;
 import com.oway.ui.home.RequisiteAndCertain.RequisiteAndCertainFragment;
 import com.oway.ui.home.dashboard.DashBoardFragment;
 import com.oway.ui.login.LoginActivity;
+import com.oway.ui.login.WelcomeScreenActivity;
 import com.oway.ui.registration.Registration;
 import com.oway.ui.registration.RegistrationViewThree;
 
@@ -29,6 +30,10 @@ public interface ActivityComponent {
 
     void inject(RegistrationViewThree threeFragemnt);
 
+    void inject(WelcomeScreenActivity welcomeScreenActivity);
+
     void inject(Registration register);
+
+
 
 }

@@ -28,16 +28,19 @@ public class Registration extends BaseActivity {
     public static void start(BaseActivity baseActivity) {
         Intent intent = new Intent(baseActivity, Registration.class);
         baseActivity.startActivity(intent);
+        baseActivity.finish();
     }
 
     @OnClick(R.id.btnLogin)
     public void onLoginClick() {
         LoginActivity.start(this);
+        finish();
     }
 
     @OnClick(R.id.bt_reg)
     public void onVC() {
         Intent intent = new Intent(Registration.this, RegisterPayment.class);
         startActivity(intent);
+        finish();
     }
 }

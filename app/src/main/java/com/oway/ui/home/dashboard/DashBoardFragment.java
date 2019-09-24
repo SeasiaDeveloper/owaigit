@@ -15,10 +15,13 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.oway.R;
 import com.oway.adapters.DashboardRecyclerAdapter;
 import com.oway.base.BaseFragment;
+import com.oway.callbacks.DashbordRecyclerItemclick;
 import com.oway.model.DashboardGridItemsModal;
+import com.oway.ui.home.MainActivity;
+import com.oway.ui.trip.MotorTripActivity;
 import com.oway.utillis.GlideImageLoader;
 import com.yyydjk.library.BannerLayout;
-
+import android.content.Intent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +36,7 @@ public class DashBoardFragment extends BaseFragment {
     private RecyclerView recyclerView;
     private BannerLayout bannerLayout;
     private List<String> imageUrls;
+
 
     @Nullable
     @Override
@@ -50,8 +54,20 @@ public class DashBoardFragment extends BaseFragment {
         }
         recyclerView = view.findViewById(R.id.rvxRecycler);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(4, LinearLayoutManager.VERTICAL));
-        DashboardRecyclerAdapter adapter = new DashboardRecyclerAdapter(gridItemList, getContext());
+        DashboardRecyclerAdapter adapter = new DashboardRecyclerAdapter(gridItemList, getContext(), new DashbordRecyclerItemclick() {
+            @Override
+            public void onItemClick(View v, int position) {
+                if(position==0){
+                    Intent intent=new Intent(getActivity(), MotorTripActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
         recyclerView.setAdapter(adapter);
+
+
+
+
         imageUrls = new ArrayList<String>();
         imageUrls.add("https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/ironman-spiderman-homecoming-poster-frontpage-700x354.jpg");
         imageUrls.add("https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/ironman-spiderman-homecoming-poster-frontpage-700x354.jpg");

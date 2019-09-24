@@ -1,20 +1,29 @@
 package com.oway.ui.registration;
 
-import com.oway.App;
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.ANRequest;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.androidnetworking.interfaces.UploadProgressListener;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.oway.BuildConfig;
 import com.oway.R;
 import com.oway.base.BasePresenter;
 import com.oway.base.MvpView;
 import com.oway.datasource.implementation.ApiService;
 import com.oway.model.request.RegisterRequest;
 import com.oway.model.response.RegisterResponse;
+import com.oway.utillis.AppConstants;
 import com.oway.utillis.ConstsCore;
 import com.oway.utillis.NetworkUtils;
 
-import javax.inject.Inject;
+import org.json.JSONObject;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.io.File;
+
+import javax.inject.Inject;
 
 public class RegisterActivityPresenter<V extends MvpView> extends BasePresenter<RegisterActivityView> {
 
@@ -30,7 +39,60 @@ public class RegisterActivityPresenter<V extends MvpView> extends BasePresenter<
             return;
         }
         showLoading();
-        apiService.register(registerRequest).enqueue(new Callback<RegisterResponse>() {
+        ANRequest.MultiPartBuilder upload = AndroidNetworking.upload(BuildConfig.BASE_URL + AppConstants.REGISTER);
+
+        if(!registerRequest.getImage().isEmpty())
+        upload.addMultipartFile("image", new File(registerRequest.getImage()));
+
+                 upload.addMultipartParameter("nama", registerRequest.getNama())
+                .addMultipartParameter("email", registerRequest.getEmail())
+                .addMultipartParameter("password", registerRequest.getPassword())
+                .addMultipartParameter("pin", registerRequest.getPin())
+                .addMultipartParameter("uplineID", registerRequest.getUplineID())
+                .addMultipartParameter("phone_number", registerRequest.getPhone_number())
+                .addMultipartParameter("address", registerRequest.getAddress())
+                .addMultipartParameter("city", registerRequest.getCity())
+                .addMultipartParameter("gender", "L")
+                .addMultipartParameter("province", registerRequest.getProvince())
+                .setTag("uploading detail")
+                .setPriority(Priority.HIGH)
+                .build()
+                .setUploadProgressListener(new UploadProgressListener() {
+                    @Override
+                    public void onProgress(long bytesUploaded, long totalBytes) {
+                        // do anything with progress
+                    }
+                })
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        dismissLoading();
+                        try {
+                            Gson gson = new Gson();
+                            RegisterResponse registerResponse = gson.fromJson(response.toString(), RegisterResponse.class);
+                            if (registerResponse.getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
+                                getMvpView().onSuccess(registerResponse);
+                            } else {
+                                getMvpView().onFailure(registerResponse.getRespMessage());
+                            }
+
+                        } catch (JsonSyntaxException e) {
+                            if (getMvpView() != null) {
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        dismissLoading();
+                        if (getMvpView() != null) {
+                        }
+                    }
+                });
+    }
+
+        /*apiService.register(registerRequest).enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 dismissLoading();
@@ -54,6 +116,5 @@ public class RegisterActivityPresenter<V extends MvpView> extends BasePresenter<
                     getMvpView().showMessage(R.string.something_went_wrong);
                 }
             }
-        });
-    }
+        });*/
 }

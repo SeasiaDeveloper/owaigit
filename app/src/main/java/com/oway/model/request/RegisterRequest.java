@@ -22,6 +22,17 @@ public class RegisterRequest {
     private String address;
     private String city;
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    private String image;
+
+
     public String getAddress() {
         return address;
     }

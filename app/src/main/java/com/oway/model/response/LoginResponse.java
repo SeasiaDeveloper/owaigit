@@ -30,6 +30,25 @@ public class LoginResponse {
     private String respMessage;
     private int Code;
 
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public String getNama() {
+        return nama;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+
+    private String foto;
+    private String nama;
+
     public String getErrNumber() {
         return errNumber;
     }

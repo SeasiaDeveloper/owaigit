@@ -13,8 +13,8 @@ import com.oway.base.BaseFragment;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.request.RegisterRequest;
 import com.oway.model.response.RegisterResponse;
-import com.oway.ui.home.MainActivity;
 import com.oway.ui.login.LoginActivityView;
+import com.oway.ui.login.WelcomeScreenActivity;
 import com.oway.utillis.AppConstants;
 import com.oway.utillis.ToastUtils;
 import com.oway.utillis.ValidationUtils;
@@ -94,7 +94,7 @@ public class RegistrationViewThree extends BaseFragment implements RegisterActiv
         isValid = validationUtils.isRegistrationValid(phone_et, sponsorId, emailId, password, pin, alamat, kota, propinsi);
         if (isValid) {
             RegisterRequest request = new RegisterRequest();
-           // request.setNama(mHandler.readString(getActivity(), AppConstants.USER_NAME,""));
+            request.setNama(PreferenceHandler.readString(getActivity(), AppConstants.USER_NAME, ""));
             request.setEmail(emailId.getText().toString());
             request.setPassword(password.getText().toString());
             request.setPin(pin.getText().toString());
@@ -106,6 +106,7 @@ public class RegistrationViewThree extends BaseFragment implements RegisterActiv
             request.setAddress(alamat.getText().toString());
             request.setCity(kota.getText().toString());
             request.setProvince(propinsi.getText().toString());
+            request.setImage(PreferenceHandler.readString(getActivity(), AppConstants.IMAGE_PATH, ""));
             registerActivityPresenter.register(request);
         }
     }
@@ -128,10 +129,18 @@ public class RegistrationViewThree extends BaseFragment implements RegisterActiv
 
     @Override
     public void onSuccess(RegisterResponse status) {
+        PreferenceHandler.writeString(getActivity(), AppConstants.USER_ID, status.getUserID());
+        PreferenceHandler.writeString(getActivity(), AppConstants.MBR_TOKEN, status.getMbr_token());
+        PreferenceHandler.writeString(getActivity(), AppConstants.IMAGE_PATH, status.getImage());
+        PreferenceHandler.writeString(getActivity(), AppConstants.USER_NAME, status.getNama());
         ToastUtils.shortToast(status.getRespMessage());
-        MainActivity.start((BaseActivity) getActivity());
+        WelcomeScreenActivity.start((BaseActivity) getActivity());
+        getActivity().finish();
     }
-
+    @OnClick(R.id.backBtn)
+    public void onBackClick() {
+        getActivity().finish();
+    }
     @Override
     public void onFailure(String response) {
         ToastUtils.shortToast(response);

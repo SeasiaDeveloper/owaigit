@@ -8,9 +8,7 @@ import android.view.WindowManager;
 import com.oway.R;
 import com.oway.base.BaseActivity;
 import com.oway.datasource.pref.PreferenceHandler;
-import com.oway.ui.LoginSignUpChoice;
-import com.oway.ui.registration.RegisterPayment;
-import com.oway.ui.registration.Registration;
+import com.oway.ui.home.MainActivity;
 import com.oway.utillis.AppConstants;
 
 import javax.inject.Inject;
@@ -32,14 +30,14 @@ public class Splash extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (preferencesHelper.readBoolean(Splash.this, AppConstants.TOTURIAL_STATUS, false)) {
-                    Registration.start(Splash.this);
-                    finish();
-
-                } else {
+                if (PreferenceHandler.readString(Splash.this, AppConstants.USER_ID, "").isEmpty()) {
                     Intent i = new Intent(Splash.this,
                             Tutorial.class);
                     startActivity(i);
+                    finish();
+
+                } else {
+                    MainActivity.start(Splash.this);
                     finish();
                 }
             }

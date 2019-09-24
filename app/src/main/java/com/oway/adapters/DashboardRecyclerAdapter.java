@@ -12,17 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.oway.R;
+import com.oway.callbacks.DashbordRecyclerItemclick;
 import com.oway.model.DashboardGridItemsModal;
 
 import java.util.ArrayList;
 
-public class DashboardRecyclerAdapter extends RecyclerView.Adapter<DashboardRecyclerAdapter.ViewHolder> {
+public class DashboardRecyclerAdapter extends RecyclerView.Adapter<DashboardRecyclerAdapter.ViewHolder>
+{
     private Context context;
     private ArrayList<DashboardGridItemsModal> itemList;
+    private DashbordRecyclerItemclick listener;
 
-    public DashboardRecyclerAdapter(ArrayList<DashboardGridItemsModal> itemList, Context context) {
+    public DashboardRecyclerAdapter(ArrayList<DashboardGridItemsModal> itemList, Context context,DashbordRecyclerItemclick listener) {
         this.context = context;
         this.itemList = itemList;
+        this.listener=listener;
     }
 
     @NonNull
@@ -30,6 +34,12 @@ public class DashboardRecyclerAdapter extends RecyclerView.Adapter<DashboardRecy
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_screen_recyclar_items, parent, false);
         ViewHolder holder = new ViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onItemClick(view,holder.getPosition());
+            }
+        });
         return holder;
     }
 

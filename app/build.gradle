@@ -14,7 +14,7 @@ android {
     buildToolsVersion "29.0.0"
     defaultConfig {
         applicationId "id.eklanku.owai"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -32,7 +32,11 @@ android {
         }
     }
 }
-
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -60,5 +64,8 @@ dependencies {
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.github.ksoichiro:android-observablescrollview:1.5.0'
     implementation 'com.github.esafirm.android-image-picker:imagepicker:1.13.0'
+    implementation(name:'HERE-sdk', ext:'aar')
+    implementation 'com.amitshekhar.android:android-networking:1.0.2'
+
 
 }

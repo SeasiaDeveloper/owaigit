@@ -5,10 +5,14 @@
     <string name="internet_check">Please check your internet connection</string>
     <string name="some_error">Some Error occured</string>
     <string name="tv_login">Login</string>
+    <string name="tv_next">Next</string>
+
     <string name="validate_name">Please enter user name</string>
     <string name="validate_password">Please enter password</string>
     <string name="FACEBOOK_APP_ID">658871691141399</string>
     <string name="dummy_upline_id">EKL0000000</string>
+    <string name="phone_string">PHONE NUMBER</string>
+
     <string name="ACCOUNT_KIT_CLIENT_TOKEN">7dd46ce0e21eed587d5aff96030a61ee</string>
     <string name="ak_login_protocol_scheme">ak658871691141399</string>
 
@@ -29,6 +33,11 @@
     <string name="pic_content_two">Photo Profile Anda</string>
     <string name="sponsorID">ID Sponsor</string>
     <string name="tv_phone">Phone</string>
+    <string name="tv_selemat">Selamat datang di OWAI</string>
+    <string name="tv_register_payment">Register Payment</string>
+
+    <string name="tv_register_now">Register Now</string>
+
     <string name="tv_phone_hint">Masukan Nomor HP</string>
 
     <string name="sponsorHint">Masukan Kode ID</string>

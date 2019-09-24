@@ -30,6 +30,27 @@ public class RegisterResponse {
     private String respMessage;
     private int Code;
 
+    public String getNama() {
+        return nama;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+
+
+
+    private String nama;
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public String getErrNumber() {
         return errNumber;
     }

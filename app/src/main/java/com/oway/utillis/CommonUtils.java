@@ -17,6 +17,7 @@ package com.oway.utillis;
 
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +41,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
@@ -54,6 +56,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.oway.R;
+import com.oway.callbacks.RegisterButtonclick;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -385,5 +388,29 @@ public final class CommonUtils {
                     }
                 });
         return token;
+    }
+
+    public static void showLoginDialog(Context context, String string, RegisterButtonclick mClick) {
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.custom_pop_login);
+        TextView text = (TextView) dialog.findViewById(R.id.tvHeader);
+        text.setText(string);
+        Button btnRegisterNow = (Button) dialog.findViewById(R.id.btnRegisterNow);
+       /* if (!string.contains(context.getResources().getString(R.string.phone_string)))
+            btnRegisterNow.setVisibility(View.GONE);*/
+        btnRegisterNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                mClick.onRegisterButtonClick();
+            }
+        });
+        dialog.show();
+        WindowManager.LayoutParams lWindowParams = new WindowManager.LayoutParams();
+        //lWindowParams.copyFrom(context.getResources().getDialog().getWindow().getAttributes());
+        lWindowParams.width = WindowManager.LayoutParams.FILL_PARENT; // this is where the magic happens
+        lWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lWindowParams);
     }
 }
