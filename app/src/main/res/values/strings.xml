@@ -98,6 +98,12 @@
     <string name="driver_car">Honda bebek (hitam)</string>
     <string name="car_number">EK 555 P</string>
     <string name="estimate_time">Time estimation 5 Menit</string>
+    <string name="cancel_question">Why you cancel this order?</string>
+    <string name="cancel_reason_one">I can\'t find my driver</string>
+    <string name="cancel_reason_two">I have wrong submit destination</string>
+    <string name="cancel_reason_three">Driver is too late</string>
+    <string name="other">Others</string>
+    <string name="notes">Notes</string>
 
 
 </resources>

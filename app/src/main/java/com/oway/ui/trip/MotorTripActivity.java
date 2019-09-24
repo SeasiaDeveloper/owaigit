@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.common.OnEngineInitListener;
 import com.here.android.mpa.common.PositioningManager;
@@ -77,15 +79,24 @@ public class MotorTripActivity extends BaseActivity {
     @BindView(R.id.ll_below_float_btn)
     LinearLayout layoutBelowFloatButton;
     @BindView(R.id.ll_bottom_sheet_view)
-    LinearLayout layoutBottomSheet;
+    RelativeLayout layoutBottomSheet;
     @BindView(R.id.ll_driver_riding_to_you)
     LinearLayout layoutDriverRidingToYou;
+
+    @OnClick(R.id.btn_cancel_ride)
+    public void onCancelRideClick(){
+        Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_Light_Dialog_Alert);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setContentView(R.layout.you_got_driver_dialog_box);
+    }
 
     @OnClick(R.id.btn_float)
     public void onFloatButtonClick() {
         if ((sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED)) {
             layoutBelowFloatButton.setVisibility(View.GONE);
             sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
 
         } else {
             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
