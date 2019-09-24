@@ -9,5 +9,8 @@
     <color name="col_orange">#EFA005</color>
     <color name="col_gray">#AEA9A9</color>
     <color name="col_light_gray">#F3EFEF</color>
+    <color name="cencel">#898989</color>
+    <color name="cencel_red">#EF0505</color>
+    <color name="cencel_button">#E1E1E1</color>
 
 </resources>
