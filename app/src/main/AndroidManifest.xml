@@ -90,10 +90,13 @@
             android:value="@string/ACCOUNT_KIT_CLIENT_TOKEN" />
         <meta-data
             android:name="com.here.android.maps.appid"
-            android:value="t0PgEF1qfnNE9AEiaq4L" />
+            android:value="oxHKCdPfEHaxSSr2Ver2" />
         <meta-data
             android:name="com.here.android.maps.apptoken"
-            android:value="wOX0MZhvtx3UP6ArhWOAxw" />
+            android:value="5sl8ATE8bGIHZSMfZGSxvQ" />
+
+        <meta-data android:name="com.here.android.maps.license.key"
+            android:value="{j2kliOj91LaU3T/b8WUc3WUdwq8NelFkDCBrr3EM4iQgSaQwRdWIBF2pH+JYtrIdZCRTps5oX6UMzWNVhTFdTgRic4r4I8hQ7b03H3KGvUwXBkJ4TNyIfNIqWheZYsOuQQSfQvrtIioOD/MI67a8t2eWAvSwboD2vLCukjyrtXxulvuAhfotLYCE5dzrpl+4pQX7s1Idq3xo1yAfR82kgLf5eDme7/tTmX38DQVAareL4qEMy8pYv5K2rz1Dn6tJkLXUY69z69TVUpk4x1AHRgPKFPI+TMv0bfKHQzNrm0sN4rAHF8kRaJRFyIXewsFWxiR4cNOluvsM3DNi0XyAR1Uy+lTp364icAz0n41Eu+LbBeeH/lVQaw+lHRzf3YVADt1a0S7zPv+1NwO5PwNQwQ3+XsEuQcc+RaZzwc0eII1DF0KgVbdmm5P7aTBQPSHBxvI3csf1oJEfXi2HXVGrIFxPagp8z7UrzmzXQnnkj+24KdVfX2o+dXsi9+wflAILXnn/StNw3oQV6rH8bITnCZEFFtF8/Lte6EHUbN5qSUjetePfewKXFt9KHn+gCPxLuP1+yZAQxSB0Rgv5tCWATzFK75w0OCBb2EBmLbKie4HvUD+jqDPhcaZhAxCCyYmXHFePxKaohcDS1n4WSS5ipQMd26+0arxzm82wjUq65xQ=}"/>
     </application>
 
 </manifest>

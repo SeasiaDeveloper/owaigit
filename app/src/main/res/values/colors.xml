@@ -6,6 +6,8 @@
     <color name="black_effective">#2a2a2a</color>
     <color name="white">#ffffff</color>
     <color name="col_orange">#EFA005</color>
-
+    <color name="cencel">#898989</color>
+    <color name="cencel_red">#EF0505</color>
+    <color name="cencel_button">#E1E1E1</color>
 
 </resources>

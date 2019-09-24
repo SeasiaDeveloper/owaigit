@@ -32,4 +32,20 @@
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+    </style>
+    <style name="customRatingBar"
+        parent="android:style/Widget.Material.RatingBar.Indicator">
+        <item name="android:minHeight">@dimen/_40sdp</item>
+        <item name="android:maxHeight">@dimen/_40sdp</item>
+
+
+    </style>
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/cencel</item>
+        <item name="colorControlActivated">@color/col_orange</item>
+    </style>
+
 </resources>

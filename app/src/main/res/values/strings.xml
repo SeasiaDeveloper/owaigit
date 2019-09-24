@@ -85,6 +85,19 @@
     <string name="topUp">TOP UP</string>
     <string name="dashboard_text">Bonus Rp 1.234.567.890</string>
     <string name="verification">Verification With Facebook</string>
+    <string name="cash">CASH</string>
+    <string name="pay_with">Pay with?</string>
+    <string name="saldo">SALDO</string>
+    <string name="order">ORDER</string>
+    <string name="cencel">CENCEL</string>
+    <string name="get_saldo_off">Get discount with OTU saldo</string>
+    <string name="wait">Please wait ...</string>
+    <string name="findingDriver">Now We\'re Finding your Driver</string>
+    <string name="got_driver">You got a driver</string>
+    <string name="driver_name">Mamang Asep</string>
+    <string name="driver_car">Honda bebek (hitam)</string>
+    <string name="car_number">EK 555 P</string>
+    <string name="estimate_time">Time estimation 5 Menit</string>
 
 
 </resources>
