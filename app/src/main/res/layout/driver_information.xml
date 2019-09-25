@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center"
     app:behavior_hideable="true"
-    >
+    tools:showIn="@layout/activity_motor_trip">
 
 
     <LinearLayout
@@ -21,13 +21,13 @@
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             android:src="@drawable/food"
             app:civ_border="true"
             app:civ_border_color="@color/col_orange"
             app:civ_border_width="@dimen/_2sdp" />
 
-        <TextView
+        <com.oway.customviews.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -43,7 +43,7 @@
             android:text="@string/driver_car"
             android:textSize="@dimen/_10sdp" />
 
-        <TextView
+        <com.oway.customviews.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -60,7 +60,7 @@
             android:isIndicator="false"
             android:theme="@style/RatingBar" />
 
-        <TextView
+        <com.oway.customviews.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -93,11 +93,11 @@
                 android:layout_marginLeft="@dimen/_30sdp"
                 android:background="@drawable/call_driver" />
         </LinearLayout>
-        <Button
-            android:id="@+id/btn_cancel_ride"
+        <com.oway.customviews.CustomButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/cencel"
+            android:id="@+id/btn_cancel_ride"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_gravity="bottom"
             android:textColor="@color/cencel"

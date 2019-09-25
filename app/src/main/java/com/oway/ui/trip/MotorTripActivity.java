@@ -1,12 +1,9 @@
 package com.oway.ui.trip;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -28,10 +25,13 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.oway.R;
 import com.oway.adapters.MapPopularLocationsRecyclerAdapter;
 import com.oway.base.BaseActivity;
+import com.oway.callbacks.DriverProfileDialog;
 import com.oway.callbacks.PopularLocationsCallBack;
+import com.oway.callbacks.CancelButtonClick;
 import com.oway.model.PopularLocationsModal;
 import com.oway.ui.home.MainActivity;
 import com.oway.utillis.Location;
+import com.oway.utillis.CommonUtils;
 
 import java.util.ArrayList;
 
@@ -40,7 +40,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
-public class MotorTripActivity extends BaseActivity implements Location.OnLocationChangeListener, Location.OnLocationSatiListener {
+public class MotorTripActivity extends BaseActivity implements Location.OnLocationChangeListener, Location.OnLocationSatiListener, CancelButtonClick,DriverProfileDialog {
     private static final String LOG_TAG = MotorTripActivity.class.getSimpleName();
     private boolean isClicked = true;
     private Double[] lat = {23.52437, 12.5444, 67.564656, 78.456456, 54.547646};
@@ -52,7 +52,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     private SupportMapFragment mapFragment = null;
     private BottomSheetBehavior sheetBehavior;
     private Location location;
-
+    private CancelButtonClick cancelButtonClick;
+    private DriverProfileDialog profileDialog;
     @BindView(R.id.popular_location)
     RecyclerView recyclerView;
     @BindView(R.id.etxPickUp)
@@ -78,10 +79,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @OnClick(R.id.btn_cancel_ride)
     public void onCancelRideClick() {
-        Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_Light_Dialog_Alert);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.setContentView(R.layout.you_got_driver_dialog_box);
+        CommonUtils.showRideDialog(this);
     }
 
     @OnClick(R.id.btn_float)
@@ -97,56 +95,41 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     }
 
     @OnClick(R.id.cencel_ride)
-    public void onCencelRide() {
+    public void onCancelRide() {
         layoutPleaseWaitForRide.setVisibility(View.GONE);
         layoutPopularLocations.setVisibility(View.VISIBLE);
         layoutSourceDestination.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.VISIBLE);
-        Dialog dialog = new Dialog(this, R.style.CustomAlertDialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.setContentView(R.layout.you_got_driver_dialog_box);
-        Button btnxOkOnDriverInfo = dialog.findViewById(R.id.btn_ok_driver_info);
-        btnxOkOnDriverInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                layoutPopularLocations.setVisibility(View.GONE);
-                layoutSourceDestination.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.GONE);
-                layoutBottomSheet.setVisibility(View.VISIBLE);
-                layoutDriverRidingToYou.setVisibility(View.VISIBLE);
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
+        CommonUtils.showCancelDialog(this, cancelButtonClick);
+    }
+
+    @Override
+    public void onCancelClick() {
+        layoutPopularLocations.setVisibility(View.GONE);
+        layoutSourceDestination.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        layoutBottomSheet.setVisibility(View.VISIBLE);
+        layoutDriverRidingToYou.setVisibility(View.VISIBLE);
+        //btnxOkDriverInfo.performClick();
     }
 
     @OnClick(R.id.btn_map_next)
     public void onClickNextOnMap() {
-        Dialog dialog = new Dialog(this, R.style.Theme_AppCompat_Light_Dialog_Alert);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.setContentView(R.layout.map_next_button_dialog_box);
-        Button btnxOrder = dialog.findViewById(R.id.btn_order);
-        Button btnxCencelOrder = dialog.findViewById(R.id.btn_cencel_order);
-        btnxCencelOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
+        CommonUtils.showCancelRideDialog(this, profileDialog);
+    }
 
-            }
-        });
-        btnxOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                layoutPopularLocations.setVisibility(View.GONE);
-                layoutSourceDestination.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.GONE);
-                layoutPleaseWaitForRide.setVisibility(View.VISIBLE);
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
+    @Override
+    public void onCancelOrderClick() {
+       // btnxCancelOrder.performClick();
+    }
+
+    @Override
+    public void onOrderClick() {
+        layoutPopularLocations.setVisibility(View.GONE);
+        layoutSourceDestination.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        layoutPleaseWaitForRide.setVisibility(View.VISIBLE);
+       // btnxOrder.performClick();
     }
 
     @OnClick(R.id.back_motor)
@@ -180,10 +163,12 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         super.onCreate(savedInstanceState);
         initialize();
 
-        View includeView = findViewById(R.id.include_sheet);
-        sheetBehavior = BottomSheetBehavior.from(includeView);
+        View view = findViewById(R.id.include_sheets);
+        sheetBehavior = BottomSheetBehavior.from(view);
         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         sheetBehavior.setPeekHeight(0);
+        cancelButtonClick=this;
+        profileDialog=this;
 
         for (int i = 0; i <= 4; i++) {
             PopularLocationsModal locationsModal = new PopularLocationsModal();
@@ -269,4 +254,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
             Log.e("HERE", e.getMessage());
         }
     }
+
+
 }
