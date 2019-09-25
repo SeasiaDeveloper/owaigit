@@ -1,133 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical">
-
+        app:cardCornerRadius="@dimen/_5sdp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/_15sdp"
-                android:text="@string/cancel_question"
-                android:textSize="@dimen/_15sdp" />
-        </LinearLayout>
-
-        <view
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_1sdp"
             android:layout_gravity="center"
-            android:background="@color/cencel_button">
+            android:orientation="vertical">
 
-        </view>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <RadioGroup
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_10sdp">
+                android:layout_gravity="center">
 
-                <RadioButton
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:buttonTint="@color/col_orange"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:paddingEnd="@dimen/_10sdp"
-                    android:text="@string/cancel_reason_one" />
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/_15sdp"
+                    android:text="@string/cancel_question"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
 
-                <RadioButton
-                    android:layout_width="wrap_content"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_gravity="center"
+                android:background="@color/cencel_button">
+
+            </View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <RadioGroup
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:buttonTint="@color/col_orange"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:paddingEnd="@dimen/_10sdp"
-                    android:text="@string/cancel_reason_two" />
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_10sdp">
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:buttonTint="@color/col_orange"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:paddingEnd="@dimen/_10sdp"
-                    android:text="@string/cancel_reason_three" />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/col_orange"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:text="@string/cancel_reason_one" />
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:buttonTint="@color/col_orange"
-                    android:paddingStart="@dimen/_10sdp"
-                    android:paddingEnd="@dimen/_10sdp"
-                    android:text="@string/other" />
-            </RadioGroup>
-        </LinearLayout>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:buttonTint="@color/col_orange"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:text="@string/cancel_reason_two" />
 
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:buttonTint="@color/col_orange"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:text="@string/cancel_reason_three" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:buttonTint="@color/col_orange"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp"
+                        android:text="@string/other" />
+                </RadioGroup>
+            </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_70sdp"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:background="@drawable/order_dialog_shape"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp">
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/order_dialog_shape">
 
-                <TextView
+                <com.oway.customviews.CustomEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|center"
-                    android:maxLines="5"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/notes"
                     android:maxLength="100"
-                    android:textColorHint="@color/cencel"
-                    android:textSize="@dimen/_10sdp"
+                    android:maxLines="5"
                     android:paddingStart="@dimen/_8sdp"
-                    android:paddingEnd="@dimen/_8sdp"
                     android:paddingTop="@dimen/_4sdp"
-                    android:hint="@string/notes"/>
+                    android:paddingEnd="@dimen/_8sdp"
+                    android:textColorHint="@color/cencel"
+                    android:textSize="@dimen/_10sdp" />
             </LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_marginTop="@dimen/_10sdp"
-    android:weightSum="2">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/_60sdp"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:background="@color/cencel_button"
-        android:text="@string/cencel"
-        />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/_60sdp"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:background="@color/col_orange"
-        android:text="@string/com_accountkit_button_ok"
-        android:textColor="@android:color/white"/>
 
-</LinearLayout>
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <com.oway.customviews.CustomButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@color/cencel_button"
+                    android:text="@string/cencel" />
+
+                <com.oway.customviews.CustomButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@color/col_orange"
+                    android:text="@string/com_accountkit_button_ok"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 </LinearLayout>

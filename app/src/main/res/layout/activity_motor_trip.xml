@@ -180,7 +180,7 @@
             android:layout_marginBottom="@dimen/_10sdp"
             android:gravity="bottom"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -191,7 +191,7 @@
 
 
                 <include
-                    android:id="@+id/include_sheet"
+                    android:id="@+id/include_sheets"
                     layout="@layout/driver_information"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -238,14 +238,14 @@
                 </LinearLayout>
 
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/ll_fab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@android:color/white"
                     android:orientation="vertical"
-                    app:layout_anchor="@id/include_sheet"
+                    app:layout_anchor="@id/include_sheets"
                     app:layout_anchorGravity="top|end">
 
 
@@ -253,7 +253,6 @@
                         android:id="@+id/btn_float"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
                         android:src="@drawable/float_button"
                         app:backgroundTint="@android:color/white"
                         app:fabSize="mini" />
@@ -332,7 +331,7 @@
 
                     </LinearLayout>
 
-                </LinearLayout>
+                </RelativeLayout>
 
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -356,7 +355,7 @@
         android:layout_marginRight="0dp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/ll_recycler_location"
@@ -364,7 +363,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center">
 
-            <com.mikhaellopez.circularimageview.CircularImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/civ_search"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
@@ -406,7 +405,7 @@
         android:layout_marginBottom="@dimen/_10sdp"
         android:background="@android:color/white"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/ll_location"

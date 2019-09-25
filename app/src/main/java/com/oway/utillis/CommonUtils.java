@@ -41,6 +41,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -56,7 +57,9 @@ import com.google.android.gms.tasks.Task;
 /*import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;*/
 import com.oway.R;
+import com.oway.callbacks.DriverProfileDialog;
 import com.oway.callbacks.RegisterButtonclick;
+import com.oway.callbacks.cancelButtonClick;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -88,9 +91,7 @@ public final class CommonUtils {
         progressDialog.setCanceledOnTouchOutside(false);
         return progressDialog;
     }
-   /* public static Dialog cancelOrderDialog(Context context){
 
-    }*/
 
     @SuppressLint("all")
     public static String getDeviceId(Context context) {
@@ -416,4 +417,54 @@ public final class CommonUtils {
         dialog.show();
         dialog.getWindow().setAttributes(lWindowParams);
     }
+public static void showCancelDialog(Context context, cancelButtonClick cancelClick){
+    Dialog dialog = new Dialog(context, R.style.CustomAlertDialog);
+    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+    dialog.setCanceledOnTouchOutside(true);
+    dialog.setContentView(R.layout.you_got_driver_dialog_box);
+    Button btnxOkOnDriverInfo = dialog.findViewById(R.id.btn_ok_driver_info);
+    btnxOkOnDriverInfo.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+            dialog.dismiss();
+            cancelClick.onCancelClick();
+        }
+    });
+    dialog.show();
+}
+    public static void showCancelRideDialog(Context context, DriverProfileDialog profileDialog){
+        Dialog dialog = new Dialog(context, R.style.Theme_AppCompat_Light_Dialog_Alert);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setContentView(R.layout.map_next_button_dialog_box);
+        Button btnxOrder = dialog.findViewById(R.id.btn_order);
+        Button btnxCencelOrder = dialog.findViewById(R.id.btn_cencel_order);
+        btnxCencelOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                profileDialog.onCancelOrderClick();
+
+            }
+        });
+        btnxOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                profileDialog.onOrderClick();
+            }
+        });
+        dialog.show();
+    }
+    public static void showRideDialog(Context context){
+        Dialog dialog = new Dialog(context, R.style.simpleDialogAlert);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setContentView(R.layout.cancel_order_dialog_box);
+        dialog.show();
+    }
+
+
+
 }
