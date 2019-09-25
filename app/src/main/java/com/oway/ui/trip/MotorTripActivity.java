@@ -82,17 +82,12 @@ public class MotorTripActivity extends BaseActivity implements cancelButtonClick
     @BindView(R.id.ll_please_wait)
     LinearLayout layoutPleaseWaitForRide;
     @BindView(R.id.ll_below_float_btn)
-    LinearLayout layoutBelowFloatButton;
+    RelativeLayout layoutBelowFloatButton;
     @BindView(R.id.ll_bottom_sheet_view)
     RelativeLayout layoutBottomSheet;
     @BindView(R.id.ll_driver_riding_to_you)
-    LinearLayout layoutDriverRidingToYou;
-   /* @BindView(R.id.btn_ok_driver_info)
-    Button btnxOkDriverInfo;
-    @BindView(R.id.btn_order)
-    Button btnxOrder;
-    @BindView(R.id.btn_cencel_order)
-    Button btnxCancelOrder;*/
+    RelativeLayout layoutDriverRidingToYou;
+
 
     @OnClick(R.id.btn_cancel_ride)
     public void onCancelRideClick() {
@@ -125,10 +120,9 @@ public class MotorTripActivity extends BaseActivity implements cancelButtonClick
         layoutPopularLocations.setVisibility(View.GONE);
         layoutSourceDestination.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
-        layoutBottomSheet.setVisibility(View.VISIBLE);
+       layoutBottomSheet.setVisibility(View.VISIBLE);
         layoutDriverRidingToYou.setVisibility(View.VISIBLE);
-        //btnxOkDriverInfo.performClick();
-    }
+           }
 
     @OnClick(R.id.btn_map_next)
     public void onClickNextOnMap() {
@@ -137,7 +131,7 @@ public class MotorTripActivity extends BaseActivity implements cancelButtonClick
 
     @Override
     public void onCancelOrderClick() {
-       // btnxCancelOrder.performClick();
+
     }
 
     @Override
@@ -146,7 +140,7 @@ public class MotorTripActivity extends BaseActivity implements cancelButtonClick
         layoutSourceDestination.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
         layoutPleaseWaitForRide.setVisibility(View.VISIBLE);
-       // btnxOrder.performClick();
+
     }
 
     @OnClick(R.id.back_motor)
@@ -185,6 +179,7 @@ public class MotorTripActivity extends BaseActivity implements cancelButtonClick
         sheetBehavior = BottomSheetBehavior.from(view);
         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         sheetBehavior.setPeekHeight(0);
+
         cancelButtonClick=this;
         profileDialog=this;
 

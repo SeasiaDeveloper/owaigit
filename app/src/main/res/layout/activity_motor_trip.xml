@@ -186,36 +186,31 @@
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
                 android:layout_gravity="center"
                 app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
 
 
-                <include
-                    android:id="@+id/include_sheets"
-                    layout="@layout/driver_information"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-
-                </include>
-
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/ll_driver_riding_to_you"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/_120sdp"
                     android:background="@android:color/white"
-                    android:orientation="vertical"
-                    app:layout_anchor="@id/ll_fab_layout"
-                    app:layout_anchorGravity="top|end">
+                    app:layout_anchor="@id/btn_float"
+                    app:layout_anchorGravity="top|center"
+                    app:layout_dodgeInsetEdges="bottom"
+                    app:layout_insetEdge="bottom">
 
 
                     <com.oway.customviews.CustomTextView
+                        android:id="@+id/tv_text_one_slider"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginEnd="@dimen/_15sdp"
@@ -227,112 +222,129 @@
                     <com.oway.customviews.CustomTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_below="@id/tv_text_one_slider"
+                        android:layout_alignParentStart="true"
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_marginEnd="@dimen/_15sdp"
                         android:layout_marginBottom="@dimen/_10sdp"
-                        android:text="@string/app_name"
-                        app:layout_anchor="@id/ll_fab_layout"
-                        app:layout_anchorGravity="top|end"/>
+                        android:text="@string/app_name" />
 
-                </LinearLayout>
+                </RelativeLayout>
 
 
                 <RelativeLayout
                     android:id="@+id/ll_fab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:background="@android:color/white"
-                    android:orientation="vertical"
                     app:layout_anchor="@id/include_sheets"
-                    app:layout_anchorGravity="top|end">
+                    app:layout_anchorGravity="top|end"
+                    android:layout_gravity="top|center"
+                    >
 
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/btn_float"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
                         android:src="@drawable/float_button"
                         app:backgroundTint="@android:color/white"
-                        app:fabSize="mini" />
+                        app:fabSize="mini"
+                        />
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/iv_driver_image"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_alignParentStart="true"
+                       android:layout_below="@id/btn_float"
+                        android:src="@drawable/food"
+                        app:civ_border="true"
+                        app:civ_border_color="@color/col_orange"
+                        app:civ_border_width="@dimen/_2sdp" />
 
-                    <LinearLayout
-                        android:id="@+id/ll_below_float_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"
-                        android:orientation="horizontal">
-
-                        <com.mikhaellopez.circularimageview.CircularImageView
-                            android:layout_width="@dimen/_50sdp"
-                            android:layout_height="@dimen/_50sdp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/food"
-                            app:civ_border="true"
-                            app:civ_border_color="@color/col_orange"
-                            app:civ_border_width="@dimen/_2sdp" />
-
-                        <LinearLayout
-                            android:layout_width="@dimen/_100sdp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:layout_marginEnd="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:orientation="vertical">
-
-                            <com.oway.customviews.CustomTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="@string/app_name" />
-
-                            <com.oway.customviews.CustomTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="@string/app_name" />
-
-                            <com.oway.customviews.CustomTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="@string/app_name" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <ImageButton
-                                android:layout_width="@dimen/_25sdp"
-                                android:layout_height="@dimen/_25sdp"
-                                android:layout_gravity="center"
-                                android:layout_marginStart="@dimen/_15sdp"
-                                android:layout_marginEnd="@dimen/_15sdp"
-                                android:background="@drawable/chat_driver" />
-
-                            <ImageButton
-                                android:layout_width="@dimen/_25sdp"
-                                android:layout_height="@dimen/_25sdp"
-                                android:layout_gravity="center"
-                                android:layout_marginStart="@dimen/_20sdp"
-                                android:layout_marginEnd="@dimen/_20sdp"
-                                android:background="@drawable/call_driver" />
-                        </LinearLayout>
-
-                    </LinearLayout>
 
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/ll_below_float_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ll_fab_layout"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp">
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/iv_driver_image1"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:src="@drawable/food"
+                        app:civ_border="true"
+                        app:civ_border_color="@color/col_orange"
+                        app:civ_border_width="@dimen/_2sdp" />
+
+
+                    <com.oway.customviews.CustomTextView
+                        android:id="@+id/tv_driver_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@id/iv_driver_image"
+                        android:text="@string/app_name" />
+
+                    <com.oway.customviews.CustomTextView
+                        android:id="@+id/tv_driver_car_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_driver_name"
+                        android:layout_toEndOf="@id/iv_driver_image"
+                        android:text="@string/app_name" />
+
+                    <com.oway.customviews.CustomTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_driver_car_name"
+                        android:layout_toEndOf="@id/iv_driver_image"
+                        android:text="@string/app_name" />
+
+
+                    <ImageButton
+                        android:id="@+id/ib_message"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:layout_toEndOf="@id/tv_driver_name"
+                        android:background="@drawable/chat_driver" />
+
+                    <ImageButton
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:layout_toEndOf="@id/ib_message"
+                        android:background="@drawable/call_driver" />
+
+
+                </RelativeLayout>
+
+
+                <include
+                    android:id="@+id/include_sheets"
+                    layout="@layout/driver_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+                </include>
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
