@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,8 +15,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.common.Image;
-import com.here.android.mpa.common.OnEngineInitListener;
-import com.here.android.mpa.common.PositioningManager;
 import com.here.android.mpa.mapping.Map;
 import com.here.android.mpa.mapping.MapMarker;
 import com.here.android.mpa.mapping.SupportMapFragment;
@@ -25,22 +22,31 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.oway.R;
 import com.oway.adapters.MapPopularLocationsRecyclerAdapter;
 import com.oway.base.BaseActivity;
+import com.oway.callbacks.CancelButtonClick;
 import com.oway.callbacks.DriverProfileDialog;
 import com.oway.callbacks.PopularLocationsCallBack;
-import com.oway.callbacks.CancelButtonClick;
+import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.PopularLocationsModal;
+import com.oway.model.request.GetNearestDriverRequest;
+import com.oway.model.request.GetRecommendedPlacesRequest;
+import com.oway.model.response.GetNearestDriverResponse;
+import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.ui.home.MainActivity;
-import com.oway.utillis.Location;
+import com.oway.utillis.AppConstants;
 import com.oway.utillis.CommonUtils;
+import com.oway.utillis.Location;
+import com.oway.utillis.ToastUtils;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
-public class MotorTripActivity extends BaseActivity implements Location.OnLocationChangeListener, Location.OnLocationSatiListener, CancelButtonClick,DriverProfileDialog {
+public class MotorTripActivity extends BaseActivity implements Location.OnLocationChangeListener, Location.OnLocationSatiListener, CancelButtonClick, DriverProfileDialog, TripActivityView {
     private static final String LOG_TAG = MotorTripActivity.class.getSimpleName();
     private boolean isClicked = true;
     private Double[] lat = {23.52437, 12.5444, 67.564656, 78.456456, 54.547646};
@@ -77,10 +83,15 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @BindView(R.id.ll_driver_riding_to_you)
     LinearLayout layoutDriverRidingToYou;
 
+    @Inject
+    TripActivityPresenter<TripActivityView> tripActivityPresenter;
+
     @OnClick(R.id.btn_cancel_ride)
     public void onCancelRideClick() {
         CommonUtils.showRideDialog(this);
     }
+
+    private LatLng mlocation;
 
     @OnClick(R.id.btn_float)
     public void onFloatButtonClick() {
@@ -110,7 +121,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         recyclerView.setVisibility(View.GONE);
         layoutBottomSheet.setVisibility(View.VISIBLE);
         layoutDriverRidingToYou.setVisibility(View.VISIBLE);
-        //btnxOkDriverInfo.performClick();
     }
 
     @OnClick(R.id.btn_map_next)
@@ -120,7 +130,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @Override
     public void onCancelOrderClick() {
-       // btnxCancelOrder.performClick();
     }
 
     @Override
@@ -129,7 +138,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         layoutSourceDestination.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
         layoutPleaseWaitForRide.setVisibility(View.VISIBLE);
-       // btnxOrder.performClick();
     }
 
     @OnClick(R.id.back_motor)
@@ -137,7 +145,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         Intent intent = new Intent(MotorTripActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
-
     }
 
     @OnClick(R.id.civ_search)
@@ -162,38 +169,17 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
-
         View view = findViewById(R.id.include_sheets);
         sheetBehavior = BottomSheetBehavior.from(view);
         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         sheetBehavior.setPeekHeight(0);
-        cancelButtonClick=this;
-        profileDialog=this;
+        cancelButtonClick = this;
+        profileDialog = this;
 
-        for (int i = 0; i <= 4; i++) {
-            PopularLocationsModal locationsModal = new PopularLocationsModal();
-            locationsModal.setLatitude(lat[i]);
-            locationsModal.setLongitude(longitude[i]);
-            locationsModal.setAddress(addresses[i]);
-            modalArrayList.add(locationsModal);
-        }
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        MapPopularLocationsRecyclerAdapter adapter = new MapPopularLocationsRecyclerAdapter(modalArrayList, this, new PopularLocationsCallBack() {
-            @Override
-            public void onItemClick(View v, String address) {
-                if (isClicked) {
-                    etxPickUp.setText(address);
-                } else {
-                    etxDropDown.setText(address);
-                }
-            }
-        });
-        recyclerView.setAdapter(adapter);
     }
 
     @Override
     protected void setUp() {
-        Toast.makeText(getActivityContext(), "lee", Toast.LENGTH_SHORT).show();
     }
 
     private SupportMapFragment getSupportMapFragment() {
@@ -204,33 +190,27 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         setContentView(R.layout.activity_motor_trip);
         ButterKnife.bind(this);
         startLocationUpdates();
-        mapFragment = getSupportMapFragment();
-        mapFragment.init(new OnEngineInitListener() {
-            @Override
-            public void onEngineInitializationCompleted(OnEngineInitListener.Error error) {
-                if (error == OnEngineInitListener.Error.NONE) {
-                    map = mapFragment.getMap();
+        getActivityComponent().inject(this);
+        tripActivityPresenter.onAttach(MotorTripActivity.this);
+    }
 
-                    PositioningManager positioningManager = PositioningManager.getInstance();
-                    positioningManager.start(PositioningManager.LocationMethod.GPS_NETWORK);
-                   /* GeoPosition position = positioningManager.getPosition();
-                    GeoCoordinate coordinate = position.getCoordinate();*/
-
-                    map.setCenter(new GeoCoordinate(54.2343, 45.656, 12), Map.Animation.LINEAR);
-                    map.getPositionIndicator().setVisible(true);
-
-
-                } else {
-                    Log.e(LOG_TAG, "Cannot initialize SupportMapFragment (" + error + ")");
-                }
-            }
-        });
+    private void getNearByDriver() {
+        GetNearestDriverRequest nearRequest = new GetNearestDriverRequest();
+        nearRequest.setLatitude(String.valueOf(mlocation.latitude));
+        nearRequest.setLongitude(String.valueOf(mlocation.longitude));
+        nearRequest.setOrder_feature("1");
+        nearRequest.setEkl_customer(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.USER_ID, ""));
+        nearRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
+        tripActivityPresenter.getNearestDriver(nearRequest);
     }
 
     @Override
     public void onLocationChanged(LatLng location) {
-        setCurrentLocation(location);
-        Toast.makeText(getActivityContext(), String.valueOf(location.longitude), Toast.LENGTH_SHORT).show();
+        // setCurrentLocation(location);
+        mlocation = location;
+        mapFragment = getSupportMapFragment();
+        CommonUtils.setCurrentLocation(mapFragment, location);
+        getNearByDriver();
     }
 
     void startLocationUpdates() {
@@ -255,5 +235,47 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         }
     }
 
+    @Override
+    public void onGetNearestDriverResponseSuccess(GetNearestDriverResponse status) {
+        ToastUtils.shortToast("Driver found");
+        CommonUtils.setDriversOnMap(status);
+        GetRecommendedPlacesRequest mRequest = new GetRecommendedPlacesRequest();
+        mRequest.setLatitude(String.valueOf(mlocation.latitude));
+        mRequest.setLongitude(String.valueOf(mlocation.longitude));
+        mRequest.setEkl_customer(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.USER_ID, ""));
+        mRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
+        tripActivityPresenter.getRecommendedPlaces(mRequest);
+    }
 
+    @Override
+    public void onGetNearestDriverResponseFailure(String response) {
+        ToastUtils.shortToast(response);
+    }
+
+    @Override
+    public void onGetRecommendedPlacesSuccess(GetRecommendedPlacesResponse response) {
+        for (int i = 0; i < response.getResults().size(); i++) {
+            PopularLocationsModal locationsModal = new PopularLocationsModal();
+            locationsModal.setLatitude(response.getResults().get(i).getGeometry().getLocation().getLat());
+            locationsModal.setLongitude(response.getResults().get(i).getGeometry().getLocation().getLng());
+            locationsModal.setAddress(response.getResults().get(i).getName());
+            modalArrayList.add(locationsModal);
+        }
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        MapPopularLocationsRecyclerAdapter adapter = new MapPopularLocationsRecyclerAdapter(modalArrayList, this, new PopularLocationsCallBack() {
+            @Override
+            public void onItemClick(View v, String address) {
+                if (isClicked) {
+                    etxPickUp.setText(address);
+                } else {
+                    etxDropDown.setText(address);
+                }
+            }
+        });
+        recyclerView.setAdapter(adapter);
+    }
+    @Override
+    public void onGetRecommendedPlacesFailure(String response) {
+
+    }
 }

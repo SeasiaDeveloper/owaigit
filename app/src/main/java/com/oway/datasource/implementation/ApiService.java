@@ -1,8 +1,12 @@
 package com.oway.datasource.implementation;
 
 import com.oway.di.BaseUrl;
+import com.oway.model.request.GetNearestDriverRequest;
+import com.oway.model.request.GetRecommendedPlacesRequest;
 import com.oway.model.request.LoginRequest;
 import com.oway.model.request.RegisterRequest;
+import com.oway.model.response.GetNearestDriverResponse;
+import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.model.response.LoginResponse;
 import com.oway.model.response.RegisterResponse;
 
@@ -72,12 +76,16 @@ public class ApiService {
         return apiService.login(loginRequest);
     }
 
-    public Call<LoginResponse> getNearestDriver(LoginRequest loginRequest) {
-        return apiService.login(loginRequest);
+    public Call<GetNearestDriverResponse> getNearestDriver(GetNearestDriverRequest nearestDriverRequest) {
+        return apiService.getNearestDriver(nearestDriverRequest);
     }
 
     public Call<RegisterResponse> register(RegisterRequest registerRequest) {
         return apiService.register(registerRequest);
+    }
+
+    public Call<GetRecommendedPlacesResponse> getRecommendedPlaces(GetRecommendedPlacesRequest placeRequest) {
+        return apiService.getResommendedRequest(placeRequest);
     }
 
 
@@ -88,6 +96,12 @@ public class ApiService {
 
         @POST("/api/customer/register")
         Call<RegisterResponse> register(@Body RegisterRequest registerRequest);
+
+        @POST("/api/trx/getnearestdriver")
+        Call<GetNearestDriverResponse> getNearestDriver(@Body GetNearestDriverRequest nearestDriverRequest);
+
+        @POST("api/customer/get_recommended_place")
+        Call<GetRecommendedPlacesResponse> getResommendedRequest(@Body GetRecommendedPlacesRequest placeRequest);
 
     }
 }

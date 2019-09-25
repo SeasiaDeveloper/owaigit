@@ -2,30 +2,20 @@ package com.oway.model.request;
 
 
 
-public class GetNearestDriverRequest {
+public class GetRecommendedPlacesRequest {
 
 
     /**
-     * latitude : -7.5452439
-     * longitude : 112.7064384
-     * order_fitur : 1
+     * latitude : 30.7046
+     * longitude : 76.7179
      * ekl_customer : EKL0098679
-     * access_token : c995847b065a13f82528bf4670b3653d
+     * access_token : 26e21c73006aeb914f4e43d52e2d9578
      */
 
     private String latitude;
     private String longitude;
-    private String order_feature;
     private String ekl_customer;
     private String access_token;
-
-    public String getOrder_feature() {
-        return order_feature;
-    }
-
-    public void setOrder_feature(String order_feature) {
-        this.order_feature = order_feature;
-    }
 
     public String getLatitude() {
         return latitude;
