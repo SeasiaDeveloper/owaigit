@@ -25,6 +25,7 @@ import com.oway.ui.home.dashboard.DashBoardFragment;
 import com.oway.ui.home.dashboard.PageAdapter;
 import com.oway.ui.login.LoginActivityPresenter;
 import com.oway.ui.login.LoginActivityView;
+import com.oway.utillis.PermissionCheck;
 
 import javax.inject.Inject;
 
@@ -74,6 +75,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         getActivityComponent().inject(this);
         loginActivityPresenter.onAttach(MainActivity.this);
         setUp();
+        PermissionCheck.permissionCheckLocation(this);
 
     }
 
@@ -260,5 +262,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 drawer.closeDrawer(GravityCompat.START);
             }
         }, 200);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
+        PermissionCheck.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

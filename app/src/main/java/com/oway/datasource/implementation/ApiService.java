@@ -72,6 +72,10 @@ public class ApiService {
         return apiService.login(loginRequest);
     }
 
+    public Call<LoginResponse> getNearestDriver(LoginRequest loginRequest) {
+        return apiService.login(loginRequest);
+    }
+
     public Call<RegisterResponse> register(RegisterRequest registerRequest) {
         return apiService.register(registerRequest);
     }

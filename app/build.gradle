@@ -68,6 +68,7 @@ dependencies {
     implementation 'com.github.esafirm.android-image-picker:imagepicker:1.13.0'
     implementation(name:'HERE-sdk', ext:'aar')
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
-
+    implementation 'com.google.android.gms:play-services-places:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 
 }
