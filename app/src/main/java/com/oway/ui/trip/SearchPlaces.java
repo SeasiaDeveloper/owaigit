@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageButton;
 
 import com.oway.App;
 import com.oway.R;
@@ -20,6 +21,7 @@ import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.utillis.AppConstants;
 import com.oway.utillis.Location;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -27,16 +29,27 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SearchPlaces extends BaseActivity implements SearchPlacesView {
 
     @BindView(R.id.et_place_name)
     AutoCompleteTextView etxPlaces;
+    @BindView(R.id.ib_search_back)
+    ImageButton ibxSearchBack;
     @BindView(R.id.rv_places_list)
     RecyclerView rvxPlaceList;
     double latitude;
     double longitude;
     Intent intent;
+
+    @OnClick(R.id.ib_search_back)
+    public void onSearchBackClick(){
+        Intent intent=new Intent(SearchPlaces.this,MotorTripActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     private ArrayList<GetRecommendedPlacesResponse.ResultsBean> placesResponses = new ArrayList<GetRecommendedPlacesResponse.ResultsBean>();
     @Inject
     SearchPlacesPresenter<SearchPlacesView> searchPlacesPresenter;
@@ -84,7 +97,6 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
 
 
     public void placesList() {
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         rvxPlaceList.setLayoutManager(layoutManager);
         rvxPlaceList.setAdapter(adapter);
@@ -98,6 +110,7 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
 
     @Override
     public void onGetSearchPlacesResponseSuccess(GetRecommendedPlacesResponse status) {
+        placesResponses.clear();
         for (int i = 0; i < status.getResults().size(); i++) {
             placesResponses.addAll(status.getResults());
         }

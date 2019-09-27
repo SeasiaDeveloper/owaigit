@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.common.Image;
 import com.here.android.mpa.mapping.Map;
@@ -24,6 +27,7 @@ import com.oway.R;
 import com.oway.adapters.MapPopularLocationsRecyclerAdapter;
 import com.oway.base.BaseActivity;
 import com.oway.callbacks.CancelButtonClick;
+import com.oway.callbacks.CancelReasonDialog;
 import com.oway.callbacks.DriverProfileDialog;
 import com.oway.callbacks.PopularLocationsCallBack;
 import com.oway.datasource.pref.PreferenceHandler;
@@ -55,7 +59,7 @@ import butterknife.OnClick;
 import butterknife.OnTouch;
 import retrofit2.Response;
 
-public class MotorTripActivity extends BaseActivity implements Location.OnLocationChangeListener, Location.OnLocationSatiListener, CancelButtonClick, DriverProfileDialog, TripActivityView {
+public class MotorTripActivity extends BaseActivity implements Location.OnLocationChangeListener, Location.OnLocationSatiListener, CancelButtonClick, DriverProfileDialog, TripActivityView,CancelReasonDialog {
     private static final String LOG_TAG = MotorTripActivity.class.getSimpleName();
     private boolean isClicked = true;
     private Double[] lat = {23.52437, 12.5444, 67.564656, 78.456456, 54.547646};
@@ -67,6 +71,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     private SupportMapFragment mapFragment = null;
     private BottomSheetBehavior sheetBehavior;
     private Location location;
+    private CancelReasonDialog reasonDialog;
     private CancelButtonClick cancelButtonClick;
     private DriverProfileDialog profileDialog;
     private List<LocationDetailsResponse.ResultsBean.AddressComponentsBean> localityName;
@@ -92,6 +97,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     RelativeLayout layoutBottomSheet;
     @BindView(R.id.ll_driver_riding_to_you)
     RelativeLayout layoutDriverRidingToYou;
+    @BindView(R.id.btn_float)
+    ImageButton btnFab;
 
     @Inject
     TripActivityPresenter<TripActivityView> tripActivityPresenter;
@@ -99,7 +106,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @OnClick(R.id.btn_cancel_ride)
     public void onCancelRideClick() {
-        CommonUtils.showRideDialog(this);
+        CommonUtils.showRideCancelReasonDialog(this, reasonDialog);
     }
 
     private LatLng mlocation;
@@ -107,12 +114,16 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @OnClick(R.id.btn_float)
     public void onFloatButtonClick() {
         if ((sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED)) {
-            layoutBelowFloatButton.setVisibility(View.GONE);
+            btnFab.setRotation(180);
             sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+            layoutBelowFloatButton.setVisibility(View.GONE);
 
         } else {
             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             layoutBelowFloatButton.setVisibility(View.VISIBLE);
+            btnFab.setRotation(360);
+
         }
     }
 
@@ -198,20 +209,20 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     public void onPicUpTouch() {
         etxPickUp.requestFocus();  //keep focus on the EditText(redTime)
         isClicked = true;
-        Intent intent =new Intent(MotorTripActivity.this,SearchPlaces.class);
+        Intent intent = new Intent(MotorTripActivity.this, SearchPlaces.class);
         intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
         intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
-        startActivityForResult(intent,AppConstants.REQUEST_CODE_PICK);
+        startActivityForResult(intent, AppConstants.REQUEST_CODE_PICK);
     }
 
     @OnTouch(R.id.etxDropDown)
     public void onDropDown() {
         etxDropDown.requestFocus();  //keep focus on the EditText(redTime)
         isClicked = false;
-        Intent intent =new Intent(MotorTripActivity.this,SearchPlaces.class);
+        Intent intent = new Intent(MotorTripActivity.this, SearchPlaces.class);
         intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
         intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
-        startActivityForResult(intent,AppConstants.REQUEST_CODE_DROP);
+        startActivityForResult(intent, AppConstants.REQUEST_CODE_DROP);
     }
 
     @Override
@@ -224,7 +235,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         sheetBehavior.setPeekHeight(0);
         cancelButtonClick = this;
         profileDialog = this;
-
+        reasonDialog = this;
 
     }
 
@@ -244,9 +255,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         tripActivityPresenter.onAttach(MotorTripActivity.this);
 
     }
-
-
-
 
 
     private void getNearByDriver() {
@@ -402,6 +410,16 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    @Override
+    public void onCancelReasonDialogClick() {
+
+    }
+
+    @Override
+    public void onOkReasonDialogClick(String reason, String selectionId) {
 
     }
 }
