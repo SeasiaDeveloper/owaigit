@@ -1,21 +1,25 @@
 package com.oway.model.response;
 
-import org.locationtech.jts.algorithm.Distance;
-
 import java.util.List;
 
 public class GetRecommendedPlacesResponse {
 
+    /**
+     * results : [{"_id":"5d8b35c1c68fe91e2201ee7e","formatted_address":"","geometry":{"location":{"lat":30.730095,"lng":76.71314699999999},"viewport":{"northeast":{"lat":30.7314436802915,"lng":76.7144698302915},"southwest":{"lat":30.72874571970851,"lng":76.7117718697085}}},"icon":"https://maps.gstatic.com/mapfiles/place_api/icons/lodging-71.png","id":"c71e4fdb04a37c32533e1954f742d22b44d6c7c3","name":"OYO 1731 Mohali","photos":[{"height":428,"html_attributions":["<a href=\"https://maps.google.com/maps/contrib/109285599428450968038/photos\">OYO 1731 Mohali<\/a>"],"photo_reference":"CmRaAAAASu2-1E8BUF1HUIY29gE5MvwdzQKGVbfqXdjUakqk267PoUSsZK0Y5l8O0Pt7ZBQwPCjCBvA1NhEFh4cJUnqi4IgqUfodJtJB7gjffqKaS7zdmiVp_NDU_-KAsJt4squ0EhD2SbYrQ8ZyHUbqNstavoJGGhT3o7KY5MWaa7Z86WDAChBtIeKm0w","width":761}],"place_id":"ChIJORvpK2ruDzkRvQ1QC_NQ8_A","reference":"ChIJORvpK2ruDzkRvQ1QC_NQ8_A","types":["lodging","point_of_interest","establishment"],"loc":{"type":"Point","coordinates":[76.71314699999999,30.730095]},"updated_at":"2019-09-25 16:39:13","created_at":"2019-09-25 16:39:13","distance":{"value":22}},{"_id":"5d8b35c1c68fe91e2201ee7b","formatted_address":"","geometry":{"location":{"lat":30.692267,"lng":76.7341409},"viewport":{"northeast":{"lat":30.6936420302915,"lng":76.73552873029149},"southwest":{"lat":30.6909440697085,"lng":76.73283076970849}}},"icon":"https://maps.gstatic.com/mapfiles/place_api/icons/lodging-71.png","id":"aa06262583a4d77c7e390892eb6950f0071df2d2","name":"OYO Rooms Fortis Hospital Mohali","photos":null,"place_id":"ChIJkZMa-R_sDzkRlT9XQWgtMjE","reference":"ChIJkZMa-R_sDzkRlT9XQWgtMjE","types":["lodging","point_of_interest","establishment"],"loc":{"type":"Point","coordinates":[76.7341409,30.692267]},"updated_at":"2019-09-25 16:39:13","created_at":"2019-09-25 16:39:13","distance":{"value":22}},{"_id":"5d8cdbd363ff8c4f230d536e","formatted_address":"","geometry":{"location":{"lat":30.680869,"lng":76.60537699999999},"viewport":{"northeast":{"lat":30.68224882989272,"lng":76.60673807989274},"southwest":{"lat":30.67954917010728,"lng":76.60403842010729}}},"icon":"https://maps.gstatic.com/mapfiles/place_api/icons/school-71.png","id":"509cd20f64488404ed8a735ee76a8ac1fc548bc9","name":"Chandigarh Group of Colleges Jhanjeri Mohali","photos":[{"height":2250,"html_attributions":["<a href=\"https://maps.google.com/maps/contrib/110380131000640277668/photos\">A Google User<\/a>"],"photo_reference":"CmRaAAAA86nH1W6TVq5_FvsBpsKuhFCGtsjlmk9474bAcWG5h1oB0mGCz-7pgnrK0dVLhy9lsIrgcV8kYLCe6yVsNn2ZJwV6_7PwjNobcLLWvN9xtnxL8GDfu3S9dieOcV-C3t5xEhDMH36EAnbbh3R_jnukJLVXGhT31nqeA_eP4JPwUQH6vYm2plLzyQ","width":4000}],"place_id":"ChIJ_VxzlbflDzkR-yBnC0O0h7I","reference":"ChIJ_VxzlbflDzkR-yBnC0O0h7I","types":["university","point_of_interest","establishment"],"loc":{"type":"Point","coordinates":[76.60537699999999,30.680869]},"updated_at":"2019-09-26 22:40:03","created_at":"2019-09-26 22:40:03","distance":{"value":22}}]
+     * Code : 200
+     * html_attributions : []
+     */
 
-    private List<?> html_attributions;
+    private int Code;
     private List<ResultsBean> results;
+    private List<?> html_attributions;
 
-    public List<?> getHtml_attributions() {
-        return html_attributions;
+    public int getCode() {
+        return Code;
     }
 
-    public void setHtml_attributions(List<?> html_attributions) {
-        this.html_attributions = html_attributions;
+    public void setCode(int Code) {
+        this.Code = Code;
     }
 
     public List<ResultsBean> getResults() {
@@ -26,21 +30,30 @@ public class GetRecommendedPlacesResponse {
         this.results = results;
     }
 
+    public List<?> getHtml_attributions() {
+        return html_attributions;
+    }
+
+    public void setHtml_attributions(List<?> html_attributions) {
+        this.html_attributions = html_attributions;
+    }
+
     public static class ResultsBean {
         /**
-         * _id : 5d8b35c1c68fe91e2201ee7c
+         * _id : 5d8b35c1c68fe91e2201ee7e
          * formatted_address :
-         * geometry : {"location":{"lat":30.71993399999999,"lng":76.729232},"viewport":{"northeast":{"lat":30.72133418029149,"lng":76.73065573029152},"southwest":{"lat":30.71863621970849,"lng":76.72795776970851}}}
+         * geometry : {"location":{"lat":30.730095,"lng":76.71314699999999},"viewport":{"northeast":{"lat":30.7314436802915,"lng":76.7144698302915},"southwest":{"lat":30.72874571970851,"lng":76.7117718697085}}}
          * icon : https://maps.gstatic.com/mapfiles/place_api/icons/lodging-71.png
-         * id : 3c6a16ce6c4896d1b968f32cc440f3fa176d12b0
-         * name : Hotel City Plaza 3
-         * photos : [{"height":1468,"html_attributions":["<a href=\"https://maps.google.com/maps/contrib/102527250498203241571/photos\">Hotel City Plaza 3<\/a>"],"photo_reference":"CmRaAAAAFBkhwAi_AhMnaocH8o1O7D9NbIglgtFpLy_jNfY81730p79ax5BuWcWWyvhE6Q2mcNar_Hfwjl3cQnALlGHQKCqC5CtFwlBM6DNNjrzBwgL8qqD_lVBT5-pAfvPAw3I8EhBhai53KZtvfgFDXT6bJTRoGhTtNLS9_-I9z_NVYzrlbiYuWx6a9w","width":1102}]
-         * place_id : ChIJq6rqCdjtDzkR0SxgsUrkNDg
-         * reference : ChIJq6rqCdjtDzkR0SxgsUrkNDg
+         * id : c71e4fdb04a37c32533e1954f742d22b44d6c7c3
+         * name : OYO 1731 Mohali
+         * photos : [{"height":428,"html_attributions":["<a href=\"https://maps.google.com/maps/contrib/109285599428450968038/photos\">OYO 1731 Mohali<\/a>"],"photo_reference":"CmRaAAAASu2-1E8BUF1HUIY29gE5MvwdzQKGVbfqXdjUakqk267PoUSsZK0Y5l8O0Pt7ZBQwPCjCBvA1NhEFh4cJUnqi4IgqUfodJtJB7gjffqKaS7zdmiVp_NDU_-KAsJt4squ0EhD2SbYrQ8ZyHUbqNstavoJGGhT3o7KY5MWaa7Z86WDAChBtIeKm0w","width":761}]
+         * place_id : ChIJORvpK2ruDzkRvQ1QC_NQ8_A
+         * reference : ChIJORvpK2ruDzkRvQ1QC_NQ8_A
          * types : ["lodging","point_of_interest","establishment"]
-         * loc : {"type":"Point","coordinates":[76.729232,30.71993399999999]}
+         * loc : {"type":"Point","coordinates":[76.71314699999999,30.730095]}
          * updated_at : 2019-09-25 16:39:13
          * created_at : 2019-09-25 16:39:13
+         * distance : {"value":22}
          */
 
         private String _id;
@@ -54,17 +67,9 @@ public class GetRecommendedPlacesResponse {
         private LocBean loc;
         private String updated_at;
         private String created_at;
+        private DistanceBean distance;
         private List<PhotosBean> photos;
         private List<String> types;
-        private Distance distance;
-
-        public Distance getDistance() {
-            return distance;
-        }
-
-        public void setDistance(Distance distance) {
-            this.distance = distance;
-        }
 
         public String get_id() {
             return _id;
@@ -154,6 +159,14 @@ public class GetRecommendedPlacesResponse {
             this.created_at = created_at;
         }
 
+        public DistanceBean getDistance() {
+            return distance;
+        }
+
+        public void setDistance(DistanceBean distance) {
+            this.distance = distance;
+        }
+
         public List<PhotosBean> getPhotos() {
             return photos;
         }
@@ -170,12 +183,10 @@ public class GetRecommendedPlacesResponse {
             this.types = types;
         }
 
-
-
         public static class GeometryBean {
             /**
-             * location : {"lat":30.71993399999999,"lng":76.729232}
-             * viewport : {"northeast":{"lat":30.72133418029149,"lng":76.73065573029152},"southwest":{"lat":30.71863621970849,"lng":76.72795776970851}}
+             * location : {"lat":30.730095,"lng":76.71314699999999}
+             * viewport : {"northeast":{"lat":30.7314436802915,"lng":76.7144698302915},"southwest":{"lat":30.72874571970851,"lng":76.7117718697085}}
              */
 
             private LocationBean location;
@@ -199,8 +210,8 @@ public class GetRecommendedPlacesResponse {
 
             public static class LocationBean {
                 /**
-                 * lat : 30.71993399999999
-                 * lng : 76.729232
+                 * lat : 30.730095
+                 * lng : 76.71314699999999
                  */
 
                 private double lat;
@@ -225,8 +236,8 @@ public class GetRecommendedPlacesResponse {
 
             public static class ViewportBean {
                 /**
-                 * northeast : {"lat":30.72133418029149,"lng":76.73065573029152}
-                 * southwest : {"lat":30.71863621970849,"lng":76.72795776970851}
+                 * northeast : {"lat":30.7314436802915,"lng":76.7144698302915}
+                 * southwest : {"lat":30.72874571970851,"lng":76.7117718697085}
                  */
 
                 private NortheastBean northeast;
@@ -250,8 +261,8 @@ public class GetRecommendedPlacesResponse {
 
                 public static class NortheastBean {
                     /**
-                     * lat : 30.72133418029149
-                     * lng : 76.73065573029152
+                     * lat : 30.7314436802915
+                     * lng : 76.7144698302915
                      */
 
                     private double lat;
@@ -276,8 +287,8 @@ public class GetRecommendedPlacesResponse {
 
                 public static class SouthwestBean {
                     /**
-                     * lat : 30.71863621970849
-                     * lng : 76.72795776970851
+                     * lat : 30.72874571970851
+                     * lng : 76.7117718697085
                      */
 
                     private double lat;
@@ -305,7 +316,7 @@ public class GetRecommendedPlacesResponse {
         public static class LocBean {
             /**
              * type : Point
-             * coordinates : [76.729232,30.71993399999999]
+             * coordinates : [76.71314699999999,30.730095]
              */
 
             private String type;
@@ -328,12 +339,28 @@ public class GetRecommendedPlacesResponse {
             }
         }
 
+        public static class DistanceBean {
+            /**
+             * value : 22
+             */
+
+            private int value;
+
+            public int getValue() {
+                return value;
+            }
+
+            public void setValue(int value) {
+                this.value = value;
+            }
+        }
+
         public static class PhotosBean {
             /**
-             * height : 1468
-             * html_attributions : ["<a href=\"https://maps.google.com/maps/contrib/102527250498203241571/photos\">Hotel City Plaza 3<\/a>"]
-             * photo_reference : CmRaAAAAFBkhwAi_AhMnaocH8o1O7D9NbIglgtFpLy_jNfY81730p79ax5BuWcWWyvhE6Q2mcNar_Hfwjl3cQnALlGHQKCqC5CtFwlBM6DNNjrzBwgL8qqD_lVBT5-pAfvPAw3I8EhBhai53KZtvfgFDXT6bJTRoGhTtNLS9_-I9z_NVYzrlbiYuWx6a9w
-             * width : 1102
+             * height : 428
+             * html_attributions : ["<a href=\"https://maps.google.com/maps/contrib/109285599428450968038/photos\">OYO 1731 Mohali<\/a>"]
+             * photo_reference : CmRaAAAASu2-1E8BUF1HUIY29gE5MvwdzQKGVbfqXdjUakqk267PoUSsZK0Y5l8O0Pt7ZBQwPCjCBvA1NhEFh4cJUnqi4IgqUfodJtJB7gjffqKaS7zdmiVp_NDU_-KAsJt4squ0EhD2SbYrQ8ZyHUbqNstavoJGGhT3o7KY5MWaa7Z86WDAChBtIeKm0w
+             * width : 761
              */
 
             private int height;
@@ -373,27 +400,5 @@ public class GetRecommendedPlacesResponse {
                 this.html_attributions = html_attributions;
             }
         }
-        public class Distance
-        {
-            private String value;
-
-            public String getValue ()
-            {
-                return value;
-            }
-
-            public void setValue (String value)
-            {
-                this.value = value;
-            }
-
-            @Override
-            public String toString()
-            {
-                return "ClassPojo [value = "+value+"]";
-            }
-        }
     }
-
-
 }

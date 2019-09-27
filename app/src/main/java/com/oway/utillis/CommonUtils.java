@@ -522,7 +522,7 @@ public final class CommonUtils {
         });
     }
 
-    public static void setDriversOnMap(GetNearestDriverResponse drives) {
+    public static void setDriversOnMap(GetNearestDriverResponse drives, Map map) {
         try {
             for (int i = 0; i < drives.getData().size(); i++) {
                 Image image = new Image();

@@ -335,11 +335,21 @@
         </RelativeLayout>
 
     </RelativeLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@+id/ll_locations"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_45sdp"
+            android:src="@drawable/currentlocation"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/_20sdp"
+            />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ll_locations"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
@@ -360,8 +370,8 @@
 
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/civ_search"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
@@ -383,6 +393,7 @@
 
     </LinearLayout>
 
+</LinearLayout>
     <LinearLayout
         android:id="@+id/ll_locations"
         android:layout_width="match_parent"
@@ -491,11 +502,6 @@
             android:textColor="@android:color/white"
             android:textSize="@dimen/_15sdp" />
     </LinearLayout>
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="@dimen/_45sdp"
-    android:layout_centerInParent="true"
-    android:src="@drawable/currentlocation"
-    />
+
 
 </RelativeLayout>

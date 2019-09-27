@@ -1,6 +1,7 @@
 package com.oway.ui.trip;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,11 @@ import com.oway.R;
 import com.oway.callbacks.DashbordRecyclerItemclick;
 import com.oway.customviews.CustomTextView;
 import com.oway.model.response.GetRecommendedPlacesResponse;
+import com.oway.utillis.AppConstants;
 
 import java.util.ArrayList;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder> {
@@ -41,9 +45,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
 
             holder.placeName.setText(placesList.get(position).getName());
             holder.placeAddressStartName.setText(placesList.get(position).getFormatted_address());
-            holder.distance.setText(placesList.get(position).getDistance().getValue().toString());
-
-
+           // holder.distance.setText(placesList.get(position).getDistance().getValue().toString());
     }
 
 
@@ -63,8 +65,6 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
             placeName = itemView.findViewById(R.id.tv_place_name);
             placeAddressStartName = itemView.findViewById(R.id.tv_address_part_one);
             distance = itemView.findViewById(R.id.tv_distance);
-
-
         }
     }
 }

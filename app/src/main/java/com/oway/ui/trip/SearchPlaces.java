@@ -1,24 +1,20 @@
 package com.oway.ui.trip;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.AutoCompleteTextView;
 
-import com.oway.App;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.oway.R;
 import com.oway.base.BaseActivity;
-import com.oway.customviews.CustomEditText;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.request.GetSearchPlacesRequest;
 import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.utillis.AppConstants;
-import com.oway.utillis.Location;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -41,6 +37,7 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
     @Inject
     SearchPlacesPresenter<SearchPlacesView> searchPlacesPresenter;
     PlacesAdapter adapter = new PlacesAdapter(placesResponses, SearchPlaces.this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +50,12 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
         longitude = intent.getDoubleExtra(AppConstants.LONGITUDE, 0);
         etxPlaces.setThreshold(3);
 
+      /*  Intent resultIntent = new Intent();
+        resultIntent.putExtra(AppConstants.ADDRESS, "resultValue");
+        resultIntent.putExtra(AppConstants.SELECT_LATITUDE, "878");
+        resultIntent.putExtra(AppConstants.SELECT_LONGITUDE, "76");
+        setResult(RESULT_OK, resultIntent);
+        finish();*/
 
         etxPlaces.addTextChangedListener(new TextWatcher() {
             @Override
@@ -62,10 +65,10 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length()==0){
+                if (charSequence.length() == 0) {
                     placesResponses.clear();
                     adapter.notifyDataSetChanged();
-                }else {
+                } else {
                     GetSearchPlacesRequest request = new GetSearchPlacesRequest();
                     request.setLatitude(String.valueOf(latitude));
                     request.setLongitude(String.valueOf(longitude));
@@ -82,9 +85,7 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
         });
     }
 
-
     public void placesList() {
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         rvxPlaceList.setLayoutManager(layoutManager);
         rvxPlaceList.setAdapter(adapter);
@@ -98,17 +99,16 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
 
     @Override
     public void onGetSearchPlacesResponseSuccess(GetRecommendedPlacesResponse status) {
+        placesResponses.clear();
         for (int i = 0; i < status.getResults().size(); i++) {
             placesResponses.addAll(status.getResults());
         }
         placesList();
-
     }
 
     @Override
     public void onGetsearchPlacesResponseFailure(String response) {
 
     }
-
 
 }
