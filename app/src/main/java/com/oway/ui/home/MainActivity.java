@@ -19,6 +19,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.oway.R;
 import com.oway.base.BaseActivity;
 import com.oway.model.response.LoginResponse;
+import com.oway.otto.BusProvider;
 import com.oway.ui.home.Profile.ProfileFragment;
 import com.oway.ui.home.RequisiteAndCertain.RequisiteAndCertainFragment;
 import com.oway.ui.home.dashboard.DashBoardFragment;
@@ -76,7 +77,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         loginActivityPresenter.onAttach(MainActivity.this);
         setUp();
         PermissionCheck.permissionCheckLocation(this);
-
+        BusProvider.getInstance().register(this);
     }
 
     public static void start(BaseActivity baseActivity) {

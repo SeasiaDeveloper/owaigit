@@ -78,12 +78,12 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
                 // dismissLoading();
                 GetRecommendedPlacesResponse body = response.body();
                 if (body != null) {
-                    getMvpView().onGetRecommendedPlacesSuccess(response.body());
-                   /* if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
-                        getMvpView().onGetNearestDriverResponseSuccess(body);
+                    //getMvpView().onGetRecommendedPlacesSuccess(response.body());
+                    if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
+                        getMvpView().onGetRecommendedPlacesSuccess(response.body());
                     } else if (response.body().getCode() == ConstsCore.STATUS_CODE_FAILED) {
-                        getMvpView().onGetNearestDriverResponseFailure(body.getRespMessage());
-                    }*/
+                        getMvpView().onGetNearestDriverResponseFailure(App.getInstance().getResources().getString(R.string.something_went_wrong));
+                    }
                 } else {
                     getMvpView().onGetRecommendedPlacesFailure(App.getInstance().getResources().getString(R.string.something_went_wrong));
                 }
@@ -190,7 +190,7 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
 
             @Override
             public void onFailure(Call<CustomerTransactionResponse> call, Throwable t) {
-               // dismissLoading();
+                // dismissLoading();
                 if (getMvpView() != null) {
                     String msg = t.getMessage();
                     getMvpView().showMessage(R.string.something_went_wrong);

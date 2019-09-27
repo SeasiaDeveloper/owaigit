@@ -23,25 +23,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/mapfragment"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginRight="0dp"
         android:orientation="horizontal"
-
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         >
 
-        <com.mikhaellopez.circularimageview.CircularImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/back_motor"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_width="@dimen/_33sdp"
+            android:layout_height="@dimen/_33sdp"
             android:layout_gravity="center"
-            android:layout_margin="30dp"
             android:src="@drawable/ic_launcher_back"
             app:civ_border="true"
             app:civ_border_color="@color/col_orange" />
@@ -54,7 +45,7 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_27sdp"
                 android:background="@drawable/two_round_corners"
                 android:orientation="horizontal">
 
@@ -92,13 +83,14 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_alignParentRight="true"
         android:gravity="end">
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/current_location"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
             android:layout_gravity="center"
             android:layout_marginEnd="@dimen/_20sdp"
             android:layout_marginRight="@dimen/_20sdp"
@@ -366,11 +358,21 @@
         </RelativeLayout>
 
     </RelativeLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@+id/ll_locations"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_45sdp"
+            android:src="@drawable/currentlocation"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/_20sdp"
+            />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ll_locations"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
@@ -391,8 +393,8 @@
 
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/civ_search"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
@@ -414,6 +416,7 @@
 
     </LinearLayout>
 
+</LinearLayout>
     <LinearLayout
         android:id="@+id/ll_locations"
         android:layout_width="match_parent"
@@ -475,7 +478,7 @@
                 android:text="@string/confirm"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/_10sdp"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -510,7 +513,7 @@
                 android:text="@string/confirm"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/_10sdp"
-                android:visibility="visible" />
+                android:visibility="gone" />
         </LinearLayout>
 
         <Button

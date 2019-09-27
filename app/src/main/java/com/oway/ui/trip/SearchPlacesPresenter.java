@@ -5,10 +5,8 @@ import com.oway.R;
 import com.oway.base.BasePresenter;
 import com.oway.base.MvpView;
 import com.oway.datasource.implementation.ApiService;
-import com.oway.model.request.GetRecommendedPlacesRequest;
 import com.oway.model.request.GetSearchPlacesRequest;
 import com.oway.model.response.GetRecommendedPlacesResponse;
-import com.oway.utillis.ConstsCore;
 import com.oway.utillis.NetworkUtils;
 
 import javax.inject.Inject;
@@ -23,6 +21,7 @@ public class SearchPlacesPresenter<V extends MvpView> extends BasePresenter<Sear
     public SearchPlacesPresenter(ApiService apiService) {
         super(apiService);
     }
+
     public void getSearchPlaces(GetSearchPlacesRequest placeRequest) {
 
         if (!NetworkUtils.isNetworkConnected(getMvpView().getActivityContext())) {
@@ -35,9 +34,8 @@ public class SearchPlacesPresenter<V extends MvpView> extends BasePresenter<Sear
             public void onResponse(Call<GetRecommendedPlacesResponse> call, Response<GetRecommendedPlacesResponse> response) {
                 // dismissLoading();
                 GetRecommendedPlacesResponse body = response.body();
-                if (body != null) {
+                if (isBodyVerified(body.getCode())&&body != null) {
                     getMvpView().onGetSearchPlacesResponseSuccess(response.body());
-
                 } else {
                     getMvpView().onGetsearchPlacesResponseFailure(App.getInstance().getResources().getString(R.string.something_went_wrong));
                 }

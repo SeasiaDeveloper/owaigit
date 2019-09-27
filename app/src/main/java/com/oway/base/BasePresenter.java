@@ -53,6 +53,10 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
     public boolean isBodyVerified(int response) {
         if (response == ConstsCore.STATUS_CODE_SUCCESS)
             return true;
+        else if(response==ConstsCore.STATUS_CODE_SESSION_EXPIRED) {
+            getMvpView().logout();
+            return false;
+        }
         return false;
     }
 

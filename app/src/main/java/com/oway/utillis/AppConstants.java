@@ -24,6 +24,10 @@ public final class AppConstants {
     static final String DIRECTORY_APP_NAME = "QWAI";
     static final String COMPRESSES_IMAGES = ".COMPRESSES_IMAGES";
     public static final String PREF_NAME = "owai_pref";
+    public static final String ADDRESS = "address";
+    public static final String SELECT_LATITUDE = "select_latitude";
+    public static final String SELECT_LONGITUDE = "select_longitude";
+
     public static final String TOTURIAL_STATUS = "toturial_status";
     public static final String USER_NAME = "user_name";
     public static final String IMAGE_PATH = "image_path";

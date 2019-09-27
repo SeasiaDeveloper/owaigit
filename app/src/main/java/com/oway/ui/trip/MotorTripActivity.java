@@ -19,8 +19,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.common.Image;
+import com.here.android.mpa.common.OnEngineInitListener;
 import com.here.android.mpa.mapping.Map;
-import com.here.android.mpa.mapping.MapMarker;
 import com.here.android.mpa.mapping.SupportMapFragment;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.oway.R;
@@ -42,6 +42,7 @@ import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
 import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.model.response.LocationDetailsResponse;
+import com.oway.otto.BusProvider;
 import com.oway.ui.home.MainActivity;
 import com.oway.utillis.AppConstants;
 import com.oway.utillis.CommonUtils;
@@ -59,12 +60,13 @@ import butterknife.OnClick;
 import butterknife.OnTouch;
 import retrofit2.Response;
 
-public class MotorTripActivity extends BaseActivity implements Location.OnLocationChangeListener, Location.OnLocationSatiListener, CancelButtonClick, DriverProfileDialog, TripActivityView,CancelReasonDialog {
+public class MotorTripActivity extends BaseActivity implements Location.OnLocationChangeListener, Location.OnLocationSatiListener, CancelButtonClick, DriverProfileDialog, TripActivityView, CancelReasonDialog {
     private static final String LOG_TAG = MotorTripActivity.class.getSimpleName();
     private boolean isClicked = true;
     private Double[] lat = {23.52437, 12.5444, 67.564656, 78.456456, 54.547646};
     private Double[] longitude = {45.76767, 78.65, 77.56656, 76.567, 56.756567};
     private String[] addresses = {"ZBXhb", "ndcjsv", "dsvbvffbfv", "dvbhdfvb", "sddsvc"};
+    private boolean isPickUpClick = true;
     private ArrayList<PopularLocationsModal> modalArrayList = new ArrayList<PopularLocationsModal>();
     private LatLng latLngStart;
     private Map map = null;
@@ -75,6 +77,9 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     private CancelButtonClick cancelButtonClick;
     private DriverProfileDialog profileDialog;
     private List<LocationDetailsResponse.ResultsBean.AddressComponentsBean> localityName;
+    private final int SOURCE_SELECT = 100;
+    private final int DESTINATION_SELECT = 101;
+    private String result2;
     @BindView(R.id.popular_location)
     RecyclerView recyclerView;
     @BindView(R.id.etxPickUp)
@@ -99,6 +104,12 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     RelativeLayout layoutDriverRidingToYou;
     @BindView(R.id.btn_float)
     ImageButton btnFab;
+
+    @BindView(R.id.btn_map_source)
+    Button btn_map_source;
+
+    @BindView(R.id.btn_map_destination)
+    Button btn_map_destination;
 
     @Inject
     TripActivityPresenter<TripActivityView> tripActivityPresenter;
@@ -200,7 +211,10 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         Intent intent = new Intent(this, SearchPlaces.class);
         intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
         intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
-        startActivity(intent);
+        if (isPickUpClick)
+            startActivityForResult(intent, SOURCE_SELECT);
+        else
+            startActivityForResult(intent, DESTINATION_SELECT);
 
     }
 
@@ -208,7 +222,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @OnTouch(R.id.etxPickUp)
     public void onPicUpTouch() {
         etxPickUp.requestFocus();  //keep focus on the EditText(redTime)
-        isClicked = true;
+        isPickUpClick = true;
         Intent intent = new Intent(MotorTripActivity.this, SearchPlaces.class);
         intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
         intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
@@ -218,7 +232,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @OnTouch(R.id.etxDropDown)
     public void onDropDown() {
         etxDropDown.requestFocus();  //keep focus on the EditText(redTime)
-        isClicked = false;
+        isPickUpClick = false;
         Intent intent = new Intent(MotorTripActivity.this, SearchPlaces.class);
         intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
         intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
@@ -253,6 +267,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         startLocationUpdates();
         getActivityComponent().inject(this);
         tripActivityPresenter.onAttach(MotorTripActivity.this);
+        mapFragment = getSupportMapFragment();
+        initializeMap();
 
     }
 
@@ -267,17 +283,24 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         tripActivityPresenter.getNearestDriver(nearRequest);
     }
 
+
     @Override
     public void onLocationChanged(LatLng location) {
-        // setCurrentLocation(location);
         mlocation = location;
-
-        mapFragment = getSupportMapFragment();
-        CommonUtils.setCurrentLocation(mapFragment, location);
         tripActivityPresenter.getLocationDetails(mlocation.latitude + "," + mlocation.longitude, getResources().getString(R.string.google_key));
-
-        //getNearByDriver();
+        getNearByDriver();
+        getRecommendedPlaces();
     }
+
+    private void getRecommendedPlaces() {
+        GetRecommendedPlacesRequest mRequest = new GetRecommendedPlacesRequest();
+        mRequest.setLatitude(String.valueOf(mlocation.latitude));
+        mRequest.setLongitude(String.valueOf(mlocation.longitude));
+        mRequest.setEkl_customer(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.USER_ID, ""));
+        mRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
+        tripActivityPresenter.getRecommendedPlaces(mRequest);
+    }
+
 
     void startLocationUpdates() {
         location = new Location(this);
@@ -290,27 +313,11 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     }
 
-    void setCurrentLocation(LatLng location) {
-        try {
-            Image image = new Image();
-            image.setImageResource(R.drawable.currentlocation);
-            MapMarker customMarker = new MapMarker(new GeoCoordinate(location.latitude, location.longitude, 0.0), image);
-            map.addMapObject(customMarker);
-        } catch (Exception e) {
-            Log.e("HERE", e.getMessage());
-        }
-    }
-
     @Override
     public void onGetNearestDriverResponseSuccess(GetNearestDriverResponse status) {
         ToastUtils.shortToast("Driver found");
-        CommonUtils.setDriversOnMap(status);
-        GetRecommendedPlacesRequest mRequest = new GetRecommendedPlacesRequest();
-        mRequest.setLatitude(String.valueOf(mlocation.latitude));
-        mRequest.setLongitude(String.valueOf(mlocation.longitude));
-        mRequest.setEkl_customer(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.USER_ID, ""));
-        mRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
-        tripActivityPresenter.getRecommendedPlaces(mRequest);
+        CommonUtils.setDriversOnMap(status, map);
+
     }
 
     @Override
@@ -331,7 +338,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         MapPopularLocationsRecyclerAdapter adapter = new MapPopularLocationsRecyclerAdapter(modalArrayList, this, new PopularLocationsCallBack() {
             @Override
             public void onItemClick(View v, String address) {
-                if (isClicked) {
+                if (isPickUpClick) {
                     etxPickUp.setText(address);
                 } else {
                     etxDropDown.setText(address);
@@ -407,11 +414,48 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     }
 
+    void initializeMap() {
+        mapFragment.init(new OnEngineInitListener() {
+            @Override
+            public void onEngineInitializationCompleted(OnEngineInitListener.Error error) {
+
+                if (error == OnEngineInitListener.Error.NONE) {
+                    map = mapFragment.getMap();
+                    try {
+                        map.setZoomLevel(14.60);
+                    } catch (Exception e) {
+                        Log.e("HERE", e.getMessage());
+                    }
+                } else {
+                    Log.e("error", "Cannot initialize SupportMapFragment (" + error + ")");
+                }
+            }
+        });
+    }
+
+    @OnClick(R.id.btn_map_source)
+    public void onSourceBtnClick() {
+        etxPickUp.setText(result2);
+        btn_map_source.setVisibility(View.GONE);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SOURCE_SELECT && resultCode == RESULT_OK) {
+            String result = data.getStringExtra(AppConstants.SELECT_LONGITUDE);
+            String result1 = data.getStringExtra(AppConstants.SELECT_LATITUDE);
+            result2 = data.getStringExtra(AppConstants.ADDRESS);
+            if (!etxPickUp.getText().toString().isEmpty()) {
+                btn_map_source.setVisibility(View.VISIBLE);
+            }
+            ToastUtils.shortToast("souce " + result + " " + result1 + " " + result2);
+        } else if (requestCode == DESTINATION_SELECT && resultCode == RESULT_OK) {
+            ToastUtils.shortToast("DESSTIMN");
 
+        }
     }
+
 
     @Override
     public void onCancelReasonDialogClick() {

@@ -195,7 +195,6 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     public void logout() {
         showSessionAlert();
-        // consumeLogoutService();
     }
 
     public void showLogoutAlert() {
