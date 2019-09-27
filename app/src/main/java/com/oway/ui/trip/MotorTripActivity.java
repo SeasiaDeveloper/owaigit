@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.common.Image;
+import com.here.android.mpa.common.OnEngineInitListener;
 import com.here.android.mpa.mapping.Map;
 import com.here.android.mpa.mapping.MapMarker;
 import com.here.android.mpa.mapping.SupportMapFragment;
@@ -55,11 +56,7 @@ import butterknife.OnTouch;
 import retrofit2.Response;
 
 public class MotorTripActivity extends BaseActivity implements Location.OnLocationChangeListener, Location.OnLocationSatiListener, CancelButtonClick, DriverProfileDialog, TripActivityView {
-    private static final String LOG_TAG = MotorTripActivity.class.getSimpleName();
     private boolean isClicked = true;
-    private Double[] lat = {23.52437, 12.5444, 67.564656, 78.456456, 54.547646};
-    private Double[] longitude = {45.76767, 78.65, 77.56656, 76.567, 56.756567};
-    private String[] addresses = {"ZBXhb", "ndcjsv", "dsvbvffbfv", "dvbhdfvb", "sddsvc"};
     private ArrayList<PopularLocationsModal> modalArrayList = new ArrayList<PopularLocationsModal>();
     private LatLng latLngStart;
     private Map map = null;
@@ -224,6 +221,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         startLocationUpdates();
         getActivityComponent().inject(this);
         tripActivityPresenter.onAttach(MotorTripActivity.this);
+        mapFragment = getSupportMapFragment();
+        initializeMap();
     }
 
     private void getNearByDriver() {
@@ -238,13 +237,9 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @Override
     public void onLocationChanged(LatLng location) {
-        // setCurrentLocation(location);
         mlocation = location;
-
-        mapFragment = getSupportMapFragment();
-        CommonUtils.setCurrentLocation(mapFragment, location);
+       // CommonUtils.setCurrentLocation(mapFragment, location);
         tripActivityPresenter.getLocationDetails(mlocation.latitude + "," + mlocation.longitude, getResources().getString(R.string.google_key));
-
         //getNearByDriver();
     }
 
@@ -257,17 +252,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @Override
     public void onLocationSatisfied() {
 
-    }
-
-    void setCurrentLocation(LatLng location) {
-        try {
-            Image image = new Image();
-            image.setImageResource(R.drawable.currentlocation);
-            MapMarker customMarker = new MapMarker(new GeoCoordinate(location.latitude, location.longitude, 0.0), image);
-            map.addMapObject(customMarker);
-        } catch (Exception e) {
-            Log.e("HERE", e.getMessage());
-        }
     }
 
     @Override
@@ -374,5 +358,24 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @Override
     public void onGetNearestDriverFailure(String response) {
 
+    }
+    void initializeMap()
+    {
+        mapFragment.init(new OnEngineInitListener() {
+            @Override
+            public void onEngineInitializationCompleted(OnEngineInitListener.Error error) {
+
+                if (error == OnEngineInitListener.Error.NONE) {
+                    map = mapFragment.getMap();
+                    try {
+                        map.setZoomLevel(14.60);
+                    } catch (Exception e) {
+                        Log.e("HERE", e.getMessage());
+                    }
+                } else {
+                    Log.e("error", "Cannot initialize SupportMapFragment (" + error + ")");
+                }
+            }
+        });
     }
 }

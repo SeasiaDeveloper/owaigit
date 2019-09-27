@@ -1,6 +1,7 @@
 package com.oway.ui.home.dashboard;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +19,11 @@ import com.oway.base.BaseFragment;
 import com.oway.callbacks.DashbordRecyclerItemclick;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.DashboardGridItemsModal;
-import com.oway.ui.home.MainActivity;
 import com.oway.ui.trip.MotorTripActivity;
 import com.oway.utillis.AppConstants;
-import com.oway.utillis.ConstsCore;
 import com.oway.utillis.GlideImageLoader;
 import com.yyydjk.library.BannerLayout;
-import android.content.Intent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,11 +59,11 @@ public class DashBoardFragment extends BaseFragment {
         DashboardRecyclerAdapter adapter = new DashboardRecyclerAdapter(gridItemList, getContext(), new DashbordRecyclerItemclick() {
             @Override
             public void onItemClick(View v, int position) {
-               // if(position==0){
-                    PreferenceHandler.writeString(getActivity(), AppConstants.SELECTION_GRID,String.valueOf(position+1));
-                    Intent intent=new Intent(getActivity(), MotorTripActivity.class);
-                    startActivity(intent);
-              //  }
+                // if(position==0){
+                PreferenceHandler.writeString(getActivity(), AppConstants.SELECTION_GRID, String.valueOf(position + 1));
+                Intent intent = new Intent(getActivity(), MotorTripActivity.class);
+                startActivity(intent);
+                //  }
             }
         });
         recyclerView.setAdapter(adapter);

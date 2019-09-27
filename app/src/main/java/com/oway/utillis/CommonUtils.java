@@ -502,35 +502,19 @@ public final class CommonUtils {
         dialog.show();
     }
 
-    public static void setCurrentLocation(SupportMapFragment mapFragment, LatLng location) {
+    public static void initializeMap(SupportMapFragment mapFragment, LatLng location) {
         mapFragment.init(new OnEngineInitListener() {
             @Override
             public void onEngineInitializationCompleted(OnEngineInitListener.Error error) {
 
                 if (error == OnEngineInitListener.Error.NONE) {
                     map = mapFragment.getMap();
-                    // map.setCenter(new GeoCoordinate(location.latitude, location.longitude, 22.0d), Map.Animation.LINEAR);
                     try {
-                        Image image = new Image();
-                        image.setImageResource(R.drawable.currentlocation);
-                        MapMarker customMarker = new MapMarker(new GeoCoordinate(location.latitude, location.longitude), image);
-                        customMarker.setDescription("Current Location");
-                        map.addMapObject(customMarker);
-                        //map.setZoomLevel(40.0);
+                        map.setZoomLevel(40.0);
                     } catch (Exception e) {
                         Log.e("HERE", e.getMessage());
                     }
-                    PositioningManager positioningManager = PositioningManager.getInstance();
-                    positioningManager.start(PositioningManager.LocationMethod.GPS_NETWORK);
-                    // GeoPosition position = positioningManager.getPosition();
-//                    GeoCoordinate coordinate = position.getCoordinate();
-                    double maxZoom = map.getMaxZoomLevel();
-                    double minZoom = map.getMinZoomLevel();
-
-                    // Set the zoom level to the median (10)
-                    map.setZoomLevel((maxZoom + minZoom) / 2);
-                    //map.setCenter(new GeoCoordinate(49.0,-123.0, 17.0);
-                    //map.getPositionIndicator().setVisible(true);
+                    map.setZoomLevel(14.60);
                 } else {
                     Log.e("error", "Cannot initialize SupportMapFragment (" + error + ")");
                 }
