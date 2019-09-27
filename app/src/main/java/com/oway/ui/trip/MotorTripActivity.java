@@ -27,10 +27,16 @@ import com.oway.callbacks.DriverProfileDialog;
 import com.oway.callbacks.PopularLocationsCallBack;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.PopularLocationsModal;
+import com.oway.model.request.CustomerTransactionRequest;
+import com.oway.model.request.GetEstimateBikeRequest;
 import com.oway.model.request.GetNearestDriverRequest;
 import com.oway.model.request.GetRecommendedPlacesRequest;
+import com.oway.model.request.SendDriverRequest;
+import com.oway.model.response.CustomerTransactionResponse;
+import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
 import com.oway.model.response.GetRecommendedPlacesResponse;
+import com.oway.model.response.LocationDetailsResponse;
 import com.oway.ui.home.MainActivity;
 import com.oway.utillis.AppConstants;
 import com.oway.utillis.CommonUtils;
@@ -38,6 +44,7 @@ import com.oway.utillis.Location;
 import com.oway.utillis.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -45,6 +52,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
+import retrofit2.Response;
 
 public class MotorTripActivity extends BaseActivity implements Location.OnLocationChangeListener, Location.OnLocationSatiListener, CancelButtonClick, DriverProfileDialog, TripActivityView {
     private static final String LOG_TAG = MotorTripActivity.class.getSimpleName();
@@ -53,13 +61,14 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     private Double[] longitude = {45.76767, 78.65, 77.56656, 76.567, 56.756567};
     private String[] addresses = {"ZBXhb", "ndcjsv", "dsvbvffbfv", "dvbhdfvb", "sddsvc"};
     private ArrayList<PopularLocationsModal> modalArrayList = new ArrayList<PopularLocationsModal>();
-
+    private LatLng latLngStart;
     private Map map = null;
     private SupportMapFragment mapFragment = null;
     private BottomSheetBehavior sheetBehavior;
     private Location location;
     private CancelButtonClick cancelButtonClick;
     private DriverProfileDialog profileDialog;
+    private List<LocationDetailsResponse.ResultsBean.AddressComponentsBean> localityName;
     @BindView(R.id.popular_location)
     RecyclerView recyclerView;
     @BindView(R.id.etxPickUp)
@@ -125,7 +134,11 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @OnClick(R.id.btn_map_next)
     public void onClickNextOnMap() {
-        CommonUtils.showCancelRideDialog(this, profileDialog);
+        GetEstimateBikeRequest mRequest = new GetEstimateBikeRequest();
+        mRequest.setDistance("2");
+        mRequest.setId_fitur(PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, ""));
+        mRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
+        tripActivityPresenter.getEstimatePriceBike(mRequest);
     }
 
     @Override
@@ -133,11 +146,30 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     }
 
     @Override
-    public void onOrderClick() {
+    public void onOrderClick(String price, String selection) {
         layoutPopularLocations.setVisibility(View.GONE);
         layoutSourceDestination.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
         layoutPleaseWaitForRide.setVisibility(View.VISIBLE);
+
+        CustomerTransactionRequest mRequet = new CustomerTransactionRequest();
+        mRequet.setEkl_customer(PreferenceHandler.readString(this, AppConstants.USER_ID, ""));
+        mRequet.setOrder_fitur(PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, ""));
+        mRequet.setStart_latitude(Double.parseDouble("-7.5453971"));
+        mRequet.setStart_longitude(Double.parseDouble("112.2417105"));
+        mRequet.setEnd_latitude(Double.parseDouble("7.0707256907261"));
+        mRequet.setEnd_longitude(Double.parseDouble("112.37143334001"));
+        mRequet.setDistance("1");
+        mRequet.setPrice(price);
+        mRequet.setOrder_time(CommonUtils.getCurrentDateTime());
+        mRequet.setPickup_address("lamongan");
+        mRequet.setDestination_address("turi");
+        mRequet.setFinal_price(price);
+        mRequet.setUse_balance(selection);
+        mRequet.setSeat(0);
+        mRequet.setAccess_token(PreferenceHandler.readString(this, AppConstants.MBR_TOKEN, ""));
+        tripActivityPresenter.getCustomerRequestTransaction(mRequet);
+
     }
 
     @OnClick(R.id.back_motor)
@@ -198,7 +230,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         GetNearestDriverRequest nearRequest = new GetNearestDriverRequest();
         nearRequest.setLatitude(String.valueOf(mlocation.latitude));
         nearRequest.setLongitude(String.valueOf(mlocation.longitude));
-        nearRequest.setOrder_feature("1");
+        nearRequest.setOrder_feature(PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, ""));
         nearRequest.setEkl_customer(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.USER_ID, ""));
         nearRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
         tripActivityPresenter.getNearestDriver(nearRequest);
@@ -208,9 +240,12 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     public void onLocationChanged(LatLng location) {
         // setCurrentLocation(location);
         mlocation = location;
+
         mapFragment = getSupportMapFragment();
         CommonUtils.setCurrentLocation(mapFragment, location);
-        getNearByDriver();
+        tripActivityPresenter.getLocationDetails(mlocation.latitude + "," + mlocation.longitude, getResources().getString(R.string.google_key));
+
+        //getNearByDriver();
     }
 
     void startLocationUpdates() {
@@ -274,8 +309,70 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         });
         recyclerView.setAdapter(adapter);
     }
+
     @Override
     public void onGetRecommendedPlacesFailure(String response) {
+
+    }
+
+    @Override
+    public void onGetAddressSuccess(Response<LocationDetailsResponse> response) {
+        try {
+            if (response != null) {
+                StringBuilder localityAddress = new StringBuilder();
+                localityName = response.body().getResults().get(1).getAddress_components();
+                localityAddress.append(localityName.get(1).getLong_name()).append(", ");
+                for (int i = 0; i < localityName.size(); i++) {
+                    if (localityName.get(i).getTypes().contains("locality")) {
+                        localityAddress.append(localityName.get(i).getShort_name());
+                    }
+                }
+                latLngStart = location.getLocation();
+                // latlongs.add(latLngStart);
+                etxPickUp.setText(localityAddress);
+            }
+        } catch (Exception e) {
+            Log.e("null", "null");
+            e.getStackTrace();
+        }
+    }
+
+    @Override
+    public void onGetAddressFailure(String msg) {
+
+    }
+
+    @Override
+    public void onGetBikePriceSuccess(GetEstimateBikeResponse response) {
+        CommonUtils.showCancelRideDialog(this, profileDialog, response);
+    }
+
+    @Override
+    public void onGetBikePriceFailure(String response) {
+        ToastUtils.shortToast(response);
+    }
+
+    @Override
+    public void onGetCustomerTransactionSuccess(CustomerTransactionResponse response) {
+        ToastUtils.shortToast(response.getErrNumber());
+        SendDriverRequest mRequest = new SendDriverRequest();
+        mRequest.setAccess_token(PreferenceHandler.readString(this, AppConstants.MBR_TOKEN, ""));
+        mRequest.setId_transaksi(String.valueOf(response.getTransaksi().getId()));
+        tripActivityPresenter.getDriverRequest(mRequest);
+    }
+
+    @Override
+    public void onGetCustomerTransactionFailure(String response) {
+
+    }
+
+    @Override
+    public void onGetNearestDriverSuccess(GetNearestDriverResponse response) {
+        ToastUtils.shortToast(response.getRespMessage());
+    }
+
+    @Override
+    public void onGetNearestDriverFailure(String response) {
 
     }
 }

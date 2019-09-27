@@ -16,9 +16,12 @@ import com.oway.R;
 import com.oway.adapters.DashboardRecyclerAdapter;
 import com.oway.base.BaseFragment;
 import com.oway.callbacks.DashbordRecyclerItemclick;
+import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.DashboardGridItemsModal;
 import com.oway.ui.home.MainActivity;
 import com.oway.ui.trip.MotorTripActivity;
+import com.oway.utillis.AppConstants;
+import com.oway.utillis.ConstsCore;
 import com.oway.utillis.GlideImageLoader;
 import com.yyydjk.library.BannerLayout;
 import android.content.Intent;
@@ -57,16 +60,14 @@ public class DashBoardFragment extends BaseFragment {
         DashboardRecyclerAdapter adapter = new DashboardRecyclerAdapter(gridItemList, getContext(), new DashbordRecyclerItemclick() {
             @Override
             public void onItemClick(View v, int position) {
-                if(position==0){
+               // if(position==0){
+                    PreferenceHandler.writeString(getActivity(), AppConstants.SELECTION_GRID,String.valueOf(position+1));
                     Intent intent=new Intent(getActivity(), MotorTripActivity.class);
                     startActivity(intent);
-                }
+              //  }
             }
         });
         recyclerView.setAdapter(adapter);
-
-
-
 
         imageUrls = new ArrayList<String>();
         imageUrls.add("https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/ironman-spiderman-homecoming-poster-frontpage-700x354.jpg");

@@ -10,6 +10,11 @@ import com.oway.base.BaseActivity;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.ui.home.MainActivity;
 import com.oway.utillis.AppConstants;
+import com.oway.utillis.Logger;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.inject.Inject;
 
@@ -31,6 +36,8 @@ public class Splash extends BaseActivity {
             @Override
             public void run() {
                 if (PreferenceHandler.readString(Splash.this, AppConstants.USER_ID, "").isEmpty()) {
+
+                 // MainActivity.start(Splash.this);
                     Intent i = new Intent(Splash.this,
                             Tutorial.class);
                     startActivity(i);
