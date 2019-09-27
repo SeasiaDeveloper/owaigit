@@ -50,13 +50,13 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
         longitude = intent.getDoubleExtra(AppConstants.LONGITUDE, 0);
         etxPlaces.setThreshold(3);
 
-      /*  Intent resultIntent = new Intent();
+     /*   Intent resultIntent = new Intent();
         resultIntent.putExtra(AppConstants.ADDRESS, "resultValue");
         resultIntent.putExtra(AppConstants.SELECT_LATITUDE, "878");
         resultIntent.putExtra(AppConstants.SELECT_LONGITUDE, "76");
         setResult(RESULT_OK, resultIntent);
-        finish();*/
-
+        finish();
+*/
         etxPlaces.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

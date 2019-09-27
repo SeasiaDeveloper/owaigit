@@ -340,19 +340,20 @@ public class GetRecommendedPlacesResponse {
         }
 
         public static class DistanceBean {
+            public double getValue() {
+                return value;
+            }
+
+            public void setValue(double value) {
+                this.value = value;
+            }
+
             /**
              * value : 22
              */
 
-            private int value;
+            private double value;
 
-            public int getValue() {
-                return value;
-            }
-
-            public void setValue(int value) {
-                this.value = value;
-            }
         }
 
         public static class PhotosBean {

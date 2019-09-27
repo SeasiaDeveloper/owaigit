@@ -1,6 +1,7 @@
 package com.oway.ui.trip;
 
 import android.content.Intent;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.here.android.mpa.common.OnEngineInitListener;
+import com.here.android.mpa.common.ViewObject;
 import com.here.android.mpa.mapping.Map;
+import com.here.android.mpa.mapping.MapGesture;
 import com.here.android.mpa.mapping.SupportMapFragment;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.oway.R;
@@ -43,6 +46,7 @@ import com.oway.utillis.AppConstants;
 import com.oway.utillis.CommonUtils;
 import com.oway.utillis.Location;
 import com.oway.utillis.ToastUtils;
+import com.oway.utillis.ValidationUtils;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -69,7 +73,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     private List<LocationDetailsResponse.ResultsBean.AddressComponentsBean> localityName;
     private final int SOURCE_SELECT = 100;
     private final int DESTINATION_SELECT = 101;
-
+    private boolean isValid;
     @BindView(R.id.popular_location)
     RecyclerView recyclerView;
     @BindView(R.id.etxPickUp)
@@ -101,6 +105,9 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @Inject
     TripActivityPresenter<TripActivityView> tripActivityPresenter;
+
+    @Inject
+    ValidationUtils validationUtils;
 
 
     @OnClick(R.id.btn_cancel_ride)
@@ -148,11 +155,14 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @OnClick(R.id.btn_map_next)
     public void onClickNextOnMap() {
-        GetEstimateBikeRequest mRequest = new GetEstimateBikeRequest();
-        mRequest.setDistance("2");
-        mRequest.setId_fitur(PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, ""));
-        mRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
-        tripActivityPresenter.getEstimatePriceBike(mRequest);
+        isValid = validationUtils.checkPickAndDestination(etxPickUp, etxDropDown);
+        if (isValid) {
+            GetEstimateBikeRequest mRequest = new GetEstimateBikeRequest();
+            mRequest.setDistance("2");
+            mRequest.setId_fitur(PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, ""));
+            mRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
+            tripActivityPresenter.getEstimatePriceBike(mRequest);
+        }
     }
 
     @Override
@@ -403,12 +413,14 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     }
 
     void initializeMap() {
+
         mapFragment.init(new OnEngineInitListener() {
             @Override
             public void onEngineInitializationCompleted(OnEngineInitListener.Error error) {
 
                 if (error == OnEngineInitListener.Error.NONE) {
                     map = mapFragment.getMap();
+                    mapFragment.getMapGesture().addOnGestureListener(new MyOnGestureListener());
                     try {
                         map.setZoomLevel(14.60);
                     } catch (Exception e) {
@@ -428,9 +440,109 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
             String result = data.getStringExtra(AppConstants.SELECT_LONGITUDE);
             String result1 = data.getStringExtra(AppConstants.SELECT_LATITUDE);
             String result2 = data.getStringExtra(AppConstants.ADDRESS);
-            ToastUtils.shortToast("souce "+result+" "+result1+" "+result2);
+            ToastUtils.shortToast("souce " + result + " " + result1 + " " + result2);
         } else if (requestCode == DESTINATION_SELECT && resultCode == RESULT_OK) {
             ToastUtils.shortToast("DESSTIMN");
+        }
+    }
+
+    private class MyOnGestureListener implements MapGesture.OnGestureListener {
+
+        @Override
+        public void onPanStart() {
+            ToastUtils.shortToast("sdsd");
+        }
+
+        @Override
+        public void onPanEnd() {
+            ToastUtils.shortToast("sdsdgg");
+
+        }
+
+        @Override
+        public void onMultiFingerManipulationStart() {
+            ToastUtils.shortToast("sdsdghg");
+
+        }
+
+        @Override
+        public void onMultiFingerManipulationEnd() {
+            ToastUtils.shortToast("sdsyyd");
+
+        }
+
+        @Override
+        public boolean onMapObjectsSelected(List<ViewObject> objects) {
+            ToastUtils.shortToast("sdsdhh");
+
+            return false;
+        }
+
+        @Override
+        public boolean onTapEvent(PointF p) {
+            ToastUtils.shortToast("sfgfgdsd");
+
+            return false;
+        }
+
+        @Override
+        public boolean onDoubleTapEvent(PointF p) {
+            ToastUtils.shortToast("sdghghgsd");
+
+            return false;
+        }
+
+        @Override
+        public void onPinchLocked() {
+            ToastUtils.shortToast("sghghdsd");
+
+        }
+
+        @Override
+        public boolean onPinchZoomEvent(float scaleFactor, PointF p) {
+            ToastUtils.shortToast("sdsghgd");
+
+            return false;
+        }
+
+        @Override
+        public void onRotateLocked() {
+            ToastUtils.shortToast("sdfgfgfsd");
+
+        }
+
+        @Override
+        public boolean onRotateEvent(float rotateAngle) {
+            ToastUtils.shortToast("sdsdttt");
+
+            return false;
+        }
+
+        @Override
+        public boolean onTiltEvent(float angle) {
+            ToastUtils.shortToast("sdghgsd");
+
+            return false;
+        }
+
+        @Override
+        public boolean onLongPressEvent(PointF p) {
+            ToastUtils.shortToast("sdsyuyud");
+
+            return false;
+        }
+
+        @Override
+        public void onLongPressRelease() {
+            ToastUtils.shortToast("sdsdtyty");
+
+        }
+
+        @Override
+        public boolean onTwoFingerTapEvent(PointF p) {
+            ToastUtils.shortToast("sdsdhhh");
+
+            return false;
         }
     }
 }

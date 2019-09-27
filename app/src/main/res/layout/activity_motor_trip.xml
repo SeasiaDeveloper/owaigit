@@ -451,8 +451,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@color/col_orange"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/confirm"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/_15sdp" />
 
@@ -486,7 +487,8 @@
                 android:layout_gravity="center"
                 android:background="@color/col_orange"
                 android:text="@string/confirm"
-                android:visibility="visible"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/_15sdp" />
         </LinearLayout>
@@ -498,10 +500,7 @@
             android:layout_gravity="center"
             android:background="@color/col_orange"
             android:text="@string/next"
-            android:visibility="gone"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_15sdp" />
     </LinearLayout>
-
-
 </RelativeLayout>
