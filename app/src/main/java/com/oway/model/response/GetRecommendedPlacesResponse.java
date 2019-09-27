@@ -1,5 +1,7 @@
 package com.oway.model.response;
 
+import org.locationtech.jts.algorithm.Distance;
+
 import java.util.List;
 
 public class GetRecommendedPlacesResponse {
@@ -54,6 +56,15 @@ public class GetRecommendedPlacesResponse {
         private String created_at;
         private List<PhotosBean> photos;
         private List<String> types;
+        private Distance distance;
+
+        public Distance getDistance() {
+            return distance;
+        }
+
+        public void setDistance(Distance distance) {
+            this.distance = distance;
+        }
 
         public String get_id() {
             return _id;
@@ -158,6 +169,8 @@ public class GetRecommendedPlacesResponse {
         public void setTypes(List<String> types) {
             this.types = types;
         }
+
+
 
         public static class GeometryBean {
             /**
@@ -360,5 +373,27 @@ public class GetRecommendedPlacesResponse {
                 this.html_attributions = html_attributions;
             }
         }
+        public class Distance
+        {
+            private String value;
+
+            public String getValue ()
+            {
+                return value;
+            }
+
+            public void setValue (String value)
+            {
+                this.value = value;
+            }
+
+            @Override
+            public String toString()
+            {
+                return "ClassPojo [value = "+value+"]";
+            }
+        }
     }
+
+
 }

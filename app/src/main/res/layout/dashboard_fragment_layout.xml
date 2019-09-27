@@ -111,11 +111,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textColor="#9E0F94"
+                        android:id="@+id/tv_main_balance"
+                        android:textColor="@color/dashboard_saldo_colour"
                         android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginLeft="@dimen/_20sdp"
                         android:layout_weight="2.4"
-                        android:text="@string/dashboard"
+                        android:hint="@string/dashboard"
                         android:textSize="@dimen/_13sdp" />
 
                     <ImageView
@@ -144,7 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/dashboard_text"
+                    android:id="@+id/tv_bonus_balance"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:layout_marginStart="@dimen/_14sdp"

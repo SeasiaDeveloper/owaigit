@@ -12,6 +12,7 @@ import com.oway.ui.login.WelcomeScreenActivity;
 import com.oway.ui.registration.Registration;
 import com.oway.ui.registration.RegistrationViewThree;
 import com.oway.ui.trip.MotorTripActivity;
+import com.oway.ui.trip.SearchPlaces;
 
 import dagger.Component;
 
@@ -36,5 +37,6 @@ public interface ActivityComponent {
     void inject(Registration register);
 
     void inject(MotorTripActivity motorTripActivity);
+    void inject(SearchPlaces searchPlaces);
 
 }

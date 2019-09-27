@@ -5,6 +5,8 @@ import com.oway.model.request.CustomerTransactionRequest;
 import com.oway.model.request.GetEstimateBikeRequest;
 import com.oway.model.request.GetNearestDriverRequest;
 import com.oway.model.request.GetRecommendedPlacesRequest;
+import com.oway.model.request.GetSaldoRequest;
+import com.oway.model.request.GetSearchPlacesRequest;
 import com.oway.model.request.LoginRequest;
 import com.oway.model.request.RegisterRequest;
 import com.oway.model.request.SendDriverRequest;
@@ -13,6 +15,7 @@ import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
 import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.model.response.LocationDetailsResponse;
+import com.oway.model.response.GetSaldoResponse;
 import com.oway.model.response.LoginResponse;
 import com.oway.model.response.RegisterResponse;
 
@@ -84,6 +87,10 @@ public class ApiService {
         return apiService.login(loginRequest);
     }
 
+    public Call<GetSaldoResponse> getSaldo(GetSaldoRequest saldoRequest) {
+        return apiService.getSaldoRequest(saldoRequest);
+    }
+
     public Call<GetNearestDriverResponse> getNearestDriver(GetNearestDriverRequest nearestDriverRequest) {
         return apiService.getNearestDriver(nearestDriverRequest);
     }
@@ -94,6 +101,9 @@ public class ApiService {
 
     public Call<GetRecommendedPlacesResponse> getRecommendedPlaces(GetRecommendedPlacesRequest placeRequest) {
         return apiService.getResommendedRequest(placeRequest);
+    }
+    public Call<GetRecommendedPlacesResponse> getSearchPlaces(GetSearchPlacesRequest placeRequest) {
+        return apiService.getSearchPlacesRequest(placeRequest);
     }
 
     public Call<GetEstimateBikeResponse> getEstimateBikePrice(GetEstimateBikeRequest priceRequest) {
@@ -135,6 +145,11 @@ public class ApiService {
 
         @GET("https://maps.googleapis.com/maps/api/geocode/json")
         Call<LocationDetailsResponse> getLocationDetails(@Query("latlng") String latlng, @Query("key") String key);
+        @POST("/api/customer/getsaldo")
+        Call<GetSaldoResponse> getSaldoRequest(@Body GetSaldoRequest saldoRequest);
+
+        @POST("/api/customer/nearbysearch")
+        Call<GetRecommendedPlacesResponse> getSearchPlacesRequest(@Body GetSearchPlacesRequest placeRequest);
     }
 }
 

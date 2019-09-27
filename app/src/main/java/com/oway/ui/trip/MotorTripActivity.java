@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -83,14 +84,15 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @BindView(R.id.ll_please_wait)
     LinearLayout layoutPleaseWaitForRide;
     @BindView(R.id.ll_below_float_btn)
-    LinearLayout layoutBelowFloatButton;
+    RelativeLayout layoutBelowFloatButton;
     @BindView(R.id.ll_bottom_sheet_view)
     RelativeLayout layoutBottomSheet;
     @BindView(R.id.ll_driver_riding_to_you)
-    LinearLayout layoutDriverRidingToYou;
+    RelativeLayout layoutDriverRidingToYou;
 
     @Inject
     TripActivityPresenter<TripActivityView> tripActivityPresenter;
+
 
     @OnClick(R.id.btn_cancel_ride)
     public void onCancelRideClick() {
@@ -129,6 +131,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         layoutDriverRidingToYou.setVisibility(View.VISIBLE);
     }
 
+
     @OnClick(R.id.btn_map_next)
     public void onClickNextOnMap() {
         GetEstimateBikeRequest mRequest = new GetEstimateBikeRequest();
@@ -140,6 +143,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @Override
     public void onCancelOrderClick() {
+
     }
 
     @Override
@@ -167,6 +171,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         mRequet.setAccess_token(PreferenceHandler.readString(this, AppConstants.MBR_TOKEN, ""));
         tripActivityPresenter.getCustomerRequestTransaction(mRequet);
 
+
     }
 
     @OnClick(R.id.back_motor)
@@ -178,20 +183,32 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @OnClick(R.id.civ_search)
     public void onSearchClick() {
-        Intent intent = new Intent(MotorTripActivity.this, SearchPlaces.class);
+        Intent intent = new Intent(this, SearchPlaces.class);
+        intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
+        intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
         startActivity(intent);
+
     }
+
 
     @OnTouch(R.id.etxPickUp)
     public void onPicUpTouch() {
         etxPickUp.requestFocus();  //keep focus on the EditText(redTime)
         isClicked = true;
+        Intent intent =new Intent(MotorTripActivity.this,SearchPlaces.class);
+        intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
+        intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
+        startActivityForResult(intent,AppConstants.REQUEST_CODE_PICK);
     }
 
     @OnTouch(R.id.etxDropDown)
     public void onDropDown() {
         etxDropDown.requestFocus();  //keep focus on the EditText(redTime)
         isClicked = false;
+        Intent intent =new Intent(MotorTripActivity.this,SearchPlaces.class);
+        intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
+        intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
+        startActivityForResult(intent,AppConstants.REQUEST_CODE_DROP);
     }
 
     @Override
@@ -204,6 +221,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         sheetBehavior.setPeekHeight(0);
         cancelButtonClick = this;
         profileDialog = this;
+
 
     }
 
@@ -223,7 +241,12 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         tripActivityPresenter.onAttach(MotorTripActivity.this);
         mapFragment = getSupportMapFragment();
         initializeMap();
+
     }
+
+
+
+
 
     private void getNearByDriver() {
         GetNearestDriverRequest nearRequest = new GetNearestDriverRequest();
@@ -377,5 +400,11 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 }
