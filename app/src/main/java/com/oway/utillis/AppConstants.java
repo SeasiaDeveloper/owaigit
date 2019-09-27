@@ -34,6 +34,12 @@ public final class AppConstants {
     public static final String PICK_UP="Pick_status";
     public static final String DROP_DOWN="Drop_status";
 
+    public static final String LATITUDE="latitude";
+    public static final String LONGITUDE="longitude";
+
+    public static final int REQUEST_CODE_PICK=1001;
+    public static final int REQUEST_CODE_DROP=1002;
+
 
     private AppConstants() {
         // This utility class is not publicly instantiable

@@ -16,10 +16,11 @@
         android:layout_marginStart="@dimen/_5sdp"
         android:layout_marginLeft="@dimen/_5sdp">
 
-
         <TextView
             android:id="@+id/tvxItemLocation"
-            android:layout_width="@dimen/_100sdp"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/_30sdp"
             android:layout_gravity="center"
             android:background="@drawable/map_popular_locations"

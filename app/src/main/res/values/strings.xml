@@ -129,5 +129,7 @@
 
     <!--Login -->
     <string name="logged_in">Login Successfully</string>
+    <string name="search">Search Location</string>
+    <string name="confirm">CONFIRM</string>
 
 </resources>

@@ -1,69 +1,65 @@
 package com.oway.ui.trip;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.here.android.mpa.common.GeoCoordinate;
-import com.here.android.mpa.common.OnEngineInitListener;
-import com.here.android.mpa.common.PositioningManager;
+import com.here.android.mpa.common.Image;
 import com.here.android.mpa.mapping.Map;
+import com.here.android.mpa.mapping.MapMarker;
 import com.here.android.mpa.mapping.SupportMapFragment;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.oway.R;
 import com.oway.adapters.MapPopularLocationsRecyclerAdapter;
 import com.oway.base.BaseActivity;
+import com.oway.callbacks.CancelButtonClick;
 import com.oway.callbacks.DriverProfileDialog;
 import com.oway.callbacks.PopularLocationsCallBack;
-import com.oway.callbacks.cancelButtonClick;
+import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.PopularLocationsModal;
+import com.oway.model.request.GetNearestDriverRequest;
+import com.oway.model.request.GetRecommendedPlacesRequest;
+import com.oway.model.response.GetNearestDriverResponse;
+import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.ui.home.MainActivity;
+import com.oway.utillis.AppConstants;
 import com.oway.utillis.CommonUtils;
+import com.oway.utillis.Location;
 import com.oway.utillis.ToastUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
-public class MotorTripActivity extends BaseActivity implements cancelButtonClick, DriverProfileDialog {
+public class MotorTripActivity extends BaseActivity implements Location.OnLocationChangeListener, Location.OnLocationSatiListener, CancelButtonClick, DriverProfileDialog, TripActivityView {
     private static final String LOG_TAG = MotorTripActivity.class.getSimpleName();
     private boolean isClicked = true;
-    private final static int REQUEST_CODE_ASK_PERMISSIONS = 1;
     private Double[] lat = {23.52437, 12.5444, 67.564656, 78.456456, 54.547646};
     private Double[] longitude = {45.76767, 78.65, 77.56656, 76.567, 56.756567};
     private String[] addresses = {"ZBXhb", "ndcjsv", "dsvbvffbfv", "dvbhdfvb", "sddsvc"};
     private ArrayList<PopularLocationsModal> modalArrayList = new ArrayList<PopularLocationsModal>();
 
-    private static final String[] REQUIRED_SDK_PERMISSIONS = new String[]{
-            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private Map map = null;
     private SupportMapFragment mapFragment = null;
-    BottomSheetBehavior sheetBehavior;
-    private cancelButtonClick cancelButtonClick;
+    private BottomSheetBehavior sheetBehavior;
+    private Location location;
+    private CancelButtonClick cancelButtonClick;
     private DriverProfileDialog profileDialog;
     @BindView(R.id.popular_location)
     RecyclerView recyclerView;
@@ -88,11 +84,16 @@ public class MotorTripActivity extends BaseActivity implements cancelButtonClick
     @BindView(R.id.ll_driver_riding_to_you)
     RelativeLayout layoutDriverRidingToYou;
 
+    @Inject
+    TripActivityPresenter<TripActivityView> tripActivityPresenter;
+
 
     @OnClick(R.id.btn_cancel_ride)
     public void onCancelRideClick() {
         CommonUtils.showRideDialog(this);
     }
+
+    private LatLng mlocation;
 
     @OnClick(R.id.btn_float)
     public void onFloatButtonClick() {
@@ -120,9 +121,10 @@ public class MotorTripActivity extends BaseActivity implements cancelButtonClick
         layoutPopularLocations.setVisibility(View.GONE);
         layoutSourceDestination.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
-       layoutBottomSheet.setVisibility(View.VISIBLE);
+        layoutBottomSheet.setVisibility(View.VISIBLE);
         layoutDriverRidingToYou.setVisibility(View.VISIBLE);
-           }
+    }
+
 
     @OnClick(R.id.btn_map_next)
     public void onClickNextOnMap() {
@@ -148,50 +150,141 @@ public class MotorTripActivity extends BaseActivity implements cancelButtonClick
         Intent intent = new Intent(MotorTripActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
-
     }
 
     @OnClick(R.id.civ_search)
     public void onSearchClick() {
-        Intent intent = new Intent(MotorTripActivity.this, SearchPlaces.class);
+        Intent intent = new Intent(this, SearchPlaces.class);
+        intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
+        intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
         startActivity(intent);
+
     }
+
 
     @OnTouch(R.id.etxPickUp)
     public void onPicUpTouch() {
         etxPickUp.requestFocus();  //keep focus on the EditText(redTime)
         isClicked = true;
+        Intent intent =new Intent(MotorTripActivity.this,SearchPlaces.class);
+        intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
+        intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
+        startActivityForResult(intent,AppConstants.REQUEST_CODE_PICK);
     }
 
     @OnTouch(R.id.etxDropDown)
     public void onDropDown() {
         etxDropDown.requestFocus();  //keep focus on the EditText(redTime)
         isClicked = false;
+        Intent intent =new Intent(MotorTripActivity.this,SearchPlaces.class);
+        intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
+        intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
+        startActivityForResult(intent,AppConstants.REQUEST_CODE_DROP);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        checkPermissions();
-
+        initialize();
         View view = findViewById(R.id.include_sheets);
         sheetBehavior = BottomSheetBehavior.from(view);
         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         sheetBehavior.setPeekHeight(0);
+        cancelButtonClick = this;
+        profileDialog = this;
 
-        cancelButtonClick=this;
-        profileDialog=this;
 
-        for (int i = 0; i <= 4; i++) {
+    }
+
+    @Override
+    protected void setUp() {
+    }
+
+    private SupportMapFragment getSupportMapFragment() {
+        return (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapfragment);
+    }
+
+    private void initialize() {
+        setContentView(R.layout.activity_motor_trip);
+        ButterKnife.bind(this);
+        startLocationUpdates();
+        getActivityComponent().inject(this);
+        tripActivityPresenter.onAttach(MotorTripActivity.this);
+
+    }
+
+
+
+
+
+    private void getNearByDriver() {
+        GetNearestDriverRequest nearRequest = new GetNearestDriverRequest();
+        nearRequest.setLatitude(String.valueOf(mlocation.latitude));
+        nearRequest.setLongitude(String.valueOf(mlocation.longitude));
+        nearRequest.setOrder_feature("1");
+        nearRequest.setEkl_customer(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.USER_ID, ""));
+        nearRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
+        tripActivityPresenter.getNearestDriver(nearRequest);
+    }
+
+    @Override
+    public void onLocationChanged(LatLng location) {
+        // setCurrentLocation(location);
+        mlocation = location;
+
+        mapFragment = getSupportMapFragment();
+        CommonUtils.setCurrentLocation(mapFragment, location);
+        getNearByDriver();
+    }
+
+    void startLocationUpdates() {
+        location = new Location(this);
+        location.setup();
+        location.setOnLocationChangeListener(this, this);
+    }
+
+    @Override
+    public void onLocationSatisfied() {
+
+    }
+
+    void setCurrentLocation(LatLng location) {
+        try {
+            Image image = new Image();
+            image.setImageResource(R.drawable.currentlocation);
+            MapMarker customMarker = new MapMarker(new GeoCoordinate(location.latitude, location.longitude, 0.0), image);
+            map.addMapObject(customMarker);
+        } catch (Exception e) {
+            Log.e("HERE", e.getMessage());
+        }
+    }
+
+    @Override
+    public void onGetNearestDriverResponseSuccess(GetNearestDriverResponse status) {
+        ToastUtils.shortToast("Driver found");
+        CommonUtils.setDriversOnMap(status);
+        GetRecommendedPlacesRequest mRequest = new GetRecommendedPlacesRequest();
+        mRequest.setLatitude(String.valueOf(mlocation.latitude));
+        mRequest.setLongitude(String.valueOf(mlocation.longitude));
+        mRequest.setEkl_customer(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.USER_ID, ""));
+        mRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
+        tripActivityPresenter.getRecommendedPlaces(mRequest);
+    }
+
+    @Override
+    public void onGetNearestDriverResponseFailure(String response) {
+        ToastUtils.shortToast(response);
+    }
+
+    @Override
+    public void onGetRecommendedPlacesSuccess(GetRecommendedPlacesResponse response) {
+        for (int i = 0; i < response.getResults().size(); i++) {
             PopularLocationsModal locationsModal = new PopularLocationsModal();
-            locationsModal.setLatitude(lat[i]);
-            locationsModal.setLongitude(longitude[i]);
-            locationsModal.setAddress(addresses[i]);
+            locationsModal.setLatitude(response.getResults().get(i).getGeometry().getLocation().getLat());
+            locationsModal.setLongitude(response.getResults().get(i).getGeometry().getLocation().getLng());
+            locationsModal.setAddress(response.getResults().get(i).getName());
             modalArrayList.add(locationsModal);
         }
-
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         MapPopularLocationsRecyclerAdapter adapter = new MapPopularLocationsRecyclerAdapter(modalArrayList, this, new PopularLocationsCallBack() {
             @Override
@@ -207,86 +300,13 @@ public class MotorTripActivity extends BaseActivity implements cancelButtonClick
     }
 
     @Override
-    protected void setUp() {
+    public void onGetRecommendedPlacesFailure(String response) {
 
     }
-
-    private SupportMapFragment getSupportMapFragment() {
-        return (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapfragment);
-    }
-
-    private void initialize() {
-        setContentView(R.layout.activity_motor_trip);
-        ButterKnife.bind(this);
-
-
-        mapFragment = getSupportMapFragment();
-        mapFragment.init(new OnEngineInitListener() {
-            @Override
-            public void onEngineInitializationCompleted(OnEngineInitListener.Error error) {
-                if (error == OnEngineInitListener.Error.NONE) {
-                    map = mapFragment.getMap();
-
-
-                    PositioningManager positioningManager = PositioningManager.getInstance();
-                    positioningManager.start(PositioningManager.LocationMethod.GPS_NETWORK);
-                   /* GeoPosition position = positioningManager.getPosition();
-                    GeoCoordinate coordinate = position.getCoordinate();*/
-
-                    map.setCenter(new GeoCoordinate(54.2343, 45.656, 12), Map.Animation.LINEAR);
-                    map.getPositionIndicator().setVisible(true);
-
-
-                } else {
-                    Log.e(LOG_TAG, "Cannot initialize SupportMapFragment (" + error + ")");
-                }
-            }
-        });
-    }
-
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE_ASK_PERMISSIONS:
-                for (int index = permissions.length - 1; index >= 0; --index) {
-                    if (grantResults[index] != PackageManager.PERMISSION_GRANTED) {
-                        // exit the app if one permission is not granted
-                        Toast.makeText(this, "Required permission '" + permissions[index]
-                                + "' not granted, exiting", Toast.LENGTH_LONG).show();
-                        finish();
-                        return;
-                    }
-                }
-                // all permissions were granted
-                initialize();
-                break;
-        }
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
-
-
-    protected void checkPermissions() {
-        final List<String> missingPermissions = new ArrayList<String>();
-        // check all required dynamic permissions
-        for (final String permission : REQUIRED_SDK_PERMISSIONS) {
-            final int result = ContextCompat.checkSelfPermission(this, permission);
-            if (result != PackageManager.PERMISSION_GRANTED) {
-                missingPermissions.add(permission);
-            }
-        }
-        if (!missingPermissions.isEmpty()) {
-            // request all missing permissions
-            final String[] permissions = missingPermissions
-                    .toArray(new String[missingPermissions.size()]);
-            ActivityCompat.requestPermissions(this, permissions, REQUEST_CODE_ASK_PERMISSIONS);
-        } else {
-            final int[] grantResults = new int[REQUIRED_SDK_PERMISSIONS.length];
-            Arrays.fill(grantResults, PackageManager.PERMISSION_GRANTED);
-            onRequestPermissionsResult(REQUEST_CODE_ASK_PERMISSIONS, REQUIRED_SDK_PERMISSIONS,
-                    grantResults);
-        }
-    }
-
-
 }

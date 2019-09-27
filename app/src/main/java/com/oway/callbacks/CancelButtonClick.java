@@ -1,6 +1,6 @@
 package com.oway.callbacks;
 
 
-public interface cancelButtonClick {
+public interface CancelButtonClick {
     public void onCancelClick();
 }

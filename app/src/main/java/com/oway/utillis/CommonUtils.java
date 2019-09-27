@@ -49,17 +49,21 @@ import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-/*import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;*/
+import com.google.android.gms.maps.model.LatLng;
+import com.here.android.mpa.common.GeoCoordinate;
+import com.here.android.mpa.common.Image;
+import com.here.android.mpa.common.OnEngineInitListener;
+import com.here.android.mpa.common.PositioningManager;
+import com.here.android.mpa.mapping.Map;
+import com.here.android.mpa.mapping.MapMarker;
+import com.here.android.mpa.mapping.SupportMapFragment;
 import com.oway.R;
+import com.oway.callbacks.CancelButtonClick;
 import com.oway.callbacks.DriverProfileDialog;
 import com.oway.callbacks.RegisterButtonclick;
-import com.oway.callbacks.cancelButtonClick;
+import com.oway.model.response.GetNearestDriverResponse;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -70,10 +74,14 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/*import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;*/
+
 public final class CommonUtils {
 
     private static final String TAG = "CommonUtils";
     private static String token = null;
+    private static Map map;
 
     private CommonUtils() {
         // This utility class is not publicly instantiable
@@ -417,23 +425,25 @@ public final class CommonUtils {
         dialog.show();
         dialog.getWindow().setAttributes(lWindowParams);
     }
-public static void showCancelDialog(Context context, cancelButtonClick cancelClick){
-    Dialog dialog = new Dialog(context, R.style.CustomAlertDialog);
-    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-    dialog.setCanceledOnTouchOutside(true);
-    dialog.setContentView(R.layout.you_got_driver_dialog_box);
-    Button btnxOkOnDriverInfo = dialog.findViewById(R.id.btn_ok_driver_info);
-    btnxOkOnDriverInfo.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
 
-            dialog.dismiss();
-            cancelClick.onCancelClick();
-        }
-    });
-    dialog.show();
-}
-    public static void showCancelRideDialog(Context context, DriverProfileDialog profileDialog){
+    public static void showCancelDialog(Context context, CancelButtonClick cancelClick) {
+        Dialog dialog = new Dialog(context, R.style.CustomAlertDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setContentView(R.layout.you_got_driver_dialog_box);
+        Button btnxOkOnDriverInfo = dialog.findViewById(R.id.btn_ok_driver_info);
+        btnxOkOnDriverInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+                cancelClick.onCancelClick();
+            }
+        });
+        dialog.show();
+    }
+
+    public static void showCancelRideDialog(Context context, DriverProfileDialog profileDialog) {
         Dialog dialog = new Dialog(context, R.style.Theme_AppCompat_Light_Dialog_Alert);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(true);
@@ -457,7 +467,8 @@ public static void showCancelDialog(Context context, cancelButtonClick cancelCli
         });
         dialog.show();
     }
-    public static void showRideDialog(Context context){
+
+    public static void showRideDialog(Context context) {
         Dialog dialog = new Dialog(context, R.style.simpleDialogAlert);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(true);
@@ -465,6 +476,56 @@ public static void showCancelDialog(Context context, cancelButtonClick cancelCli
         dialog.show();
     }
 
+    public static void setCurrentLocation(SupportMapFragment mapFragment, LatLng location) {
+        mapFragment.init(new OnEngineInitListener() {
+            @Override
+            public void onEngineInitializationCompleted(OnEngineInitListener.Error error) {
 
+                if (error == OnEngineInitListener.Error.NONE) {
+                    map = mapFragment.getMap();
+                    // map.setCenter(new GeoCoordinate(location.latitude, location.longitude, 22.0d), Map.Animation.LINEAR);
+                    try {
+                        Image image = new Image();
+                        image.setImageResource(R.drawable.currentlocation);
+                        MapMarker customMarker = new MapMarker(new GeoCoordinate(location.latitude, location.longitude), image);
+                        customMarker.setDescription("Current Location");
+                        map.addMapObject(customMarker);
+                        //map.setZoomLevel(40.0);
+                    } catch (Exception e) {
+                        Log.e("HERE", e.getMessage());
+                    }
+                    PositioningManager positioningManager = PositioningManager.getInstance();
+                    positioningManager.start(PositioningManager.LocationMethod.GPS_NETWORK);
+                    // GeoPosition position = positioningManager.getPosition();
+//                    GeoCoordinate coordinate = position.getCoordinate();
+                    double maxZoom = map.getMaxZoomLevel();
+                    double minZoom = map.getMinZoomLevel();
 
+                    // Set the zoom level to the median (10)
+                    map.setZoomLevel((maxZoom + minZoom) / 2);
+                    //map.setCenter(new GeoCoordinate(49.0,-123.0, 17.0);
+                    //map.getPositionIndicator().setVisible(true);
+                } else {
+                    Log.e("error", "Cannot initialize SupportMapFragment (" + error + ")");
+                }
+            }
+        });
+    }
+
+    public static void setDriversOnMap(GetNearestDriverResponse drives) {
+        try {
+            for (int i = 0; i < drives.getData().size(); i++) {
+                Image image = new Image();
+                image.setImageResource(R.drawable.bike);
+                LatLng lt=new LatLng(Double.parseDouble(drives.getData().get(i).getLatitude()), Double.parseDouble(drives.getData().get(i).getLongitude()));
+                MapMarker customMarker = new MapMarker(new GeoCoordinate(lt.latitude,lt.longitude), image);
+                map.addMapObject(customMarker);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // MapMarker defaultMarker = new MapMarker();
+        // defaultMarker.setCoordinate(new GeoCoordinate(Double.parseDouble(drives.getData().get(i).getLatitude()), Double.parseDouble(drives.getData().get(i).getLongitude()), 0.0));
+        //map.addMapObject(defaultMarker);
+    }
 }

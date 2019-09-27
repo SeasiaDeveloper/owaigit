@@ -1,8 +1,15 @@
 package com.oway.datasource.implementation;
 
 import com.oway.di.BaseUrl;
+import com.oway.model.request.GetNearestDriverRequest;
+import com.oway.model.request.GetRecommendedPlacesRequest;
+import com.oway.model.request.GetSaldoRequest;
+import com.oway.model.request.GetSearchPlacesRequest;
 import com.oway.model.request.LoginRequest;
 import com.oway.model.request.RegisterRequest;
+import com.oway.model.response.GetNearestDriverResponse;
+import com.oway.model.response.GetRecommendedPlacesResponse;
+import com.oway.model.response.GetSaldoResponse;
 import com.oway.model.response.LoginResponse;
 import com.oway.model.response.RegisterResponse;
 
@@ -72,8 +79,23 @@ public class ApiService {
         return apiService.login(loginRequest);
     }
 
+    public Call<GetSaldoResponse> getSaldo(GetSaldoRequest saldoRequest) {
+        return apiService.getSaldoRequest(saldoRequest);
+    }
+
+    public Call<GetNearestDriverResponse> getNearestDriver(GetNearestDriverRequest nearestDriverRequest) {
+        return apiService.getNearestDriver(nearestDriverRequest);
+    }
+
     public Call<RegisterResponse> register(RegisterRequest registerRequest) {
         return apiService.register(registerRequest);
+    }
+
+    public Call<GetRecommendedPlacesResponse> getRecommendedPlaces(GetRecommendedPlacesRequest placeRequest) {
+        return apiService.getResommendedRequest(placeRequest);
+    }
+    public Call<GetRecommendedPlacesResponse> getSearchPlaces(GetSearchPlacesRequest placeRequest) {
+        return apiService.getSearchPlacesRequest(placeRequest);
     }
 
 
@@ -85,6 +107,17 @@ public class ApiService {
         @POST("/api/customer/register")
         Call<RegisterResponse> register(@Body RegisterRequest registerRequest);
 
+        @POST("/api/trx/getnearestdriver")
+        Call<GetNearestDriverResponse> getNearestDriver(@Body GetNearestDriverRequest nearestDriverRequest);
+
+        @POST("api/customer/get_recommended_place")
+        Call<GetRecommendedPlacesResponse> getResommendedRequest(@Body GetRecommendedPlacesRequest placeRequest);
+
+        @POST("/api/customer/getsaldo")
+        Call<GetSaldoResponse> getSaldoRequest(@Body GetSaldoRequest saldoRequest);
+
+        @POST("/api/customer/nearbysearch")
+        Call<GetRecommendedPlacesResponse> getSearchPlacesRequest(@Body GetSearchPlacesRequest placeRequest);
     }
 }
 
