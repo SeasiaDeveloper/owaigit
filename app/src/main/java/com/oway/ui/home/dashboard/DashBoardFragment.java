@@ -1,6 +1,7 @@
 package com.oway.ui.home.dashboard;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,16 +20,12 @@ import com.oway.callbacks.DashbordRecyclerItemclick;
 import com.oway.customviews.CustomTextView;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.DashboardGridItemsModal;
-import com.oway.model.request.GetNearestDriverRequest;
 import com.oway.model.request.GetSaldoRequest;
 import com.oway.model.response.GetSaldoResponse;
-import com.oway.ui.home.MainActivity;
 import com.oway.ui.trip.MotorTripActivity;
 import com.oway.utillis.AppConstants;
 import com.oway.utillis.GlideImageLoader;
 import com.yyydjk.library.BannerLayout;
-
-import android.content.Intent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +35,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DashBoardFragment extends BaseFragment implements DashBoardFragmentInterface  {
+public class DashBoardFragment extends BaseFragment implements DashBoardFragmentInterface {
 
     private int arr[] = {R.drawable.motor, R.drawable.car, R.drawable.box, R.drawable.burger};
     private String brr[] = {"Motor", "Mobil", "Send", "Food"};
@@ -68,7 +65,6 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
         getSaldo();
 
 
-
         for (int i = 0; i <= 3; i++) {
             itemsModal = new DashboardGridItemsModal();
             itemsModal.setImageUrl(arr[i]);
@@ -82,10 +78,10 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
         DashboardRecyclerAdapter adapter = new DashboardRecyclerAdapter(gridItemList, getContext(), new DashbordRecyclerItemclick() {
             @Override
             public void onItemClick(View v, int position) {
-                if (position == 0) {
-                    Intent intent = new Intent(getActivity(), MotorTripActivity.class);
-                    startActivity(intent);
-                }
+                PreferenceHandler.writeString(getActivity(), AppConstants.SELECTION_GRID, String.valueOf(position + 1));
+                Intent intent = new Intent(getActivity(), MotorTripActivity.class);
+                startActivity(intent);
+
             }
         });
         recyclerView.setAdapter(adapter);
@@ -101,7 +97,6 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
         bannerLayout.setImageLoader(new GlideImageLoader());
         bannerLayout.setViewUrls(imageUrls);
         return view;
-
 
 
     }
@@ -136,8 +131,8 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
 
         GetSaldoResponse.Balance[] balance = response.getBalance();
 
-            tvxMainBalance.setText("Rp "+balance[0].getSisa_uang());
-            txvBonusBalance.setText("Rp bonus "+balance[0].getBonus_member());
+        tvxMainBalance.setText("Rp " + balance[0].getSisa_uang());
+        txvBonusBalance.setText("Rp bonus " + balance[0].getBonus_member());
 
     }
 

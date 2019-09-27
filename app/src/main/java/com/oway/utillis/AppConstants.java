@@ -29,6 +29,9 @@ public final class AppConstants {
     public static final String IMAGE_PATH = "image_path";
     public static final String USER_ID = "user_id";
     public static final String MBR_TOKEN = "mbr_token";
+    public static final String SELECTION_GRID = "selection_grid";
+    public static final String DATE_FORMAT_DD_MM_YY_HH_MM_SS = "dd-MM-yyyy HH:mm:ss";
+
     public static final String REGISTER = "/api/customer/register";
 
     public static final String PICK_UP="Pick_status";

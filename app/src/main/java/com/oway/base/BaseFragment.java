@@ -19,7 +19,7 @@ public abstract class BaseFragment extends Fragment implements MvpView {
 
     private BaseActivity mActivity;
     private ProgressDialog mProgressDialog;
-    public Unbinder unbinder;
+    public  Unbinder unbinder;
     private View view;
 
     @Override

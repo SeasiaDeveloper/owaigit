@@ -46,8 +46,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -63,6 +65,7 @@ import com.oway.R;
 import com.oway.callbacks.CancelButtonClick;
 import com.oway.callbacks.DriverProfileDialog;
 import com.oway.callbacks.RegisterButtonclick;
+import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
 
 import java.io.File;
@@ -70,6 +73,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -443,13 +449,18 @@ public final class CommonUtils {
         dialog.show();
     }
 
-    public static void showCancelRideDialog(Context context, DriverProfileDialog profileDialog) {
+    public static void showCancelRideDialog(Context context, DriverProfileDialog profileDialog, GetEstimateBikeResponse response) {
         Dialog dialog = new Dialog(context, R.style.Theme_AppCompat_Light_Dialog_Alert);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(true);
         dialog.setContentView(R.layout.map_next_button_dialog_box);
         Button btnxOrder = dialog.findViewById(R.id.btn_order);
         Button btnxCencelOrder = dialog.findViewById(R.id.btn_cencel_order);
+        TextView tvCash=dialog.findViewById(R.id.tvCash);
+        TextView tvSaldo=dialog.findViewById(R.id.tvSaldo);
+        tvCash.setText(String.valueOf(response.getPrice().getCash()));
+        tvSaldo.setText(String.valueOf(response.getPrice().getBalance()));
+
         btnxCencelOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -461,8 +472,23 @@ public final class CommonUtils {
         btnxOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                RadioGroup radioGroup=dialog.findViewById(R.id.rdoGropu);
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+                RadioButton radioButton = (RadioButton)dialog.findViewById(selectedId);
+                radioButton.getText();
+                String amount,selection;
+                if(radioButton.getText().toString().equals("CASH"))
+                {
+                   amount=tvCash.getText().toString();
+                   selection="0";
+                }
+                else
+                {
+                    amount=tvSaldo.getText().toString();
+                    selection="1";
+                }
                 dialog.dismiss();
-                profileDialog.onOrderClick();
+                profileDialog.onOrderClick(amount,selection);
             }
         });
         dialog.show();
@@ -527,5 +553,12 @@ public final class CommonUtils {
         // MapMarker defaultMarker = new MapMarker();
         // defaultMarker.setCoordinate(new GeoCoordinate(Double.parseDouble(drives.getData().get(i).getLatitude()), Double.parseDouble(drives.getData().get(i).getLongitude()), 0.0));
         //map.addMapObject(defaultMarker);
+    }
+
+    public static String getCurrentDateTime() {
+        DateFormat df = new SimpleDateFormat(AppConstants.DATE_FORMAT_DD_MM_YY_HH_MM_SS);
+        String date = df.format(Calendar.getInstance().getTime());
+        Logger.e("ss",date);
+        return date;
     }
 }

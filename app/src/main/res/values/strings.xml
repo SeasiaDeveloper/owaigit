@@ -12,6 +12,7 @@
     <string name="FACEBOOK_APP_ID">658871691141399</string>
     <string name="dummy_upline_id">EKL0000000</string>
     <string name="phone_string">PHONE NUMBER</string>
+    <string name="google_key">AIzaSyA5SxZFlAfeBQjNXFBn5CQAzyok5HxXxY4</string>
 
     <string name="ACCOUNT_KIT_CLIENT_TOKEN">7dd46ce0e21eed587d5aff96030a61ee</string>
     <string name="ak_login_protocol_scheme">ak658871691141399</string>

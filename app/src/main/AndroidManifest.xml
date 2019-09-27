@@ -41,6 +41,11 @@
             android:name="com.oway.ui.registration.Registration"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.trip.SearchPlaces"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.oway.ui.splash.Splash"
             android:label="@string/app_name"
