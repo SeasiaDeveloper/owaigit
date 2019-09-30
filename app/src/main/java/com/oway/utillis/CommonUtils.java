@@ -45,6 +45,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
@@ -403,7 +404,7 @@ public final class CommonUtils {
         button.setTypeface(font);
     }
 
-   public static String getFirebaseId() {
+    public static String getFirebaseId() {
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -490,7 +491,7 @@ public final class CommonUtils {
                 String amount, selection;
                 if (radioButton.getText().toString().equals("CASH")) {
                     amount = tvCash.getText().toString();
-                    radioButton.setTextColor(ContextCompat.getColor(context, R.color.col_orange));
+                    //radioButton.setTextColor();
                     selection = "0";
                 } else {
                     amount = tvSaldo.getText().toString();
@@ -509,9 +510,9 @@ public final class CommonUtils {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(true);
         dialog.setContentView(R.layout.cancel_order_dialog_box);
-        CustomButton cancelButtonReasonDialog=dialog.findViewById(R.id.cb_cancel_reason);
-        CustomButton okReason=dialog.findViewById(R.id.cb_ok_reason);
-        CustomEditText notesCancelReason=dialog.findViewById(R.id.et_cancel_reason_notes);
+        CustomButton cancelButtonReasonDialog = dialog.findViewById(R.id.cb_cancel_reason);
+        CustomButton okReason = dialog.findViewById(R.id.cb_ok_reason);
+        CustomEditText notesCancelReason = dialog.findViewById(R.id.et_cancel_reason_notes);
         okReason.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -523,13 +524,13 @@ public final class CommonUtils {
                 if (radioButton.getText().toString().equals("I can't find my driver")) {
                     amount = radioButton.getText().toString();
                     selection = "0";
-                } else if(radioButton.getText().toString().equals("I have wrong submit destination")){
+                } else if (radioButton.getText().toString().equals("I have wrong submit destination")) {
                     amount = radioButton.getText().toString();
                     selection = "1";
-                }else if (radioButton.getText().toString().equals("Driver is too late")){
+                } else if (radioButton.getText().toString().equals("Driver is too late")) {
                     amount = radioButton.getText().toString();
                     selection = "2";
-                }else {
+                } else {
                     amount = notesCancelReason.getText().toString();
                     selection = "3";
                 }
@@ -540,9 +541,6 @@ public final class CommonUtils {
             }
         });
         dialog.show();
-
-
-
 
 
     }

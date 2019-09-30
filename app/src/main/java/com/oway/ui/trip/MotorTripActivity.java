@@ -301,8 +301,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     }
 
 
-
-
     private void getNearByDriver() {
         GetNearestDriverRequest nearRequest = new GetNearestDriverRequest();
         nearRequest.setLatitude(String.valueOf(mlocation.latitude));
