@@ -281,8 +281,9 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         mapFragment = getSupportMapFragment();
         initializeMap();
         onTouch();
-
+        Intent intent = getIntent();
     }
+
 
     @SuppressLint("ClickableViewAccessibility")
     private void onTouch() {
