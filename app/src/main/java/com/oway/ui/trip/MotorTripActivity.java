@@ -190,19 +190,18 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         layoutSourceDestination.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
         layoutPleaseWaitForRide.setVisibility(View.VISIBLE);
-
         CustomerTransactionRequest mRequet = new CustomerTransactionRequest();
         mRequet.setEkl_customer(PreferenceHandler.readString(this, AppConstants.USER_ID, ""));
         mRequet.setOrder_fitur(PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, ""));
-        mRequet.setStart_latitude(Double.parseDouble("-7.5453971"));
-        mRequet.setStart_longitude(Double.parseDouble("112.2417105"));
-        mRequet.setEnd_latitude(Double.parseDouble("7.0707256907261"));
-        mRequet.setEnd_longitude(Double.parseDouble("112.37143334001"));
+        mRequet.setStart_latitude(Double.parseDouble(startLat));
+        mRequet.setStart_longitude(Double.parseDouble(startLng));
+        mRequet.setEnd_latitude(Double.parseDouble(endLat));
+        mRequet.setEnd_longitude(Double.parseDouble(endLng));
         mRequet.setDistance("1");
         mRequet.setPrice(price);
         mRequet.setOrder_time(CommonUtils.getCurrentDateTime());
-        mRequet.setPickup_address("lamongan");
-        mRequet.setDestination_address("turi");
+        mRequet.setPickup_address(startAddress);
+        mRequet.setDestination_address(endAddress);
         mRequet.setFinal_price(price);
         mRequet.setUse_balance(selection);
         mRequet.setSeat(0);
@@ -221,7 +220,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @OnClick(R.id.civ_search)
     public void onSearchClick() {
-        Intent intent = new Intent(this, SearchPlaces.class);
+        Intent intent = new Intent(this, SearchPlacesActivity.class);
         intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
         intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
         if (isPickUpClick)
@@ -242,7 +241,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     public void onPicUpTouch() {
         etxPickUp.requestFocus();  //keep focus on the EditText(redTime)
         isPickUpClick = true;
-        Intent intent = new Intent(MotorTripActivity.this, SearchPlaces.class);
+        Intent intent = new Intent(MotorTripActivity.this, SearchPlacesActivity.class);
         intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
         intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
         if (isPickUpClick)
@@ -255,7 +254,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     public void onDropDown() {
         etxDropDown.requestFocus();  //keep focus on the EditText(redTime)
         isPickUpClick = false;
-        Intent intent = new Intent(MotorTripActivity.this, SearchPlaces.class);
+        Intent intent = new Intent(MotorTripActivity.this, SearchPlacesActivity.class);
         intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
         intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
         if (isPickUpClick)
@@ -317,14 +316,17 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @Override
     public void onLocationChanged(LatLng location) {
+        // if(mlocation==null)
+        //  {
         mlocation = location;
         GetCurrentLocationRequest mRequest = new GetCurrentLocationRequest();
-        mRequest.setLatitude(String.valueOf(mlocation.latitude));
-        mRequest.setLongitude(String.valueOf(mlocation.longitude));
+        mRequest.setLatitude(String.valueOf(location.latitude));
+        mRequest.setLongitude(String.valueOf(location.longitude));
         mRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
         tripActivityPresenter.getLocationDetails(mRequest);
         getNearByDriver();
         getRecommendedPlaces();
+        // }
     }
 
     private void getRecommendedPlaces() {

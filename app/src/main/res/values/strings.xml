@@ -35,6 +35,8 @@
     <string name="sponsorID">ID Sponsor</string>
     <string name="tv_phone">Phone</string>
     <string name="tv_selemat">Selamat datang di OWAI</string>
+    <string name="tv_no_record">No Record Found</string>
+
     <string name="tv_register_payment">Register Payment</string>
 
     <string name="tv_register_now">Register Now</string>

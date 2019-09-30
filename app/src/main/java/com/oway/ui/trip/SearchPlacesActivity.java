@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SearchPlaces extends BaseActivity implements SearchPlacesView {
+public class SearchPlacesActivity extends BaseActivity implements SearchPlacesView {
 
     @BindView(R.id.et_place_name)
     AutoCompleteTextView etxPlaces;
@@ -35,6 +37,9 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
     ImageButton ibxSearchBack;
     @BindView(R.id.rv_places_list)
     RecyclerView rvxPlaceList;
+
+    @BindView(R.id.tv_no_record)
+    TextView tv_no_record;
 
     @BindView(R.id.pBar)
     ProgressBar pBar;
@@ -44,8 +49,8 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
 
     private ArrayList<GetRecommendedPlacesResponse.ResultsBean> placesResponses = new ArrayList<GetRecommendedPlacesResponse.ResultsBean>();
     @Inject
-    SearchPlacesPresenter<SearchPlacesView> searchPlacesPresenter;
-    PlacesAdapter adapter;
+    private SearchPlacesPresenter<SearchPlacesView> searchPlacesPresenter;
+    private PlacesAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +58,11 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
         setContentView(R.layout.activity_search_places);
         ButterKnife.bind(this);
         getActivityComponent().inject(this);
-        searchPlacesPresenter.onAttach(SearchPlaces.this);
+        searchPlacesPresenter.onAttach(SearchPlacesActivity.this);
         intent = getIntent();
         latitude = intent.getDoubleExtra(AppConstants.LATITUDE, 0);
         longitude = intent.getDoubleExtra(AppConstants.LONGITUDE, 0);
-        etxPlaces.setThreshold(3);
-        adapter = new PlacesAdapter(placesResponses, SearchPlaces.this);
+        adapter = new PlacesAdapter(placesResponses, SearchPlacesActivity.this);
         setListner();
         placesList();
         getLocation("");
@@ -66,8 +70,6 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
 
     @OnClick(R.id.ib_search_back)
     public void onSearchBackClick() {
-        Intent intent = new Intent(SearchPlaces.this, MotorTripActivity.class);
-        startActivity(intent);
         finish();
     }
 
@@ -80,6 +82,8 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                pBar.setVisibility(View.VISIBLE);
+                rvxPlaceList.setVisibility(View.GONE);
                 getLocation(Objects.requireNonNull(etxPlaces.getText()).toString());
             }
 
@@ -95,7 +99,7 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
         request.setLatitude(String.valueOf(latitude));
         request.setLongitude(String.valueOf(longitude));
         request.setQuery(Objects.requireNonNull(location));
-        request.setAccess_token(PreferenceHandler.readString(SearchPlaces.this, AppConstants.MBR_TOKEN, ""));
+        request.setAccess_token(PreferenceHandler.readString(SearchPlacesActivity.this, AppConstants.MBR_TOKEN, ""));
         searchPlacesPresenter.getSearchPlaces(request);
     }
 
@@ -115,6 +119,14 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
         placesResponses.clear();
         for (int i = 0; i < status.getResults().size(); i++) {
             placesResponses.addAll(status.getResults());
+        }
+        pBar.setVisibility(View.GONE);
+        if (placesResponses.size() <= 0) {
+            rvxPlaceList.setVisibility(View.GONE);
+            tv_no_record.setVisibility(View.VISIBLE);
+        } else {
+            rvxPlaceList.setVisibility(View.VISIBLE);
+            tv_no_record.setVisibility(View.GONE);
         }
         adapter.notifyDataSetChanged();
     }
