@@ -51,9 +51,14 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.common.Image;
 import com.here.android.mpa.common.OnEngineInitListener;
@@ -63,8 +68,12 @@ import com.here.android.mpa.mapping.MapMarker;
 import com.here.android.mpa.mapping.SupportMapFragment;
 import com.oway.R;
 import com.oway.callbacks.CancelButtonClick;
+import com.oway.callbacks.CancelReasonDialog;
 import com.oway.callbacks.DriverProfileDialog;
 import com.oway.callbacks.RegisterButtonclick;
+import com.oway.customviews.CustomButton;
+import com.oway.customviews.CustomEditText;
+import com.oway.customviews.CustomTextView;
 import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
 
@@ -392,7 +401,7 @@ public final class CommonUtils {
         button.setTypeface(font);
     }
 
- /*   public static String getFirebaseId() {
+   public static String getFirebaseId() {
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -406,7 +415,7 @@ public final class CommonUtils {
                     }
                 });
         return token;
-    }*/
+    }
 
     public static void showLoginDialog(Context context, String string, RegisterButtonclick mClick) {
         final Dialog dialog = new Dialog(context);
@@ -456,8 +465,8 @@ public final class CommonUtils {
         dialog.setContentView(R.layout.map_next_button_dialog_box);
         Button btnxOrder = dialog.findViewById(R.id.btn_order);
         Button btnxCencelOrder = dialog.findViewById(R.id.btn_cencel_order);
-        TextView tvCash=dialog.findViewById(R.id.tvCash);
-        TextView tvSaldo=dialog.findViewById(R.id.tvSaldo);
+        CustomTextView tvCash = dialog.findViewById(R.id.tvCash);
+        CustomTextView tvSaldo = dialog.findViewById(R.id.tvSaldo);
         tvCash.setText(String.valueOf(response.getPrice().getCash()));
         tvSaldo.setText(String.valueOf(response.getPrice().getBalance()));
 
@@ -472,34 +481,66 @@ public final class CommonUtils {
         btnxOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RadioGroup radioGroup=dialog.findViewById(R.id.rdoGropu);
+                RadioGroup radioGroup = dialog.findViewById(R.id.rdoGropu);
                 int selectedId = radioGroup.getCheckedRadioButtonId();
-                RadioButton radioButton = (RadioButton)dialog.findViewById(selectedId);
+                RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
                 radioButton.getText();
-                String amount,selection;
-                if(radioButton.getText().toString().equals("CASH"))
-                {
-                   amount=tvCash.getText().toString();
-                   selection="0";
-                }
-                else
-                {
-                    amount=tvSaldo.getText().toString();
-                    selection="1";
+                String amount, selection;
+                if (radioButton.getText().toString().equals("CASH")) {
+                    amount = tvCash.getText().toString();
+                    selection = "0";
+                } else {
+                    amount = tvSaldo.getText().toString();
+                    selection = "1";
                 }
                 dialog.dismiss();
-                profileDialog.onOrderClick(amount,selection);
+                profileDialog.onOrderClick(amount, selection);
             }
         });
         dialog.show();
     }
 
-    public static void showRideDialog(Context context) {
+    public static void showRideCancelReasonDialog(Context context, CancelReasonDialog cancelReasonDialog) {
         Dialog dialog = new Dialog(context, R.style.simpleDialogAlert);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(true);
         dialog.setContentView(R.layout.cancel_order_dialog_box);
+        CustomButton cancelButtonReasonDialog=dialog.findViewById(R.id.cb_cancel_reason);
+        CustomButton okReason=dialog.findViewById(R.id.cb_ok_reason);
+        CustomEditText notesCancelReason=dialog.findViewById(R.id.et_cancel_reason_notes);
+        okReason.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RadioGroup radioGroup = dialog.findViewById(R.id.rdoReasonGroup);
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+                RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
+                radioButton.getText();
+                String amount, selection;
+                if (radioButton.getText().toString().equals("I can't find my driver")) {
+                    amount = radioButton.getText().toString();
+                    selection = "0";
+                } else if(radioButton.getText().toString().equals("I have wrong submit destination")){
+                    amount = radioButton.getText().toString();
+                    selection = "1";
+                }else if (radioButton.getText().toString().equals("Driver is too late")){
+                    amount = radioButton.getText().toString();
+                    selection = "2";
+                }else {
+                    amount = notesCancelReason.getText().toString();
+                    selection = "3";
+                }
+                dialog.dismiss();
+                cancelReasonDialog.onOkReasonDialogClick(amount, selection);
+
+
+            }
+        });
         dialog.show();
+
+
+
+
+
     }
 
     public static void initializeMap(SupportMapFragment mapFragment, LatLng location) {
@@ -527,8 +568,8 @@ public final class CommonUtils {
             for (int i = 0; i < drives.getData().size(); i++) {
                 Image image = new Image();
                 image.setImageResource(R.drawable.bike);
-                LatLng lt=new LatLng(Double.parseDouble(drives.getData().get(i).getLatitude()), Double.parseDouble(drives.getData().get(i).getLongitude()));
-                MapMarker customMarker = new MapMarker(new GeoCoordinate(lt.latitude,lt.longitude), image);
+                LatLng lt = new LatLng(Double.parseDouble(drives.getData().get(i).getLatitude()), Double.parseDouble(drives.getData().get(i).getLongitude()));
+                MapMarker customMarker = new MapMarker(new GeoCoordinate(lt.latitude, lt.longitude), image);
                 map.addMapObject(customMarker);
             }
         } catch (Exception e) {
@@ -542,7 +583,7 @@ public final class CommonUtils {
     public static String getCurrentDateTime() {
         DateFormat df = new SimpleDateFormat(AppConstants.DATE_FORMAT_DD_MM_YY_HH_MM_SS);
         String date = df.format(Calendar.getInstance().getTime());
-        Logger.e("ss",date);
+        Logger.e("ss", date);
         return date;
     }
 }

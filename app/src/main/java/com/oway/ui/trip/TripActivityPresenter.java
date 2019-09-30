@@ -6,6 +6,7 @@ import com.oway.base.BasePresenter;
 import com.oway.base.MvpView;
 import com.oway.datasource.implementation.ApiService;
 import com.oway.model.request.CustomerTransactionRequest;
+import com.oway.model.request.GetCurrentLocationRequest;
 import com.oway.model.request.GetEstimateBikeRequest;
 import com.oway.model.request.GetNearestDriverRequest;
 import com.oway.model.request.GetRecommendedPlacesRequest;
@@ -135,14 +136,14 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
         });
     }
 
-    public void getLocationDetails(String latlong, String apiKeyForAddress) {
+    public void getLocationDetails(GetCurrentLocationRequest mRequest) {
 
         if (!NetworkUtils.isNetworkConnected(getMvpView().getActivityContext())) {
             getMvpView().showMessage(R.string.internet_check);
             return;
         }
 
-        apiService.getCurrentAddress(latlong, apiKeyForAddress).enqueue(new Callback<LocationDetailsResponse>() {
+        apiService.getCurrentAddress(mRequest).enqueue(new Callback<LocationDetailsResponse>() {
             @Override
             public void onResponse(Call<LocationDetailsResponse> call, Response<LocationDetailsResponse> response) {
                 // dismissLoading();

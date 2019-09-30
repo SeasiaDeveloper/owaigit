@@ -340,6 +340,12 @@ public class GetRecommendedPlacesResponse {
         }
 
         public static class DistanceBean {
+            /**
+             * value : 22
+             */
+
+            private double value;
+
             public double getValue() {
                 return value;
             }
@@ -347,13 +353,6 @@ public class GetRecommendedPlacesResponse {
             public void setValue(double value) {
                 this.value = value;
             }
-
-            /**
-             * value : 22
-             */
-
-            private double value;
-
         }
 
         public static class PhotosBean {

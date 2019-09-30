@@ -41,10 +41,10 @@ public class RegisterActivityPresenter<V extends MvpView> extends BasePresenter<
         showLoading();
         ANRequest.MultiPartBuilder upload = AndroidNetworking.upload(BuildConfig.BASE_URL + AppConstants.REGISTER);
 
-        if(!registerRequest.getImage().isEmpty())
-        upload.addMultipartFile("image", new File(registerRequest.getImage()));
+        if (!registerRequest.getImage().isEmpty())
+            upload.addMultipartFile("image", new File(registerRequest.getImage()));
 
-                 upload.addMultipartParameter("nama", registerRequest.getNama())
+        upload.addMultipartParameter("nama", registerRequest.getNama())
                 .addMultipartParameter("email", registerRequest.getEmail())
                 .addMultipartParameter("password", registerRequest.getPassword())
                 .addMultipartParameter("pin", registerRequest.getPin())
@@ -54,6 +54,7 @@ public class RegisterActivityPresenter<V extends MvpView> extends BasePresenter<
                 .addMultipartParameter("city", registerRequest.getCity())
                 .addMultipartParameter("gender", "L")
                 .addMultipartParameter("province", registerRequest.getProvince())
+                .addMultipartParameter("reg_id", registerRequest.getReg_id())
                 .setTag("uploading detail")
                 .setPriority(Priority.HIGH)
                 .build()

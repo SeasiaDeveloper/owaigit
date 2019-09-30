@@ -10,11 +10,7 @@ import com.oway.base.BaseActivity;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.ui.home.MainActivity;
 import com.oway.utillis.AppConstants;
-import com.oway.utillis.Logger;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import com.oway.utillis.CommonUtils;
 
 import javax.inject.Inject;
 
@@ -32,12 +28,13 @@ public class Splash extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
+        CommonUtils.getFirebaseId();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (PreferenceHandler.readString(Splash.this, AppConstants.USER_ID, "").isEmpty()) {
 
-                 // MainActivity.start(Splash.this);
+                    // MainActivity.start(Splash.this);
                     Intent i = new Intent(Splash.this,
                             Tutorial.class);
                     startActivity(i);

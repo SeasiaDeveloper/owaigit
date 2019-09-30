@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,20 +25,27 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SearchPlaces extends BaseActivity implements SearchPlacesView {
 
     @BindView(R.id.et_place_name)
     AutoCompleteTextView etxPlaces;
+    @BindView(R.id.ib_search_back)
+    ImageButton ibxSearchBack;
     @BindView(R.id.rv_places_list)
     RecyclerView rvxPlaceList;
+
+    @BindView(R.id.pBar)
+    ProgressBar pBar;
     double latitude;
     double longitude;
-    Intent intent;
+    private Intent intent;
+
     private ArrayList<GetRecommendedPlacesResponse.ResultsBean> placesResponses = new ArrayList<GetRecommendedPlacesResponse.ResultsBean>();
     @Inject
     SearchPlacesPresenter<SearchPlacesView> searchPlacesPresenter;
-    PlacesAdapter adapter = new PlacesAdapter(placesResponses, SearchPlaces.this);
+    PlacesAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +58,20 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
         latitude = intent.getDoubleExtra(AppConstants.LATITUDE, 0);
         longitude = intent.getDoubleExtra(AppConstants.LONGITUDE, 0);
         etxPlaces.setThreshold(3);
+        adapter = new PlacesAdapter(placesResponses, SearchPlaces.this);
+        setListner();
+        placesList();
+        getLocation("");
+    }
 
-     /*   Intent resultIntent = new Intent();
-        resultIntent.putExtra(AppConstants.ADDRESS, "resultValue");
-        resultIntent.putExtra(AppConstants.SELECT_LATITUDE, "878");
-        resultIntent.putExtra(AppConstants.SELECT_LONGITUDE, "76");
-        setResult(RESULT_OK, resultIntent);
+    @OnClick(R.id.ib_search_back)
+    public void onSearchBackClick() {
+        Intent intent = new Intent(SearchPlaces.this, MotorTripActivity.class);
+        startActivity(intent);
         finish();
-*/
+    }
+
+    private void setListner() {
         etxPlaces.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -65,17 +80,7 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() == 0) {
-                    placesResponses.clear();
-                    adapter.notifyDataSetChanged();
-                } else {
-                    GetSearchPlacesRequest request = new GetSearchPlacesRequest();
-                    request.setLatitude(String.valueOf(latitude));
-                    request.setLongitude(String.valueOf(longitude));
-                    request.setQuery(Objects.requireNonNull(etxPlaces.getText()).toString());
-                    request.setAccess_token(PreferenceHandler.readString(SearchPlaces.this, AppConstants.MBR_TOKEN, ""));
-                    searchPlacesPresenter.getSearchPlaces(request);
-                }
+                getLocation(Objects.requireNonNull(etxPlaces.getText()).toString());
             }
 
             @Override
@@ -83,6 +88,15 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
 
             }
         });
+    }
+
+    private void getLocation(String location) {
+        GetSearchPlacesRequest request = new GetSearchPlacesRequest();
+        request.setLatitude(String.valueOf(latitude));
+        request.setLongitude(String.valueOf(longitude));
+        request.setQuery(Objects.requireNonNull(location));
+        request.setAccess_token(PreferenceHandler.readString(SearchPlaces.this, AppConstants.MBR_TOKEN, ""));
+        searchPlacesPresenter.getSearchPlaces(request);
     }
 
     public void placesList() {
@@ -96,14 +110,13 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
 
     }
 
-
     @Override
     public void onGetSearchPlacesResponseSuccess(GetRecommendedPlacesResponse status) {
         placesResponses.clear();
         for (int i = 0; i < status.getResults().size(); i++) {
             placesResponses.addAll(status.getResults());
         }
-        placesList();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -111,4 +124,9 @@ public class SearchPlaces extends BaseActivity implements SearchPlacesView {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

@@ -2,6 +2,7 @@ package com.oway.datasource.implementation;
 
 import com.oway.di.BaseUrl;
 import com.oway.model.request.CustomerTransactionRequest;
+import com.oway.model.request.GetCurrentLocationRequest;
 import com.oway.model.request.GetEstimateBikeRequest;
 import com.oway.model.request.GetNearestDriverRequest;
 import com.oway.model.request.GetRecommendedPlacesRequest;
@@ -117,8 +118,8 @@ public class ApiService {
         return apiService.getDriverRequest(mRequest);
     }
 
-    public Call<LocationDetailsResponse> getCurrentAddress(String latlng,String key) {
-        return apiService.getLocationDetails(latlng,key);
+    public Call<LocationDetailsResponse> getCurrentAddress(GetCurrentLocationRequest mRequest) {
+        return apiService.getLocationDetails(mRequest);
     }
     public interface ApiInterface {
 
@@ -143,8 +144,9 @@ public class ApiService {
         @POST("api/trx/send_request_to_driver")
         Call<GetNearestDriverResponse> getDriverRequest(@Body SendDriverRequest request);
 
-        @GET("https://maps.googleapis.com/maps/api/geocode/json")
-        Call<LocationDetailsResponse> getLocationDetails(@Query("latlng") String latlng, @Query("key") String key);
+        @POST("api/customer/getaddressbycoordinate")
+        Call<LocationDetailsResponse> getLocationDetails(@Body GetCurrentLocationRequest mRequest);
+
         @POST("/api/customer/getsaldo")
         Call<GetSaldoResponse> getSaldoRequest(@Body GetSaldoRequest saldoRequest);
 

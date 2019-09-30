@@ -68,7 +68,7 @@
 
                     android:text="@string/dashboard"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/_15sdp"
+                    android:textSize="@dimen/_13sdp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -441,6 +441,8 @@
 
                 <com.oway.customviews.CustomEditText
                     android:id="@+id/etxPickUp"
+                    android:textSize="@dimen/_13sdp"
+                    android:focusableInTouchMode="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center" />
@@ -455,7 +457,7 @@
                 android:text="@string/confirm"
                 android:visibility="gone"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/_15sdp" />
+                android:textSize="@dimen/_13sdp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -477,7 +479,8 @@
                     android:id="@+id/etxDropDown"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:focusableInTouchMode="false"
+                    android:textSize="@dimen/_13sdp"
                     android:layout_gravity="center" />
             </LinearLayout>
             <Button
@@ -490,7 +493,7 @@
                 android:visibility="gone"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/_15sdp" />
+                android:textSize="@dimen/_13sdp" />
         </LinearLayout>
 
         <Button
@@ -501,6 +504,6 @@
             android:background="@color/col_orange"
             android:text="@string/next"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/_15sdp" />
+            android:textSize="@dimen/_13sdp" />
     </LinearLayout>
 </RelativeLayout>

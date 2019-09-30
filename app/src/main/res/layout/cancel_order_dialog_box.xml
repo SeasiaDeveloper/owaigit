@@ -48,6 +48,7 @@
                 <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/rdoReasonGroup"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:layout_marginEnd="@dimen/_10sdp">
@@ -104,6 +105,7 @@
                     android:layout_gravity="top|center"
                     android:background="@android:color/transparent"
                     android:hint="@string/notes"
+                    android:id="@+id/et_cancel_reason_notes"
                     android:maxLength="100"
                     android:maxLines="5"
                     android:paddingStart="@dimen/_8sdp"
@@ -125,6 +127,7 @@
                     android:layout_height="@dimen/_50sdp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:id="@+id/cb_cancel_reason"
                     android:background="@color/cencel_button"
                     android:text="@string/cencel" />
 
@@ -133,6 +136,7 @@
                     android:layout_height="@dimen/_50sdp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:id="@+id/cb_ok_reason"
                     android:background="@color/col_orange"
                     android:text="@string/com_accountkit_button_ok"
                     android:textColor="@android:color/white" />
