@@ -93,7 +93,7 @@
             android:layout_gravity="center"
             android:layout_marginEnd="@dimen/_20sdp"
             android:layout_marginRight="@dimen/_20sdp"
-            android:background="@drawable/location_now"
+            android:background="@drawable/loc_now"
             app:civ_border_color="@android:color/white"
             app:civ_border_width="@dimen/_5sdp" />
 
@@ -370,12 +370,10 @@
                     android:id="@+id/civ_search"
                     android:layout_width="@dimen/_35sdp"
                     android:layout_height="@dimen/_35sdp"
-                    android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"
-                    android:src="@drawable/icon"
-                    app:civ_border="true"
-                    app:civ_border_color="@android:color/white" />
+                    android:src="@drawable/search_icon"
+                     />
 
             </LinearLayout>
 

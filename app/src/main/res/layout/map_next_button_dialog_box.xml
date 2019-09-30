@@ -47,11 +47,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
+                        android:id="@+id/rb_cash"
                         android:buttonTint="@color/col_orange"
                         android:paddingStart="@dimen/_15sdp"
                         android:paddingLeft="@dimen/_20sdp"
                         android:text="@string/cash"
-                        android:checked="true"
                         android:textColor="@drawable/radio_button_checked_state"
                         android:textSize="@dimen/_12sdp" />
 
@@ -66,9 +66,11 @@
 
                         <ImageView
                             android:layout_width="@dimen/_37sdp"
-                            android:layout_height="@dimen/_15sdp"
+                            android:layout_height="@dimen/_20sdp"
                             android:layout_gravity="center"
-                            android:background="@drawable/doller_sign" />
+                            android:id="@+id/iv_cash_dialog"
+                            android:src="@drawable/doller_sign"
+                           />
 
                         <com.oway.customviews.CustomTextView
                             android:id="@+id/tvCash"
@@ -87,6 +89,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
                         android:layout_marginTop="@dimen/_15sdp"
+                        android:id="@+id/rb_saldo"
                         android:buttonTint="@color/col_orange"
                         android:paddingStart="@dimen/_15sdp"
                         android:paddingLeft="@dimen/_15sdp"
@@ -107,7 +110,9 @@
                             android:layout_width="@dimen/_37sdp"
                             android:layout_height="@dimen/_20sdp"
                             android:layout_gravity="center"
-                            android:background="@drawable/pay_saldo" />
+                            android:src="@drawable/pay_saldo"
+                            android:id="@+id/iv_saldo_dialog"
+                            />
 
                         <LinearLayout
                             android:layout_width="match_parent"

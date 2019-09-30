@@ -46,6 +46,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
@@ -469,10 +470,36 @@ public final class CommonUtils {
         dialog.setContentView(R.layout.map_next_button_dialog_box);
         Button btnxOrder = dialog.findViewById(R.id.btn_order);
         Button btnxCencelOrder = dialog.findViewById(R.id.btn_cencel_order);
+        ImageView ivxCash = dialog.findViewById(R.id.iv_cash_dialog);
+        ImageView ivxSaldo = dialog.findViewById(R.id.iv_saldo_dialog);
         CustomTextView tvCash = dialog.findViewById(R.id.tvCash);
         CustomTextView tvSaldo = dialog.findViewById(R.id.tvSaldo);
+        RadioButton rbxCash = dialog.findViewById(R.id.rb_cash);
+        RadioButton rbxsaldo = dialog.findViewById(R.id.rb_saldo);
+
         tvCash.setText(String.valueOf(response.getPrice().getCash()));
         tvSaldo.setText(String.valueOf(response.getPrice().getBalance()));
+        RadioGroup radioGroup = dialog.findViewById(R.id.rdoGropu);
+        rbxCash.setChecked(true);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                if (checkedId == R.id.rb_cash) {
+                    ivxSaldo.setImageResource(R.drawable.pay_saldo);
+                    ivxCash.setImageResource(R.drawable.doller_sign);
+
+                } else  if (checkedId == R.id.rb_saldo) {
+                    ivxSaldo.setImageResource(R.drawable.saldo_color);
+                    ivxCash.setImageResource(R.drawable.doller_sign);
+
+                }
+            }
+        });
+
+
+
 
         btnxCencelOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -486,19 +513,24 @@ public final class CommonUtils {
             @SuppressLint("ResourceType")
             @Override
             public void onClick(View view) {
-                RadioGroup radioGroup = dialog.findViewById(R.id.rdoGropu);
+
+
                 int selectedId = radioGroup.getCheckedRadioButtonId();
+
+
                 RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
 
                 String amount, selection;
                 if (radioButton.getText().toString().equals("CASH")) {
                     amount = tvCash.getText().toString();
-                    radioButton.setTextColor(ContextCompat.getColorStateList(App.getInstance(), R.drawable.radio_button_checked_state));
+
                     selection = "0";
+
+
                 } else {
                     amount = tvSaldo.getText().toString();
                     selection = "1";
-                    radioButton.setTextColor(ContextCompat.getColor(context, R.color.col_orange));
+
                 }
                 dialog.dismiss();
                 profileDialog.onOrderClick(amount, selection);
