@@ -22,6 +22,16 @@ public class RegisterRequest {
     private String address;
     private String city;
 
+    public String getReg_id() {
+        return reg_id;
+    }
+
+    public void setReg_id(String reg_id) {
+        this.reg_id = reg_id;
+    }
+
+    private String reg_id;
+
     public String getImage() {
         return image;
     }

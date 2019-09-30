@@ -67,7 +67,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/dashboard"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/_15sdp"
+                    android:textSize="@dimen/_13sdp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -86,7 +86,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:gravity="end">
 
-        <com.mikhaellopez.circularimageview.CircularImageView
+        <com.mikhaellopez.circularimageview.CircularImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/current_location"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
@@ -232,112 +232,86 @@
                     app:layout_anchor="@id/include_sheets"
                     app:layout_anchorGravity="top|end">
 
-                    <androidx.cardview.widget.CardView
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/btn_float"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:src="@drawable/float_button"
+                        app:backgroundTint="@android:color/white"
+                        app:fabSize="mini" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ll_below_float_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btn_float"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp">
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:id="@+id/iv_driver_image"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:src="@drawable/food"
+                        app:civ_border="true"
+                        app:civ_border_color="@color/col_orange"
+                        app:civ_border_width="@dimen/_2sdp" />
+
+
+                    <com.oway.customviews.CustomTextView
+                        android:id="@+id/tv_driver_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:cardCornerRadius="@dimen/_5sdp">
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@id/iv_driver_image"
+                        android:text="@string/app_name" />
+
+                    <com.oway.customviews.CustomTextView
+                        android:id="@+id/tv_driver_car_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_driver_name"
+                        android:layout_toEndOf="@id/iv_driver_image"
+                        android:text="@string/app_name" />
+
+                    <com.oway.customviews.CustomTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_driver_car_name"
+                        android:layout_toEndOf="@id/iv_driver_image"
+                        android:text="@string/app_name" />
 
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/white"
-                            android:gravity="center"
-                            android:orientation="vertical">
+                    <ImageButton
+                        android:id="@+id/ib_message"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:layout_toEndOf="@id/tv_driver_name"
+                        android:background="@drawable/chat_driver" />
+
+                    <ImageButton
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:layout_toEndOf="@id/ib_message"
+                        android:background="@drawable/call_driver" />
 
 
-                            <ImageView
-                                android:id="@+id/btn_float"
-                                android:layout_width="@dimen/_20sdp"
-                                android:layout_height="@dimen/_20sdp"
-                                android:layout_gravity="center|top"
-                                android:layout_marginTop="@dimen/_10sdp"
-                                android:src="@drawable/float_button"
-                                app:backgroundTint="@android:color/white"
-                                app:fabSize="mini" />
-
-                            <RelativeLayout
-                                android:id="@+id/ll_below_float_btn"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="@dimen/_10sdp">
-
-                                <com.mikhaellopez.circularimageview.CircularImageView
-                                    android:id="@+id/iv_driver_image"
-                                    android:layout_width="@dimen/_40sdp"
-                                    android:layout_height="@dimen/_40sdp"
-                                    android:layout_alignParentStart="true"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="@dimen/_10sdp"
-                                    android:layout_marginTop="@dimen/_10sdp"
-                                    android:src="@drawable/food"
-                                    app:civ_border="true"
-                                    app:civ_border_color="@color/col_orange"
-                                    app:civ_border_width="@dimen/_2sdp" />
-
-
-                                <com.oway.customviews.CustomTextView
-                                    android:id="@+id/tv_driver_name"
-                                    android:layout_width="@dimen/_100sdp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="@dimen/_5sdp"
-                                    android:layout_marginTop="@dimen/_8sdp"
-                                    android:layout_toEndOf="@id/iv_driver_image"
-                                    android:singleLine="true"
-                                    android:text="@string/driver_name"
-                                    android:textSize="@dimen/_10sdp" />
-
-                                <com.oway.customviews.CustomTextView
-                                    android:id="@+id/tv_driver_car_name"
-                                    android:layout_width="@dimen/_100sdp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@id/tv_driver_name"
-                                    android:layout_marginStart="@dimen/_5sdp"
-                                    android:layout_toEndOf="@id/iv_driver_image"
-                                    android:singleLine="true"
-                                    android:text="@string/driver_car"
-                                    android:textSize="@dimen/_8sdp" />
-
-                                <com.oway.customviews.CustomTextView
-                                    android:layout_width="@dimen/_100sdp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@id/tv_driver_car_name"
-                                    android:layout_marginStart="@dimen/_5sdp"
-                                    android:layout_toEndOf="@id/iv_driver_image"
-                                    android:singleLine="true"
-                                    android:text="@string/got_driver"
-                                    android:textSize="@dimen/_8sdp" />
-
-
-                                <ImageButton
-                                    android:id="@+id/ib_message"
-                                    android:layout_width="@dimen/_20sdp"
-                                    android:layout_height="@dimen/_20sdp"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="@dimen/_15sdp"
-                                    android:layout_marginTop="@dimen/_20sdp"
-                                    android:layout_marginEnd="@dimen/_15sdp"
-                                    android:layout_toEndOf="@id/tv_driver_name"
-                                    android:background="@drawable/chat_driver"
-                                    android:contentDescription="TODO" />
-
-                                <ImageButton
-                                    android:layout_width="@dimen/_20sdp"
-                                    android:layout_height="@dimen/_20sdp"
-                                    android:layout_alignParentTop="true"
-                                    android:layout_marginStart="@dimen/_20sdp"
-                                    android:layout_marginTop="@dimen/_20sdp"
-                                    android:layout_marginEnd="@dimen/_20sdp"
-                                    android:layout_toEndOf="@id/ib_message"
-                                    android:background="@drawable/call_driver"
-                                    android:contentDescription="TODO" />
-
-
-                            </RelativeLayout>
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
                 </RelativeLayout>
 
 
@@ -468,7 +442,9 @@
                     android:id="@+id/etxPickUp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:focusableInTouchMode="false"
+                    android:textSize="@dimen/_13sdp" />
             </LinearLayout>
 
             <Button
@@ -476,10 +452,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/col_orange"
                 android:text="@string/confirm"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/_10sdp"
+                android:textSize="@dimen/_13sdp"
                 android:visibility="gone" />
 
             <LinearLayout
@@ -502,8 +479,9 @@
                     android:id="@+id/etxDropDown"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:focusableInTouchMode="false"
+                    android:textSize="@dimen/_13sdp" />
             </LinearLayout>
 
             <Button
@@ -511,10 +489,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:background="@color/col_orange"
                 android:text="@string/confirm"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/_10sdp"
+                android:textSize="@dimen/_13sdp"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -526,9 +505,6 @@
             android:background="@color/col_orange"
             android:text="@string/next"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/_15sdp"
-            android:visibility="visible" />
+            android:textSize="@dimen/_13sdp" />
     </LinearLayout>
-
-
 </RelativeLayout>

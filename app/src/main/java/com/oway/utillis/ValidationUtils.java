@@ -26,8 +26,7 @@ public class ValidationUtils {
     }
 
     public boolean isRegistrationValid(EditText etxPhoneNumber,EditText etxsponsorId, EditText etxEmail,
-                                       EditText etxPassword, EditText etxPin, EditText etxAlamat, EditText etxKota, EditText etxPropinsi
-    ) {
+                                       EditText etxPassword, EditText etxPin, EditText etxAlamat, EditText etxKota, EditText etxPropinsi) {
         if(etxPhoneNumber.getText().toString().isEmpty())
         {
             etxPhoneNumber.setError(context.getString(R.string.validate_phonenumber));
@@ -57,6 +56,20 @@ public class ValidationUtils {
         }
         return true;
     }
+
+    public boolean checkPickAndDestination(EditText etxPickUp,EditText extDropOff) {
+        if(etxPickUp.getText().toString().isEmpty())
+        {
+            ToastUtils.shortToast(context.getString(R.string.validation_pick_up));
+            return false;
+        }
+       else if (extDropOff.getText().toString().isEmpty()) {
+            ToastUtils.shortToast(context.getString(R.string.validation_drop_off));
+            return false;
+        }
+        return true;
+    }
+
 
 
 }

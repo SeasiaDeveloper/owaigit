@@ -34,9 +34,11 @@ import com.oway.callbacks.CancelReasonDialog;
 import com.oway.callbacks.DriverProfileDialog;
 import com.oway.callbacks.PopularLocationsCallBack;
 import com.oway.customviews.CustomTextView;
+import com.oway.customviews.CustomTextView;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.PopularLocationsModal;
 import com.oway.model.request.CustomerTransactionRequest;
+import com.oway.model.request.GetCurrentLocationRequest;
 import com.oway.model.request.GetEstimateBikeRequest;
 import com.oway.model.request.GetNearestDriverRequest;
 import com.oway.model.request.GetRecommendedPlacesRequest;
@@ -52,6 +54,7 @@ import com.oway.utillis.AppConstants;
 import com.oway.utillis.CommonUtils;
 import com.oway.utillis.Location;
 import com.oway.utillis.ToastUtils;
+import com.oway.utillis.ValidationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,10 +81,10 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     private CancelReasonDialog reasonDialog;
     private CancelButtonClick cancelButtonClick;
     private DriverProfileDialog profileDialog;
-    private List<LocationDetailsResponse.ResultsBean.AddressComponentsBean> localityName;
     private final int SOURCE_SELECT = 100;
     private final int DESTINATION_SELECT = 101;
-    private String result2;
+    private boolean isValid;
+    private String startAddress, startLat, startLng, endAddress, endLat, endLng;
     @BindView(R.id.popular_location)
     RecyclerView recyclerView;
     @BindView(R.id.etxPickUp)
@@ -108,6 +111,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     ImageView btnFab;
     @BindView(R.id.tv_balance)
     CustomTextView tvxBalance;
+
     @BindView(R.id.btn_map_source)
     Button btn_map_source;
 
@@ -116,6 +120,9 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @Inject
     TripActivityPresenter<TripActivityView> tripActivityPresenter;
+
+    @Inject
+    ValidationUtils validationUtils;
 
 
     @OnClick(R.id.btn_cancel_ride)
@@ -162,11 +169,14 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @OnClick(R.id.btn_map_next)
     public void onClickNextOnMap() {
-        GetEstimateBikeRequest mRequest = new GetEstimateBikeRequest();
-        mRequest.setDistance("2");
-        mRequest.setId_fitur(PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, ""));
-        mRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
-        tripActivityPresenter.getEstimatePriceBike(mRequest);
+        isValid = validationUtils.checkPickAndDestination(etxPickUp, etxDropDown);
+        if (isValid) {
+            GetEstimateBikeRequest mRequest = new GetEstimateBikeRequest();
+            mRequest.setDistance("2");
+            mRequest.setId_fitur(PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, ""));
+            mRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
+            tripActivityPresenter.getEstimatePriceBike(mRequest);
+        }
     }
 
     @Override
@@ -225,28 +235,35 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
 
 
-/*
 
-    @OnTouch(R.id.etxPickUp)
+
+
+    @OnClick(R.id.etxPickUp)
     public void onPicUpTouch() {
         etxPickUp.requestFocus();  //keep focus on the EditText(redTime)
         isPickUpClick = true;
         Intent intent = new Intent(MotorTripActivity.this, SearchPlaces.class);
         intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
         intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
-        startActivityForResult(intent, AppConstants.REQUEST_CODE_PICK);
+        if (isPickUpClick)
+            startActivityForResult(intent, SOURCE_SELECT);
+        else
+            startActivityForResult(intent, DESTINATION_SELECT);
     }
 
-    @OnTouch(R.id.etxDropDown)
+    @OnClick(R.id.etxDropDown)
     public void onDropDown() {
         etxDropDown.requestFocus();  //keep focus on the EditText(redTime)
         isPickUpClick = false;
         Intent intent = new Intent(MotorTripActivity.this, SearchPlaces.class);
         intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
         intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
-        startActivityForResult(intent, AppConstants.REQUEST_CODE_DROP);
+        if (isPickUpClick)
+            startActivityForResult(intent, SOURCE_SELECT);
+        else
+            startActivityForResult(intent, DESTINATION_SELECT);
     }
-*/
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -280,60 +297,12 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         tripActivityPresenter.onAttach(MotorTripActivity.this);
         mapFragment = getSupportMapFragment();
         initializeMap();
-        onTouch();
         Intent intent = getIntent();
+        tvxBalance.setText(intent.getStringExtra("balance"));
     }
 
 
-    @SuppressLint("ClickableViewAccessibility")
-    private void onTouch() {
 
-        etxPickUp.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        etxPickUp.requestFocus();  //keep focus on the EditText(redTime)
-                        isPickUpClick = true;
-                        Intent intent = new Intent(MotorTripActivity.this, SearchPlaces.class);
-                        intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
-                        intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
-                        startActivityForResult(intent, AppConstants.REQUEST_CODE_PICK);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        v.performClick();
-                        break;
-                    default:
-                        break;
-                }
-                return true;
-
-            }
-        });
-        etxDropDown.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        etxDropDown.requestFocus();  //keep focus on the EditText(redTime)
-                        isPickUpClick = false;
-                        Intent intent = new Intent(MotorTripActivity.this, SearchPlaces.class);
-                        intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
-                        intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
-                        startActivityForResult(intent, AppConstants.REQUEST_CODE_DROP);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        v.performClick();
-                        break;
-                    default:
-                        break;
-                }
-                return true;
-
-            }
-        });
-
-    }
 
     private void getNearByDriver() {
         GetNearestDriverRequest nearRequest = new GetNearestDriverRequest();
@@ -349,7 +318,11 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @Override
     public void onLocationChanged(LatLng location) {
         mlocation = location;
-        tripActivityPresenter.getLocationDetails(mlocation.latitude + "," + mlocation.longitude, getResources().getString(R.string.google_key));
+        GetCurrentLocationRequest mRequest = new GetCurrentLocationRequest();
+        mRequest.setLatitude(String.valueOf(mlocation.latitude));
+        mRequest.setLongitude(String.valueOf(mlocation.longitude));
+        mRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
+        tripActivityPresenter.getLocationDetails(mRequest);
         getNearByDriver();
         getRecommendedPlaces();
     }
@@ -377,7 +350,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @Override
     public void onGetNearestDriverResponseSuccess(GetNearestDriverResponse status) {
-        ToastUtils.shortToast("Driver found");
         CommonUtils.setDriversOnMap(status, map);
 
     }
@@ -419,17 +391,9 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     public void onGetAddressSuccess(Response<LocationDetailsResponse> response) {
         try {
             if (response != null) {
-                StringBuilder localityAddress = new StringBuilder();
-                localityName = response.body().getResults().get(1).getAddress_components();
-                localityAddress.append(localityName.get(1).getLong_name()).append(", ");
-                for (int i = 0; i < localityName.size(); i++) {
-                    if (localityName.get(i).getTypes().contains("locality")) {
-                        localityAddress.append(localityName.get(i).getShort_name());
-                    }
-                }
                 latLngStart = location.getLocation();
                 // latlongs.add(latLngStart);
-                etxPickUp.setText(localityAddress);
+                etxPickUp.setText(response.body().getFormatted_address());
             }
         } catch (Exception e) {
             Log.e("null", "null");
@@ -497,24 +461,36 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @OnClick(R.id.btn_map_source)
     public void onSourceBtnClick() {
-        etxPickUp.setText(result2);
+        etxPickUp.setText(startAddress);
         btn_map_source.setVisibility(View.GONE);
+    }
+
+    @OnClick(R.id.btn_map_destination)
+    public void onDestinationBtnClick() {
+        etxDropDown.setText(endAddress);
+        btn_map_destination.setVisibility(View.GONE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SOURCE_SELECT && resultCode == RESULT_OK) {
-            String result = data.getStringExtra(AppConstants.SELECT_LONGITUDE);
-            String result1 = data.getStringExtra(AppConstants.SELECT_LATITUDE);
-            result2 = data.getStringExtra(AppConstants.ADDRESS);
-            if (!etxPickUp.getText().toString().isEmpty()) {
+            startLat = data.getStringExtra(AppConstants.SELECT_LONGITUDE);
+            startLng = data.getStringExtra(AppConstants.SELECT_LATITUDE);
+            startAddress = data.getStringExtra(AppConstants.ADDRESS);
+            if (!etxPickUp.getText().toString().isEmpty())
                 btn_map_source.setVisibility(View.VISIBLE);
-            }
-            ToastUtils.shortToast("souce " + result + " " + result1 + " " + result2);
-        } else if (requestCode == DESTINATION_SELECT && resultCode == RESULT_OK) {
-            ToastUtils.shortToast("DESSTIMN");
+            else
+                etxPickUp.setText(startAddress);
 
+        } else if (requestCode == DESTINATION_SELECT && resultCode == RESULT_OK) {
+            endLat = data.getStringExtra(AppConstants.SELECT_LONGITUDE);
+            endLng = data.getStringExtra(AppConstants.SELECT_LATITUDE);
+            endAddress = data.getStringExtra(AppConstants.ADDRESS);
+            if (!etxDropDown.getText().toString().isEmpty())
+                btn_map_destination.setVisibility(View.VISIBLE);
+            else
+                etxDropDown.setText(endAddress);
         }
     }
 

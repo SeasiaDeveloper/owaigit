@@ -68,6 +68,9 @@
     <string name="validate_propinsi">Please Enter Propinsi Lokasi</string>
     <string name="validate_phonenumber">Please Enter Phone Number</string>
 
+    <!-- validation trip activity-->
+    <string name="validation_pick_up">Please enter Pick Up Address</string>
+    <string name="validation_drop_off">Please enter Drop Off Address</string>
 
     <!--Slider -->
     <string name="coming_soon">Coming Soon !!!</string>

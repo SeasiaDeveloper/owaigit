@@ -23,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_30sdp"
             android:layout_gravity="center"
+            android:textSize="@dimen/_13sdp"
             android:background="@drawable/map_popular_locations"
             android:gravity="center" />
 

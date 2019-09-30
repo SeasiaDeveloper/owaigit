@@ -53,9 +53,14 @@ import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.common.Image;
 import com.here.android.mpa.common.OnEngineInitListener;
@@ -398,7 +403,7 @@ public final class CommonUtils {
         button.setTypeface(font);
     }
 
- /*   public static String getFirebaseId() {
+   public static String getFirebaseId() {
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -412,7 +417,7 @@ public final class CommonUtils {
                     }
                 });
         return token;
-    }*/
+    }
 
     public static void showLoginDialog(Context context, String string, RegisterButtonclick mClick) {
         final Dialog dialog = new Dialog(context);
@@ -485,12 +490,12 @@ public final class CommonUtils {
                 String amount, selection;
                 if (radioButton.getText().toString().equals("CASH")) {
                     amount = tvCash.getText().toString();
-                    tvCash.setTextColor(ContextCompat.getColor(context, R.color.col_orange));
+                    radioButton.setTextColor(ContextCompat.getColor(context, R.color.col_orange));
                     selection = "0";
                 } else {
                     amount = tvSaldo.getText().toString();
                     selection = "1";
-                    tvSaldo.setTextColor(ContextCompat.getColor(context, R.color.col_orange));
+                    radioButton.setTextColor(ContextCompat.getColor(context, R.color.col_orange));
                 }
                 dialog.dismiss();
                 profileDialog.onOrderClick(amount, selection);

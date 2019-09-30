@@ -5,124 +5,126 @@ import java.util.List;
 
 //@Data
 public class LocationDetailsResponse {
+
+
     /**
-     * results : [{"address_components":[{"long_name":"277","short_name":"277","types":["street_number"]},{"long_name":"Bedford Avenue","short_name":"Bedford Ave","types":["route"]},{"long_name":"Williamsburg","short_name":"Williamsburg","types":["neighborhood","political"]},{"long_name":"Brooklyn","short_name":"Brooklyn","types":["political","sublocality","sublocality_level_1"]},{"long_name":"Kings County","short_name":"Kings County","types":["administrative_area_level_2","political"]},{"long_name":"New York","short_name":"NY","types":["administrative_area_level_1","political"]},{"long_name":"United States","short_name":"US","types":["country","political"]},{"long_name":"11211","short_name":"11211","types":["postal_code"]}],"formatted_address":"277 Bedford Ave, Brooklyn, NY 11211, USA","geometry":{"location":{"lat":40.7142205,"lng":-73.9612903},"location_type":"ROOFTOP","viewport":{"northeast":{"lat":40.71556948029149,"lng":-73.95994131970849},"southwest":{"lat":40.7128715197085,"lng":-73.9626392802915}}},"place_id":"ChIJd8BlQ2BZwokRAFUEcm_qrcA","types":["street_address"]},{"address_components":[{"long_name":"Grand St/Bedford Av","short_name":"Grand St/Bedford Av","types":["bus_station","establishment","point_of_interest","transit_station"]},{"long_name":"Williamsburg","short_name":"Williamsburg","types":["neighborhood","political"]},{"long_name":"Brooklyn","short_name":"Brooklyn","types":["political","sublocality","sublocality_level_1"]},{"long_name":"Kings County","short_name":"Kings County","types":["administrative_area_level_2","political"]},{"long_name":"New York","short_name":"NY","types":["administrative_area_level_1","political"]},{"long_name":"United States","short_name":"US","types":["country","political"]},{"long_name":"11211","short_name":"11211","types":["postal_code"]}],"formatted_address":"Grand St/Bedford Av, Brooklyn, NY 11211, USA","geometry":{"location":{"lat":40.714321,"lng":-73.961151},"location_type":"GEOMETRIC_CENTER","viewport":{"northeast":{"lat":40.71566998029149,"lng":-73.95980201970849},"southwest":{"lat":40.7129720197085,"lng":-73.96249998029151}}},"place_id":"ChIJi27VXGBZwokRM8ErPyB91yk","types":["bus_station","establishment","point_of_interest","transit_station"]},{"address_components":[{"long_name":"Williamsburg","short_name":"Williamsburg","types":["neighborhood","political"]},{"long_name":"Brooklyn","short_name":"Brooklyn","types":["political","sublocality","sublocality_level_1"]},{"long_name":"New York","short_name":"New York","types":["locality","political"]},{"long_name":"Kings County","short_name":"Kings County","types":["administrative_area_level_2","political"]},{"long_name":"New York","short_name":"NY","types":["administrative_area_level_1","political"]},{"long_name":"United States","short_name":"US","types":["country","political"]}],"formatted_address":"Williamsburg, Brooklyn, NY, USA","geometry":{"bounds":{"northeast":{"lat":40.7251773,"lng":-73.936498},"southwest":{"lat":40.6979329,"lng":-73.96984499999999}},"location":{"lat":40.7081156,"lng":-73.9570696},"location_type":"APPROXIMATE","viewport":{"northeast":{"lat":40.7251773,"lng":-73.936498},"southwest":{"lat":40.6979329,"lng":-73.96984499999999}}},"place_id":"ChIJQSrBBv1bwokRbNfFHCnyeYI","types":["neighborhood","political"]},{"address_components":[{"long_name":"Brooklyn","short_name":"Brooklyn","types":["political","sublocality","sublocality_level_1"]},{"long_name":"New York","short_name":"New York","types":["locality","political"]},{"long_name":"Kings County","short_name":"Kings County","types":["administrative_area_level_2","political"]},{"long_name":"New York","short_name":"NY","types":["administrative_area_level_1","political"]},{"long_name":"United States","short_name":"US","types":["country","political"]}],"formatted_address":"Brooklyn, NY, USA","geometry":{"bounds":{"northeast":{"lat":40.739446,"lng":-73.8333651},"southwest":{"lat":40.551042,"lng":-74.05663}},"location":{"lat":40.6781784,"lng":-73.9441579},"location_type":"APPROXIMATE","viewport":{"northeast":{"lat":40.739446,"lng":-73.8333651},"southwest":{"lat":40.551042,"lng":-74.05663}}},"place_id":"ChIJCSF8lBZEwokRhngABHRcdoI","types":["political","sublocality","sublocality_level_1"]},{"address_components":[{"long_name":"New York","short_name":"New York","types":["locality","political"]},{"long_name":"New York","short_name":"NY","types":["administrative_area_level_1","political"]},{"long_name":"United States","short_name":"US","types":["country","political"]}],"formatted_address":"New York, NY, USA","geometry":{"bounds":{"northeast":{"lat":40.9175771,"lng":-73.70027209999999},"southwest":{"lat":40.4773991,"lng":-74.25908989999999}},"location":{"lat":40.7127753,"lng":-74.0059728},"location_type":"APPROXIMATE","viewport":{"northeast":{"lat":40.9175771,"lng":-73.70027209999999},"southwest":{"lat":40.4773991,"lng":-74.25908989999999}}},"place_id":"ChIJOwg_06VPwokRYv534QaPC8g","types":["locality","political"]},{"address_components":[{"long_name":"11211","short_name":"11211","types":["postal_code"]},{"long_name":"Brooklyn","short_name":"Brooklyn","types":["political","sublocality","sublocality_level_1"]},{"long_name":"New York","short_name":"New York","types":["locality","political"]},{"long_name":"New York","short_name":"NY","types":["administrative_area_level_1","political"]},{"long_name":"United States","short_name":"US","types":["country","political"]}],"formatted_address":"Brooklyn, NY 11211, USA","geometry":{"bounds":{"northeast":{"lat":40.7280089,"lng":-73.9207299},"southwest":{"lat":40.7008331,"lng":-73.9644697}},"location":{"lat":40.7093358,"lng":-73.9565551},"location_type":"APPROXIMATE","viewport":{"northeast":{"lat":40.7280089,"lng":-73.9207299},"southwest":{"lat":40.7008331,"lng":-73.9644697}}},"place_id":"ChIJvbEjlVdZwokR4KapM3WCFRw","types":["postal_code"]},{"address_components":[{"long_name":"Kings County","short_name":"Kings County","types":["administrative_area_level_2","political"]},{"long_name":"Brooklyn","short_name":"Brooklyn","types":["political","sublocality","sublocality_level_1"]},{"long_name":"New York","short_name":"NY","types":["administrative_area_level_1","political"]},{"long_name":"United States","short_name":"US","types":["country","political"]}],"formatted_address":"Kings County, Brooklyn, NY, USA","geometry":{"bounds":{"northeast":{"lat":40.739446,"lng":-73.8333651},"southwest":{"lat":40.551042,"lng":-74.05663}},"location":{"lat":40.6528762,"lng":-73.95949399999999},"location_type":"APPROXIMATE","viewport":{"northeast":{"lat":40.739446,"lng":-73.8333651},"southwest":{"lat":40.551042,"lng":-74.05663}}},"place_id":"ChIJOwE7_GTtwokRs75rhW4_I6M","types":["administrative_area_level_2","political"]},{"address_components":[{"long_name":"New York-Northern New Jersey-Long Island, NY-NJ-PA","short_name":"New York-Northern New Jersey-Long Island, NY-NJ-PA","types":["political"]},{"long_name":"United States","short_name":"US","types":["country","political"]}],"formatted_address":"New York-Northern New Jersey-Long Island, NY-NJ-PA, USA","geometry":{"bounds":{"northeast":{"lat":41.6018065,"lng":-71.856214},"southwest":{"lat":39.49853299999999,"lng":-75.3585939}},"location":{"lat":40.9590293,"lng":-74.0300122},"location_type":"APPROXIMATE","viewport":{"northeast":{"lat":41.6018065,"lng":-71.856214},"southwest":{"lat":39.49853299999999,"lng":-75.3585939}}},"place_id":"ChIJ3YJV4PRWwokRFFI21ZrHXtQ","types":["political"]},{"address_components":[{"long_name":"New York Metropolitan Area","short_name":"New York Metropolitan Area","types":["political"]},{"long_name":"United States","short_name":"US","types":["country","political"]}],"formatted_address":"New York Metropolitan Area, USA","geometry":{"bounds":{"northeast":{"lat":42.0809059,"lng":-71.777491},"southwest":{"lat":39.475198,"lng":-75.3587649}},"location":{"lat":40.7127761,"lng":-74.0059544},"location_type":"APPROXIMATE","viewport":{"northeast":{"lat":42.0809059,"lng":-71.777491},"southwest":{"lat":39.475198,"lng":-75.3587649}}},"place_id":"ChIJ-5Z24NaGwokRiMh4Rj8FNMo","types":["political"]},{"address_components":[{"long_name":"New York","short_name":"NY","types":["administrative_area_level_1","political"]},{"long_name":"United States","short_name":"US","types":["country","political"]}],"formatted_address":"New York, USA","geometry":{"bounds":{"northeast":{"lat":45.015865,"lng":-71.777491},"southwest":{"lat":40.4773991,"lng":-79.7625901}},"location":{"lat":43.2994285,"lng":-74.21793260000001},"location_type":"APPROXIMATE","viewport":{"northeast":{"lat":45.015865,"lng":-71.777491},"southwest":{"lat":40.4773991,"lng":-79.7625901}}},"place_id":"ChIJqaUj8fBLzEwRZ5UY3sHGz90","types":["administrative_area_level_1","political"]},{"address_components":[{"long_name":"United States","short_name":"US","types":["country","political"]}],"formatted_address":"United States","geometry":{"bounds":{"northeast":{"lat":71.5388001,"lng":-66.885417},"southwest":{"lat":18.7763,"lng":170.5957}},"location":{"lat":37.09024,"lng":-95.712891},"location_type":"APPROXIMATE","viewport":{"northeast":{"lat":49.38,"lng":-66.94},"southwest":{"lat":25.82,"lng":-124.39}}},"place_id":"ChIJCzYy5IS16lQRQrfeQ5K5Oxw","types":["country","political"]}]
-     * status : OK
+     * formatted_address : Unnamed Road, Phase 8, Industrial Area, Sector 73, Sahibzada Ajit Singh Nagar, Punjab 140308, India
+     * geometry : {"bounds":{"northeast":{"lat":30.7106705,"lng":76.70986789999999},"southwest":{"lat":30.7097869,"lng":76.7084782}},"location":{"lat":30.7102287,"lng":76.70917299999999},"location_type":"GEOMETRIC_CENTER","viewport":{"northeast":{"lat":30.71157768029149,"lng":76.7105220302915},"southwest":{"lat":30.7088797197085,"lng":76.7078240697085}}}
+     * place_id : ChIJJ8OaIvXuDzkRSO9FELNtWSM
+     * types : ["route"]
      */
 
-    private String status;
-    private List<ResultsBean> results;
+    private String formatted_address;
+    private GeometryBean geometry;
+    private String place_id;
+    private List<String> types;
 
-    public String getStatus() {
-        return status;
+    public String getFormatted_address() {
+        return formatted_address;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setFormatted_address(String formatted_address) {
+        this.formatted_address = formatted_address;
     }
 
-    public List<ResultsBean> getResults() {
-        return results;
+    public GeometryBean getGeometry() {
+        return geometry;
     }
 
-    public void setResults(List<ResultsBean> results) {
-        this.results = results;
+    public void setGeometry(GeometryBean geometry) {
+        this.geometry = geometry;
     }
 
-    public static class ResultsBean {
+    public String getPlace_id() {
+        return place_id;
+    }
+
+    public void setPlace_id(String place_id) {
+        this.place_id = place_id;
+    }
+
+    public List<String> getTypes() {
+        return types;
+    }
+
+    public void setTypes(List<String> types) {
+        this.types = types;
+    }
+
+    public static class GeometryBean {
         /**
-         * address_components : [{"long_name":"277","short_name":"277","types":["street_number"]},{"long_name":"Bedford Avenue","short_name":"Bedford Ave","types":["route"]},{"long_name":"Williamsburg","short_name":"Williamsburg","types":["neighborhood","political"]},{"long_name":"Brooklyn","short_name":"Brooklyn","types":["political","sublocality","sublocality_level_1"]},{"long_name":"Kings County","short_name":"Kings County","types":["administrative_area_level_2","political"]},{"long_name":"New York","short_name":"NY","types":["administrative_area_level_1","political"]},{"long_name":"United States","short_name":"US","types":["country","political"]},{"long_name":"11211","short_name":"11211","types":["postal_code"]}]
-         * formatted_address : 277 Bedford Ave, Brooklyn, NY 11211, USA
-         * geometry : {"location":{"lat":40.7142205,"lng":-73.9612903},"location_type":"ROOFTOP","viewport":{"northeast":{"lat":40.71556948029149,"lng":-73.95994131970849},"southwest":{"lat":40.7128715197085,"lng":-73.9626392802915}}}
-         * place_id : ChIJd8BlQ2BZwokRAFUEcm_qrcA
-         * types : ["street_address"]
+         * bounds : {"northeast":{"lat":30.7106705,"lng":76.70986789999999},"southwest":{"lat":30.7097869,"lng":76.7084782}}
+         * location : {"lat":30.7102287,"lng":76.70917299999999}
+         * location_type : GEOMETRIC_CENTER
+         * viewport : {"northeast":{"lat":30.71157768029149,"lng":76.7105220302915},"southwest":{"lat":30.7088797197085,"lng":76.7078240697085}}
          */
 
-        private String formatted_address;
-        private GeometryBean geometry;
-        private String place_id;
-        private List<AddressComponentsBean> address_components;
-        private List<String> types;
+        private BoundsBean bounds;
+        private LocationBean location;
+        private String location_type;
+        private ViewportBean viewport;
 
-        public String getFormatted_address() {
-            return formatted_address;
+        public BoundsBean getBounds() {
+            return bounds;
         }
 
-        public void setFormatted_address(String formatted_address) {
-            this.formatted_address = formatted_address;
+        public void setBounds(BoundsBean bounds) {
+            this.bounds = bounds;
         }
 
-        public GeometryBean getGeometry() {
-            return geometry;
+        public LocationBean getLocation() {
+            return location;
         }
 
-        public void setGeometry(GeometryBean geometry) {
-            this.geometry = geometry;
+        public void setLocation(LocationBean location) {
+            this.location = location;
         }
 
-        public String getPlace_id() {
-            return place_id;
+        public String getLocation_type() {
+            return location_type;
         }
 
-        public void setPlace_id(String place_id) {
-            this.place_id = place_id;
+        public void setLocation_type(String location_type) {
+            this.location_type = location_type;
         }
 
-        public List<AddressComponentsBean> getAddress_components() {
-            return address_components;
+        public ViewportBean getViewport() {
+            return viewport;
         }
 
-        public void setAddress_components(List<AddressComponentsBean> address_components) {
-            this.address_components = address_components;
+        public void setViewport(ViewportBean viewport) {
+            this.viewport = viewport;
         }
 
-        public List<String> getTypes() {
-            return types;
-        }
-
-        public void setTypes(List<String> types) {
-            this.types = types;
-        }
-
-        public static class GeometryBean {
+        public static class BoundsBean {
             /**
-             * location : {"lat":40.7142205,"lng":-73.9612903}
-             * location_type : ROOFTOP
-             * viewport : {"northeast":{"lat":40.71556948029149,"lng":-73.95994131970849},"southwest":{"lat":40.7128715197085,"lng":-73.9626392802915}}
+             * northeast : {"lat":30.7106705,"lng":76.70986789999999}
+             * southwest : {"lat":30.7097869,"lng":76.7084782}
              */
 
-            private LocationBean location;
-            private String location_type;
-            private ViewportBean viewport;
+            private NortheastBean northeast;
+            private SouthwestBean southwest;
 
-            public LocationBean getLocation() {
-                return location;
+            public NortheastBean getNortheast() {
+                return northeast;
             }
 
-            public void setLocation(LocationBean location) {
-                this.location = location;
+            public void setNortheast(NortheastBean northeast) {
+                this.northeast = northeast;
             }
 
-            public String getLocation_type() {
-                return location_type;
+            public SouthwestBean getSouthwest() {
+                return southwest;
             }
 
-            public void setLocation_type(String location_type) {
-                this.location_type = location_type;
+            public void setSouthwest(SouthwestBean southwest) {
+                this.southwest = southwest;
             }
 
-            public ViewportBean getViewport() {
-                return viewport;
-            }
-
-            public void setViewport(ViewportBean viewport) {
-                this.viewport = viewport;
-            }
-
-            public static class LocationBean {
+            public static class NortheastBean {
                 /**
-                 * lat : 40.7142205
-                 * lng : -73.9612903
+                 * lat : 30.7106705
+                 * lng : 76.70986789999999
                  */
 
                 private double lat;
@@ -145,136 +147,135 @@ public class LocationDetailsResponse {
                 }
             }
 
-            public static class ViewportBean {
+            public static class SouthwestBean {
                 /**
-                 * northeast : {"lat":40.71556948029149,"lng":-73.95994131970849}
-                 * southwest : {"lat":40.7128715197085,"lng":-73.9626392802915}
+                 * lat : 30.7097869
+                 * lng : 76.7084782
                  */
 
-                private NortheastBean northeast;
-                private SouthwestBean southwest;
+                private double lat;
+                private double lng;
 
-                public NortheastBean getNortheast() {
-                    return northeast;
+                public double getLat() {
+                    return lat;
                 }
 
-                public void setNortheast(NortheastBean northeast) {
-                    this.northeast = northeast;
+                public void setLat(double lat) {
+                    this.lat = lat;
                 }
 
-                public SouthwestBean getSouthwest() {
-                    return southwest;
+                public double getLng() {
+                    return lng;
                 }
 
-                public void setSouthwest(SouthwestBean southwest) {
-                    this.southwest = southwest;
-                }
-
-                public static class NortheastBean {
-                    /**
-                     * lat : 40.71556948029149
-                     * lng : -73.95994131970849
-                     */
-
-                    private double lat;
-                    private double lng;
-
-                    public double getLat() {
-                        return lat;
-                    }
-
-                    public void setLat(double lat) {
-                        this.lat = lat;
-                    }
-
-                    public double getLng() {
-                        return lng;
-                    }
-
-                    public void setLng(double lng) {
-                        this.lng = lng;
-                    }
-                }
-
-                public static class SouthwestBean {
-                    /**
-                     * lat : 40.7128715197085
-                     * lng : -73.9626392802915
-                     */
-
-                    private double lat;
-                    private double lng;
-
-                    public double getLat() {
-                        return lat;
-                    }
-
-                    public void setLat(double lat) {
-                        this.lat = lat;
-                    }
-
-                    public double getLng() {
-                        return lng;
-                    }
-
-                    public void setLng(double lng) {
-                        this.lng = lng;
-                    }
+                public void setLng(double lng) {
+                    this.lng = lng;
                 }
             }
         }
 
-        public static class AddressComponentsBean {
+        public static class LocationBean {
             /**
-             * long_name : 277
-             * short_name : 277
-             * types : ["street_number"]
+             * lat : 30.7102287
+             * lng : 76.70917299999999
              */
 
-            private String long_name;
-            private String short_name;
-            private List<String> types;
+            private double lat;
+            private double lng;
 
-            public String getLong_name() {
-                return long_name;
+            public double getLat() {
+                return lat;
             }
 
-            public void setLong_name(String long_name) {
-                this.long_name = long_name;
+            public void setLat(double lat) {
+                this.lat = lat;
             }
 
-            public String getShort_name() {
-                return short_name;
+            public double getLng() {
+                return lng;
             }
 
-            public void setShort_name(String short_name) {
-                this.short_name = short_name;
+            public void setLng(double lng) {
+                this.lng = lng;
+            }
+        }
+
+        public static class ViewportBean {
+            /**
+             * northeast : {"lat":30.71157768029149,"lng":76.7105220302915}
+             * southwest : {"lat":30.7088797197085,"lng":76.7078240697085}
+             */
+
+            private NortheastBeanX northeast;
+            private SouthwestBeanX southwest;
+
+            public NortheastBeanX getNortheast() {
+                return northeast;
             }
 
-            public List<String> getTypes() {
-                return types;
+            public void setNortheast(NortheastBeanX northeast) {
+                this.northeast = northeast;
             }
 
-            public void setTypes(List<String> types) {
-                this.types = types;
+            public SouthwestBeanX getSouthwest() {
+                return southwest;
+            }
+
+            public void setSouthwest(SouthwestBeanX southwest) {
+                this.southwest = southwest;
+            }
+
+            public static class NortheastBeanX {
+                /**
+                 * lat : 30.71157768029149
+                 * lng : 76.7105220302915
+                 */
+
+                private double lat;
+                private double lng;
+
+                public double getLat() {
+                    return lat;
+                }
+
+                public void setLat(double lat) {
+                    this.lat = lat;
+                }
+
+                public double getLng() {
+                    return lng;
+                }
+
+                public void setLng(double lng) {
+                    this.lng = lng;
+                }
+            }
+
+            public static class SouthwestBeanX {
+                /**
+                 * lat : 30.7088797197085
+                 * lng : 76.7078240697085
+                 */
+
+                private double lat;
+                private double lng;
+
+                public double getLat() {
+                    return lat;
+                }
+
+                public void setLat(double lat) {
+                    this.lat = lat;
+                }
+
+                public double getLng() {
+                    return lng;
+                }
+
+                public void setLng(double lng) {
+                    this.lng = lng;
+                }
             }
         }
     }
-   /* private Results[] results;
-    private String status;
-
-    @Data
-    public class Results {
-        private String place_id;
-        private AddressComponents[] address_components;
-        private String formatted_address;
-        private String[] types;
-
-        @Data
-        public class AddressComponents {
-            private String long_name;
-            private String[] types;
-            private String short_name;
-        }
-    }*/
 }

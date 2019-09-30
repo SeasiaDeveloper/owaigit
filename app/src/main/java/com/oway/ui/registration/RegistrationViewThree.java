@@ -16,6 +16,7 @@ import com.oway.model.response.RegisterResponse;
 import com.oway.ui.login.LoginActivityView;
 import com.oway.ui.login.WelcomeScreenActivity;
 import com.oway.utillis.AppConstants;
+import com.oway.utillis.CommonUtils;
 import com.oway.utillis.ToastUtils;
 import com.oway.utillis.ValidationUtils;
 
@@ -107,6 +108,7 @@ public class RegistrationViewThree extends BaseFragment implements RegisterActiv
             request.setCity(kota.getText().toString());
             request.setProvince(propinsi.getText().toString());
             request.setImage(PreferenceHandler.readString(getActivity(), AppConstants.IMAGE_PATH, ""));
+            request.setReg_id(CommonUtils.getFirebaseId());
             registerActivityPresenter.register(request);
         }
     }
