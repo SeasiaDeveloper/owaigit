@@ -51,6 +51,8 @@
                         android:paddingStart="@dimen/_15sdp"
                         android:paddingLeft="@dimen/_20sdp"
                         android:text="@string/cash"
+                        android:checked="true"
+                        android:textColor="@drawable/radio_button_checked_state"
                         android:textSize="@dimen/_12sdp" />
 
                     <LinearLayout
@@ -89,6 +91,7 @@
                         android:paddingStart="@dimen/_15sdp"
                         android:paddingLeft="@dimen/_15sdp"
                         android:text="@string/saldo"
+                        android:textColor="@drawable/radio_button_checked_state"
                         android:textSize="@dimen/_12sdp" />
 
                     <LinearLayout

@@ -35,6 +35,7 @@ import com.oway.callbacks.DriverProfileDialog;
 import com.oway.callbacks.PopularLocationsCallBack;
 import com.oway.customviews.CustomTextView;
 import com.oway.customviews.CustomTextView;
+import com.oway.customviews.CustomTextView;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.PopularLocationsModal;
 import com.oway.model.request.CustomerTransactionRequest;
@@ -48,6 +49,7 @@ import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
 import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.model.response.LocationDetailsResponse;
+import com.oway.model.response.SendDriverResponse;
 import com.oway.otto.BusProvider;
 import com.oway.ui.home.MainActivity;
 import com.oway.utillis.AppConstants;
@@ -73,7 +75,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     private boolean isPickUpClick = true;
     private ArrayList<PopularLocationsModal> modalArrayList = new ArrayList<PopularLocationsModal>();
-    private LatLng latLngStart;
     private Map map = null;
     private SupportMapFragment mapFragment = null;
     private BottomSheetBehavior sheetBehavior;
@@ -190,23 +191,23 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         layoutSourceDestination.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
         layoutPleaseWaitForRide.setVisibility(View.VISIBLE);
-        CustomerTransactionRequest mRequet = new CustomerTransactionRequest();
-        mRequet.setEkl_customer(PreferenceHandler.readString(this, AppConstants.USER_ID, ""));
-        mRequet.setOrder_fitur(PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, ""));
-        mRequet.setStart_latitude(Double.parseDouble(startLat));
-        mRequet.setStart_longitude(Double.parseDouble(startLng));
-        mRequet.setEnd_latitude(Double.parseDouble(endLat));
-        mRequet.setEnd_longitude(Double.parseDouble(endLng));
-        mRequet.setDistance("1");
-        mRequet.setPrice(price);
-        mRequet.setOrder_time(CommonUtils.getCurrentDateTime());
-        mRequet.setPickup_address(startAddress);
-        mRequet.setDestination_address(endAddress);
-        mRequet.setFinal_price(price);
-        mRequet.setUse_balance(selection);
-        mRequet.setSeat(0);
-        mRequet.setAccess_token(PreferenceHandler.readString(this, AppConstants.MBR_TOKEN, ""));
-        tripActivityPresenter.getCustomerRequestTransaction(mRequet);
+        CustomerTransactionRequest mRequest = new CustomerTransactionRequest();
+        mRequest.setEkl_customer(PreferenceHandler.readString(this, AppConstants.USER_ID, ""));
+        mRequest.setOrder_fitur(PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, ""));
+        mRequest.setStart_latitude(Double.parseDouble(startLat));
+        mRequest.setStart_longitude(Double.parseDouble(startLng));
+        mRequest.setEnd_latitude(Double.parseDouble(endLat));
+        mRequest.setEnd_longitude(Double.parseDouble(endLng));
+        mRequest.setDistance("1");
+        mRequest.setPrice(price);
+        mRequest.setOrder_time(CommonUtils.getCurrentDateTime());
+        mRequest.setPickup_address(startAddress);
+        mRequest.setDestination_address(endAddress);
+        mRequest.setFinal_price(price);
+        mRequest.setUse_balance(selection);
+        mRequest.setSeat(0);
+        mRequest.setAccess_token(PreferenceHandler.readString(this, AppConstants.MBR_TOKEN, ""));
+        tripActivityPresenter.getCustomerRequestTransaction(mRequest);
 
 
     }
@@ -263,7 +264,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
             startActivityForResult(intent, DESTINATION_SELECT);
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -276,9 +276,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         profileDialog = this;
         reasonDialog = this;
 
-
     }
-
 
     @Override
     protected void setUp() {
@@ -324,6 +322,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         tripActivityPresenter.getLocationDetails(mRequest);
         getNearByDriver();
         getRecommendedPlaces();
+
+
         // }
     }
 
@@ -391,12 +391,12 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     public void onGetAddressSuccess(Response<LocationDetailsResponse> response) {
         try {
             if (response != null) {
-                latLngStart = location.getLocation();
-                // latlongs.add(latLngStart);
                 etxPickUp.setText(response.body().getFormatted_address());
+                startLat = String.valueOf(mlocation.latitude);
+                startLng = String.valueOf(mlocation.longitude);
+                startAddress = response.body().getFormatted_address();
             }
         } catch (Exception e) {
-            Log.e("null", "null");
             e.getStackTrace();
         }
     }
@@ -418,7 +418,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @Override
     public void onGetCustomerTransactionSuccess(CustomerTransactionResponse response) {
-        ToastUtils.shortToast(response.getErrNumber());
         SendDriverRequest mRequest = new SendDriverRequest();
         mRequest.setAccess_token(PreferenceHandler.readString(this, AppConstants.MBR_TOKEN, ""));
         mRequest.setId_transaksi(String.valueOf(response.getTransaksi().getId()));
@@ -431,14 +430,15 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     }
 
     @Override
-    public void onGetNearestDriverSuccess(GetNearestDriverResponse response) {
-        ToastUtils.shortToast(response.getRespMessage());
+    public void onSendNearestDriverSuccess(SendDriverResponse response) {
+
     }
 
     @Override
-    public void onGetNearestDriverFailure(String response) {
+    public void onSendNearestDriverFailure(String response) {
 
     }
+
 
     void initializeMap() {
         mapFragment.init(new OnEngineInitListener() {

@@ -58,7 +58,7 @@ public class SearchPlacesActivity extends BaseActivity implements SearchPlacesVi
         setContentView(R.layout.activity_search_places);
         ButterKnife.bind(this);
         getActivityComponent().inject(this);
-        searchPlacesPresenter.onAttach(SearchPlacesActivity.this);
+        searchPlacesPresenter.onAttach(this);
         intent = getIntent();
         latitude = intent.getDoubleExtra(AppConstants.LATITUDE, 0);
         longitude = intent.getDoubleExtra(AppConstants.LONGITUDE, 0);

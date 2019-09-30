@@ -7,6 +7,7 @@ import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
 import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.model.response.LocationDetailsResponse;
+import com.oway.model.response.SendDriverResponse;
 
 import retrofit2.Response;
 
@@ -31,9 +32,9 @@ public interface TripActivityView extends MvpView {
 
     void onGetCustomerTransactionFailure(String response);
 
-    void onGetNearestDriverSuccess(GetNearestDriverResponse response);
+    void onSendNearestDriverSuccess(SendDriverResponse response);
 
-    void onGetNearestDriverFailure(String response);
+    void onSendNearestDriverFailure(String response);
 
 
 

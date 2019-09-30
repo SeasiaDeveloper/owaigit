@@ -39,4 +39,5 @@ public interface ActivityComponent {
     void inject(MotorTripActivity motorTripActivity);
     void inject(SearchPlacesActivity searchPlacesActivity);
 
+
 }

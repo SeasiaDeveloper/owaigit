@@ -16,6 +16,7 @@ import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
 import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.model.response.LocationDetailsResponse;
+import com.oway.model.response.SendDriverResponse;
 import com.oway.utillis.ConstsCore;
 import com.oway.utillis.NetworkUtils;
 
@@ -114,7 +115,6 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
                 dismissLoading();
                 GetEstimateBikeResponse body = response.body();
                 if (body != null) {
-                    getMvpView().onGetBikePriceSuccess(response.body());
                     if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
                         getMvpView().onGetBikePriceSuccess(body);
                     } else if (response.body().getCode() == ConstsCore.STATUS_CODE_FAILED) {
@@ -207,24 +207,24 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
             return;
         }
         //showLoading();
-        apiService.getNearestDriverRequest(driverRequest).enqueue(new Callback<GetNearestDriverResponse>() {
+        apiService.getNearestDriverRequest(driverRequest).enqueue(new Callback<SendDriverResponse>() {
             @Override
-            public void onResponse(Call<GetNearestDriverResponse> call, Response<GetNearestDriverResponse> response) {
+            public void onResponse(Call<SendDriverResponse> call, Response<SendDriverResponse> response) {
                 dismissLoading();
-                GetNearestDriverResponse body = response.body();
+                SendDriverResponse body = response.body();
                 if (body != null) {
                     if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
-                        getMvpView().onGetNearestDriverResponseSuccess(body);
+                        getMvpView().onSendNearestDriverSuccess(body);
                     } else if (response.body().getCode() == ConstsCore.STATUS_CODE_FAILED) {
-                        getMvpView().onGetNearestDriverResponseFailure(response.body().getRespMessage());
+                        getMvpView().onSendNearestDriverFailure(response.body().getRespMessage());
                     }
                 } else {
-                    getMvpView().onGetNearestDriverResponseFailure(App.getInstance().getResources().getString(R.string.something_went_wrong));
+                    getMvpView().onSendNearestDriverFailure(App.getInstance().getResources().getString(R.string.something_went_wrong));
                 }
             }
 
             @Override
-            public void onFailure(Call<GetNearestDriverResponse> call, Throwable t) {
+            public void onFailure(Call<SendDriverResponse> call, Throwable t) {
                 dismissLoading();
                 if (getMvpView() != null) {
                     String msg = t.getMessage();
