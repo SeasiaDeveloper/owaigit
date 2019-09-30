@@ -38,11 +38,11 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
             getMvpView().showMessage(R.string.internet_check);
             return;
         }
-        showLoading();
+        //showLoading();
         apiService.getNearestDriver(nearRequest).enqueue(new Callback<GetNearestDriverResponse>() {
             @Override
             public void onResponse(Call<GetNearestDriverResponse> call, Response<GetNearestDriverResponse> response) {
-                dismissLoading();
+               // dismissLoading();
                 GetNearestDriverResponse body = response.body();
                 if (body != null) {
                     if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
@@ -57,7 +57,7 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
 
             @Override
             public void onFailure(Call<GetNearestDriverResponse> call, Throwable t) {
-                dismissLoading();
+             //   dismissLoading();
                 if (getMvpView() != null) {
                     String msg = t.getMessage();
                     getMvpView().showMessage(R.string.something_went_wrong);
@@ -142,11 +142,11 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
             getMvpView().showMessage(R.string.internet_check);
             return;
         }
-
+        showLoading();
         apiService.getCurrentAddress(mRequest).enqueue(new Callback<LocationDetailsResponse>() {
             @Override
             public void onResponse(Call<LocationDetailsResponse> call, Response<LocationDetailsResponse> response) {
-                // dismissLoading();
+                 dismissLoading();
                 LocationDetailsResponse body = response.body();
                 if (body != null) {
                     getMvpView().onGetAddressSuccess(response);
@@ -157,7 +157,7 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
 
             @Override
             public void onFailure(Call<LocationDetailsResponse> call, Throwable t) {
-                // dismissLoading();
+                 dismissLoading();
                 if (getMvpView() != null) {
                     String msg = t.getMessage();
                     getMvpView().showMessage(R.string.something_went_wrong);
