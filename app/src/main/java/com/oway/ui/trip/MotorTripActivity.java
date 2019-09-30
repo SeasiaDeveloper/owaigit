@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -95,6 +96,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     RelativeLayout layoutDriverRidingToYou;
     @BindView(R.id.btn_float)
     ImageButton btnFab;
+    @BindView(R.id.imgCurrent)
+    ImageView imgCurrent;
 
     @BindView(R.id.btn_map_source)
     Button btn_map_source;
@@ -174,6 +177,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         layoutSourceDestination.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
         layoutPleaseWaitForRide.setVisibility(View.VISIBLE);
+        imgCurrent.setVisibility(View.GONE);
+
         CustomerTransactionRequest mRequest = new CustomerTransactionRequest();
         mRequest.setEkl_customer(PreferenceHandler.readString(this, AppConstants.USER_ID, ""));
         mRequest.setOrder_fitur(PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, ""));
@@ -407,14 +412,14 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @Override
     public void onSendNearestDriverSuccess(SendDriverResponse response) {
+        ToastUtils.shortToast(response.getRespMessage());
 
     }
 
     @Override
     public void onSendNearestDriverFailure(String response) {
-
+        ToastUtils.shortToast(response);
     }
-
 
     void initializeMap() {
         mapFragment.init(new OnEngineInitListener() {

@@ -92,6 +92,7 @@
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
             android:layout_gravity="center"
+            android:visibility="gone"
             android:layout_marginEnd="@dimen/_20sdp"
             android:layout_marginRight="@dimen/_20sdp"
             android:background="@drawable/location_now"
@@ -341,6 +342,7 @@
         android:layout_above="@+id/ll_locations"
         android:layout_height="wrap_content">
         <ImageView
+            android:id="@+id/imgCurrent"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_45sdp"
             android:src="@drawable/currentlocation"
