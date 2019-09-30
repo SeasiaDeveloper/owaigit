@@ -27,6 +27,7 @@ import com.oway.utillis.AppConstants;
 import com.oway.utillis.GlideImageLoader;
 import com.yyydjk.library.BannerLayout;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
     private RecyclerView recyclerView;
     private BannerLayout bannerLayout;
     private List<String> imageUrls;
+    public GetSaldoResponse.Balance[] balance;
 
     @BindView(R.id.tv_main_balance)
     CustomTextView tvxMainBalance;
@@ -81,6 +83,7 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
                 PreferenceHandler.writeString(getActivity(), AppConstants.SELECTION_GRID, String.valueOf(position + 1));
                 PreferenceHandler.writeString(getActivity(), AppConstants.SELECTION_GRID, String.valueOf(position + 1));
                 Intent intent = new Intent(getActivity(), MotorTripActivity.class);
+                intent.putExtra("balance",balance[0].getSisa_uang());
                 startActivity(intent);
 
             }
@@ -130,7 +133,7 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
     @Override
     public void onGetSaldoResponseSuccess(GetSaldoResponse response) {
 
-        GetSaldoResponse.Balance[] balance = response.getBalance();
+         balance = response.getBalance();
 
         tvxMainBalance.setText("Rp " + balance[0].getSisa_uang());
         txvBonusBalance.setText("Rp bonus " + balance[0].getBonus_member());

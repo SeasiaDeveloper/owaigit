@@ -45,7 +45,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
                 Intent intent = new Intent();
                 intent.putExtra(AppConstants.SELECT_LATITUDE, placesList.get(position).getGeometry().getLocation().getLat());
                 intent.putExtra(AppConstants.SELECT_LONGITUDE, placesList.get(position).getGeometry().getLocation().getLng());
-                intent.putExtra(AppConstants.ADDRESS, placesList.get(position).getFormatted_address());
+                intent.putExtra(AppConstants.ADDRESS, placesList.get(position).getName());
                 if (context instanceof Activity) {
                     ((Activity) context).setResult(Activity.RESULT_OK, intent);
                     ((Activity) context).finish();

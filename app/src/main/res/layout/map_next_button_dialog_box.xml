@@ -51,7 +51,7 @@
                         android:paddingStart="@dimen/_15sdp"
                         android:paddingLeft="@dimen/_20sdp"
                         android:text="@string/cash"
-                        android:textSize="@dimen/_15sdp" />
+                        android:textSize="@dimen/_12sdp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -89,7 +89,7 @@
                         android:paddingStart="@dimen/_15sdp"
                         android:paddingLeft="@dimen/_15sdp"
                         android:text="@string/saldo"
-                        android:textSize="@dimen/_15sdp" />
+                        android:textSize="@dimen/_12sdp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

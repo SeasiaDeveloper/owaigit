@@ -51,6 +51,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -483,10 +485,12 @@ public final class CommonUtils {
                 String amount, selection;
                 if (radioButton.getText().toString().equals("CASH")) {
                     amount = tvCash.getText().toString();
+                    tvCash.setTextColor(ContextCompat.getColor(context, R.color.col_orange));
                     selection = "0";
                 } else {
                     amount = tvSaldo.getText().toString();
                     selection = "1";
+                    tvSaldo.setTextColor(ContextCompat.getColor(context, R.color.col_orange));
                 }
                 dialog.dismiss();
                 profileDialog.onOrderClick(amount, selection);

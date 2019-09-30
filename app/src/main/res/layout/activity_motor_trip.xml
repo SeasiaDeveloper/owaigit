@@ -23,10 +23,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/mapfragment"
-        android:orientation="horizontal"
         android:layout_marginLeft="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_20sdp"
-        >
+        android:orientation="horizontal">
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/back_motor"
@@ -58,6 +57,7 @@
                     android:src="@drawable/otu" />
 
                 <com.oway.customviews.CustomTextView
+                    android:id="@+id/tv_balance"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_gravity="center"
@@ -65,7 +65,6 @@
                     android:layout_marginLeft="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_2sdp"
                     android:gravity="center_vertical"
-
                     android:text="@string/dashboard"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/_15sdp"
@@ -83,8 +82,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/_10sdp"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/_10sdp"
         android:gravity="end">
 
         <com.mikhaellopez.circularimageview.CircularImageView
@@ -232,111 +231,111 @@
                     android:background="@android:color/white"
                     app:layout_anchor="@id/include_sheets"
                     app:layout_anchorGravity="top|end">
+
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:cardCornerRadius="@dimen/_5sdp">
 
 
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-
-                        <ImageButton
-                            android:id="@+id/btn_float"
-                            android:layout_width="@dimen/_20sdp"
-                            android:layout_height="@dimen/_20sdp"
-                            android:layout_gravity="center|top"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:src="@drawable/float_button"
-                            app:backgroundTint="@android:color/white"
-                            app:fabSize="mini" />
-
-                        <RelativeLayout
-                            android:id="@+id/ll_below_float_btn"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/_10sdp">
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:orientation="vertical">
 
-                            <com.mikhaellopez.circularimageview.CircularImageView
-                                android:id="@+id/iv_driver_image"
-                                android:layout_width="@dimen/_40sdp"
-                                android:layout_height="@dimen/_40sdp"
-                                android:layout_alignParentStart="true"
-                                android:layout_alignParentTop="true"
+
+                            <ImageView
+                                android:id="@+id/btn_float"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_gravity="center|top"
                                 android:layout_marginTop="@dimen/_10sdp"
-                                android:layout_marginStart="@dimen/_10sdp"
-                                android:src="@drawable/food"
-                                app:civ_border="true"
-                                app:civ_border_color="@color/col_orange"
-                                app:civ_border_width="@dimen/_2sdp" />
+                                android:src="@drawable/float_button"
+                                app:backgroundTint="@android:color/white"
+                                app:fabSize="mini" />
 
-
-                            <com.oway.customviews.CustomTextView
-                                android:id="@+id/tv_driver_name"
-                                android:layout_width="@dimen/_100sdp"
+                            <RelativeLayout
+                                android:id="@+id/ll_below_float_btn"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginTop="@dimen/_8sdp"
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_toEndOf="@id/iv_driver_image"
-                                android:singleLine="true"
-                                android:text="@string/driver_name"
-                                android:textSize="@dimen/_10sdp" />
+                                android:layout_marginBottom="@dimen/_10sdp">
 
-                            <com.oway.customviews.CustomTextView
-                                android:id="@+id/tv_driver_car_name"
-                                android:layout_width="@dimen/_100sdp"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/tv_driver_name"
-                                android:layout_toEndOf="@id/iv_driver_image"
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:singleLine="true"
-                                android:text="@string/driver_car"
-                                android:textSize="@dimen/_8sdp" />
-
-                            <com.oway.customviews.CustomTextView
-                                android:layout_width="@dimen/_100sdp"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/tv_driver_car_name"
-                                android:layout_toEndOf="@id/iv_driver_image"
-                                android:singleLine="true"
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:text="@string/got_driver"
-                                android:textSize="@dimen/_8sdp" />
+                                <com.mikhaellopez.circularimageview.CircularImageView
+                                    android:id="@+id/iv_driver_image"
+                                    android:layout_width="@dimen/_40sdp"
+                                    android:layout_height="@dimen/_40sdp"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_marginStart="@dimen/_10sdp"
+                                    android:layout_marginTop="@dimen/_10sdp"
+                                    android:src="@drawable/food"
+                                    app:civ_border="true"
+                                    app:civ_border_color="@color/col_orange"
+                                    app:civ_border_width="@dimen/_2sdp" />
 
 
-                            <ImageButton
-                                android:id="@+id/ib_message"
-                                android:layout_width="@dimen/_20sdp"
-                                android:layout_height="@dimen/_20sdp"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginStart="@dimen/_15sdp"
-                                android:layout_marginTop="@dimen/_20sdp"
-                                android:layout_marginEnd="@dimen/_15sdp"
-                                android:layout_toEndOf="@id/tv_driver_name"
-                                android:background="@drawable/chat_driver"
-                                android:contentDescription="TODO" />
+                                <com.oway.customviews.CustomTextView
+                                    android:id="@+id/tv_driver_name"
+                                    android:layout_width="@dimen/_100sdp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_marginStart="@dimen/_5sdp"
+                                    android:layout_marginTop="@dimen/_8sdp"
+                                    android:layout_toEndOf="@id/iv_driver_image"
+                                    android:singleLine="true"
+                                    android:text="@string/driver_name"
+                                    android:textSize="@dimen/_10sdp" />
 
-                            <ImageButton
-                                android:layout_width="@dimen/_20sdp"
-                                android:layout_height="@dimen/_20sdp"
-                                android:layout_alignParentTop="true"
-                                android:layout_marginStart="@dimen/_20sdp"
-                                android:layout_marginTop="@dimen/_20sdp"
-                                android:layout_marginEnd="@dimen/_20sdp"
-                                android:layout_toEndOf="@id/ib_message"
-                                android:background="@drawable/call_driver"
-                                android:contentDescription="TODO" />
+                                <com.oway.customviews.CustomTextView
+                                    android:id="@+id/tv_driver_car_name"
+                                    android:layout_width="@dimen/_100sdp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/tv_driver_name"
+                                    android:layout_marginStart="@dimen/_5sdp"
+                                    android:layout_toEndOf="@id/iv_driver_image"
+                                    android:singleLine="true"
+                                    android:text="@string/driver_car"
+                                    android:textSize="@dimen/_8sdp" />
+
+                                <com.oway.customviews.CustomTextView
+                                    android:layout_width="@dimen/_100sdp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/tv_driver_car_name"
+                                    android:layout_marginStart="@dimen/_5sdp"
+                                    android:layout_toEndOf="@id/iv_driver_image"
+                                    android:singleLine="true"
+                                    android:text="@string/got_driver"
+                                    android:textSize="@dimen/_8sdp" />
 
 
-                        </RelativeLayout>
-                    </LinearLayout>
+                                <ImageButton
+                                    android:id="@+id/ib_message"
+                                    android:layout_width="@dimen/_20sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_marginStart="@dimen/_15sdp"
+                                    android:layout_marginTop="@dimen/_20sdp"
+                                    android:layout_marginEnd="@dimen/_15sdp"
+                                    android:layout_toEndOf="@id/tv_driver_name"
+                                    android:background="@drawable/chat_driver"
+                                    android:contentDescription="TODO" />
+
+                                <ImageButton
+                                    android:layout_width="@dimen/_20sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_marginStart="@dimen/_20sdp"
+                                    android:layout_marginTop="@dimen/_20sdp"
+                                    android:layout_marginEnd="@dimen/_20sdp"
+                                    android:layout_toEndOf="@id/ib_message"
+                                    android:background="@drawable/call_driver"
+                                    android:contentDescription="TODO" />
+
+
+                            </RelativeLayout>
+                        </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
                 </RelativeLayout>
@@ -358,65 +357,68 @@
         </RelativeLayout>
 
     </RelativeLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_above="@+id/ll_locations"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_45sdp"
-            android:src="@drawable/currentlocation"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/_20sdp"
-            />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:orientation="horizontal"
-        android:visibility="visible">
+        android:layout_above="@+id/ll_locations"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:src="@drawable/currentlocation" />
 
         <LinearLayout
-            android:id="@+id/ll_recycler_location"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:orientation="horizontal"
+            android:visibility="visible">
 
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/civ_search"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
+            <LinearLayout
+                android:id="@+id/ll_recycler_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/civ_search"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:src="@drawable/icon"
+                    app:civ_border="true"
+                    app:civ_border_color="@android:color/white" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/popular_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:src="@drawable/icon"
-                app:civ_border="true"
-                app:civ_border_color="@android:color/white" />
+                android:layout_marginLeft="@dimen/_10sdp">
+
+            </androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/popular_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_10sdp">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
     </LinearLayout>
 
-</LinearLayout>
     <LinearLayout
         android:id="@+id/ll_locations"
         android:layout_width="match_parent"

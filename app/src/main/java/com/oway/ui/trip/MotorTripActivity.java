@@ -1,12 +1,15 @@
 package com.oway.ui.trip;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -30,6 +33,7 @@ import com.oway.callbacks.CancelButtonClick;
 import com.oway.callbacks.CancelReasonDialog;
 import com.oway.callbacks.DriverProfileDialog;
 import com.oway.callbacks.PopularLocationsCallBack;
+import com.oway.customviews.CustomTextView;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.PopularLocationsModal;
 import com.oway.model.request.CustomerTransactionRequest;
@@ -63,9 +67,7 @@ import retrofit2.Response;
 public class MotorTripActivity extends BaseActivity implements Location.OnLocationChangeListener, Location.OnLocationSatiListener, CancelButtonClick, DriverProfileDialog, TripActivityView, CancelReasonDialog {
     private static final String LOG_TAG = MotorTripActivity.class.getSimpleName();
     private boolean isClicked = true;
-    private Double[] lat = {23.52437, 12.5444, 67.564656, 78.456456, 54.547646};
-    private Double[] longitude = {45.76767, 78.65, 77.56656, 76.567, 56.756567};
-    private String[] addresses = {"ZBXhb", "ndcjsv", "dsvbvffbfv", "dvbhdfvb", "sddsvc"};
+
     private boolean isPickUpClick = true;
     private ArrayList<PopularLocationsModal> modalArrayList = new ArrayList<PopularLocationsModal>();
     private LatLng latLngStart;
@@ -103,8 +105,9 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @BindView(R.id.ll_driver_riding_to_you)
     RelativeLayout layoutDriverRidingToYou;
     @BindView(R.id.btn_float)
-    ImageButton btnFab;
-
+    ImageView btnFab;
+    @BindView(R.id.tv_balance)
+    CustomTextView tvxBalance;
     @BindView(R.id.btn_map_source)
     Button btn_map_source;
 
@@ -219,6 +222,11 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     }
 
 
+
+
+
+/*
+
     @OnTouch(R.id.etxPickUp)
     public void onPicUpTouch() {
         etxPickUp.requestFocus();  //keep focus on the EditText(redTime)
@@ -238,6 +246,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
         startActivityForResult(intent, AppConstants.REQUEST_CODE_DROP);
     }
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -251,7 +260,9 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         profileDialog = this;
         reasonDialog = this;
 
+
     }
+
 
     @Override
     protected void setUp() {
@@ -269,9 +280,59 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         tripActivityPresenter.onAttach(MotorTripActivity.this);
         mapFragment = getSupportMapFragment();
         initializeMap();
+        onTouch();
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    private void onTouch() {
+
+        etxPickUp.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        etxPickUp.requestFocus();  //keep focus on the EditText(redTime)
+                        isPickUpClick = true;
+                        Intent intent = new Intent(MotorTripActivity.this, SearchPlaces.class);
+                        intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
+                        intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
+                        startActivityForResult(intent, AppConstants.REQUEST_CODE_PICK);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        v.performClick();
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+
+            }
+        });
+        etxDropDown.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        etxDropDown.requestFocus();  //keep focus on the EditText(redTime)
+                        isPickUpClick = false;
+                        Intent intent = new Intent(MotorTripActivity.this, SearchPlaces.class);
+                        intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
+                        intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
+                        startActivityForResult(intent, AppConstants.REQUEST_CODE_DROP);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        v.performClick();
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+
+            }
+        });
+
+    }
 
     private void getNearByDriver() {
         GetNearestDriverRequest nearRequest = new GetNearestDriverRequest();
