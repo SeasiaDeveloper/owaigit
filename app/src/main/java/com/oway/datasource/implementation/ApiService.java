@@ -19,6 +19,7 @@ import com.oway.model.response.LocationDetailsResponse;
 import com.oway.model.response.GetSaldoResponse;
 import com.oway.model.response.LoginResponse;
 import com.oway.model.response.RegisterResponse;
+import com.oway.model.response.SendDriverResponse;
 
 import java.util.concurrent.TimeUnit;
 
@@ -114,7 +115,7 @@ public class ApiService {
         return apiService.getCustomerTransactionRequest(mRequest);
     }
 
-    public Call<GetNearestDriverResponse> getNearestDriverRequest(SendDriverRequest mRequest) {
+    public Call<SendDriverResponse> getNearestDriverRequest(SendDriverRequest mRequest) {
         return apiService.getDriverRequest(mRequest);
     }
 
@@ -142,7 +143,7 @@ public class ApiService {
         Call<CustomerTransactionResponse> getCustomerTransactionRequest(@Body CustomerTransactionRequest bikeRequest);
 
         @POST("api/trx/send_request_to_driver")
-        Call<GetNearestDriverResponse> getDriverRequest(@Body SendDriverRequest request);
+        Call<SendDriverResponse> getDriverRequest(@Body SendDriverRequest request);
 
         @POST("api/customer/getaddressbycoordinate")
         Call<LocationDetailsResponse> getLocationDetails(@Body GetCurrentLocationRequest mRequest);

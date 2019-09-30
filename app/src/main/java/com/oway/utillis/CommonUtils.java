@@ -484,7 +484,6 @@ public final class CommonUtils {
                 RadioGroup radioGroup = dialog.findViewById(R.id.rdoGropu);
                 int selectedId = radioGroup.getCheckedRadioButtonId();
                 RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
-                radioButton.getText();
                 String amount, selection;
                 if (radioButton.getText().toString().equals("CASH")) {
                     amount = tvCash.getText().toString();

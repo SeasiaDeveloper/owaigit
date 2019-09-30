@@ -37,6 +37,6 @@ public interface ActivityComponent {
     void inject(Registration register);
 
     void inject(MotorTripActivity motorTripActivity);
-    void inject(SearchPlacesActivity searchPlaces);
 
+    void inject(SearchPlacesActivity searchPlacesActivity);
 }
