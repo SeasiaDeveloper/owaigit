@@ -2,7 +2,7 @@ package com.oway.ui.trip;
 
 
 import com.oway.base.MvpView;
-import com.oway.model.response.CancelRideReasonResponse;
+import com.oway.model.response.CancelRideResponse;
 import com.oway.model.response.CustomerTransactionResponse;
 import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
@@ -37,9 +37,9 @@ public interface TripActivityView extends MvpView {
 
     void onSendNearestDriverFailure(String response);
 
-    void onCancelRideReasonSuccess(CancelRideReasonResponse response);
+    void onCancelRideSuccess(CancelRideResponse response);
 
-    void onCancelRideReasonFailure(String msg);
+    void onCancelRideFailure(String msg);
 
 
 

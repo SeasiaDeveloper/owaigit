@@ -1,7 +1,7 @@
 package com.oway.callbacks;
 
 public interface CancelReasonDialog {
-    public void onCancelReasonDialogClick();
+    public void onCancelYesClick();
     public void onOkReasonDialogClick(String reason,String selectionId);
 
 

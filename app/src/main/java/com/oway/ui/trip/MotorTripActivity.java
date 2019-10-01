@@ -2,6 +2,7 @@ package com.oway.ui.trip;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +23,7 @@ import com.here.android.mpa.common.OnEngineInitListener;
 import com.here.android.mpa.mapping.Map;
 import com.here.android.mpa.mapping.SupportMapFragment;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.oway.App;
 import com.oway.R;
 import com.oway.adapters.MapPopularLocationsRecyclerAdapter;
 import com.oway.base.BaseActivity;
@@ -31,19 +34,20 @@ import com.oway.callbacks.PopularLocationsCallBack;
 import com.oway.customviews.CustomTextView;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.PopularLocationsModal;
+import com.oway.model.request.CancelRideRequest;
 import com.oway.model.VehicleTypeModal;
-import com.oway.model.request.CancelRideReasonRequest;
 import com.oway.model.request.CustomerTransactionRequest;
 import com.oway.model.request.GetCurrentLocationRequest;
 import com.oway.model.request.GetEstimateBikeRequest;
 import com.oway.model.request.GetNearestDriverRequest;
 import com.oway.model.request.GetRecommendedPlacesRequest;
 import com.oway.model.request.SendDriverRequest;
-import com.oway.model.response.CancelRideReasonResponse;
+import com.oway.model.response.CancelRideResponse;
 import com.oway.model.response.CustomerTransactionResponse;
 import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
 import com.oway.model.response.GetRecommendedPlacesResponse;
+import com.oway.model.response.GetSaldoResponse;
 import com.oway.model.response.LocationDetailsResponse;
 import com.oway.model.response.SendDriverResponse;
 import com.oway.otto.OnApplyPushNotificationEvent;
@@ -81,7 +85,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     private final int DESTINATION_SELECT = 101;
     private boolean isValid;
     private String tranxId;
-    private String startAddress, startLat, startLng, endAddress, endLat, endLng;
+    private String startAddress, startLat, startLng, endAddress, endLat, endLng,no_reason="no reason";
     private ArrayList<VehicleTypeModal> vehicleTypeModalArrayList = new ArrayList<>();
     private int cars[] = {R.drawable.motor, R.drawable.car, R.drawable.car_muv};
     private String seats[] = {"1-4 seats", "1-6 seats", "2-4 seats"};
@@ -198,7 +202,9 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @OnClick(R.id.cencel_ride)
     public void onCancel() {
-        showCancelRide(tranxId);
+        CommonUtils.showCancelRide(reasonDialog);
+
+
     }
 
     @Override
@@ -246,7 +252,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
 
     @OnClick(R.id.etxPickUp)
-    public void onPicUpTouch() {
+    public void onPicUp() {
         etxPickUp.requestFocus();
         isPickUpClick = true;
         startSearchPlaceActivity();
@@ -281,6 +287,13 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         profileDialog = this;
         reasonDialog = this;
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(App.getInstance(),"call",Toast.LENGTH_SHORT).show();
+            }
+        }, 5000);
+
     }
 
     @Subscribe
@@ -305,7 +318,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         mapFragment = getSupportMapFragment();
         initializeMap();
         Intent intent = getIntent();
-        tvxBalance.setText(intent.getStringExtra("balance"));
+        tvxBalance.setText(intent.getStringExtra(AppConstants.BALANCE));
 
         for (int i = 0; i <= 2; i++) {
             vehicleTypeModal = new VehicleTypeModal();
@@ -460,12 +473,13 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     }
 
     @Override
-    public void onCancelRideReasonSuccess(CancelRideReasonResponse response) {
+    public void onCancelRideSuccess(CancelRideResponse response) {
         ToastUtils.shortToast(response.getRespMessage());
+
     }
 
     @Override
-    public void onCancelRideReasonFailure(String msg) {
+    public void onCancelRideFailure(String msg) {
         ToastUtils.shortToast(msg);
     }
 
@@ -525,17 +539,26 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     }
 
     @Override
-    public void onCancelReasonDialogClick() {
-
+    public void onCancelYesClick() {
+        CancelRideRequest mRequest = new CancelRideRequest();
+        mRequest.setAccess_token(PreferenceHandler.readString(this, AppConstants.MBR_TOKEN, ""));
+        mRequest.setReason(no_reason);
+        mRequest.setId_transaksi(tranxId);
+        tripActivityPresenter.cancelRide(mRequest);
     }
 
     @Override
     public void onOkReasonDialogClick(String reason, String selectionId) {
-        CancelRideReasonRequest mRequest = new CancelRideReasonRequest();
-        mRequest.setEkl_customer(PreferenceHandler.readString(this, AppConstants.USER_ID, ""));
+        CancelRideRequest mRequest = new CancelRideRequest();
         mRequest.setAccess_token(PreferenceHandler.readString(this, AppConstants.MBR_TOKEN, ""));
         mRequest.setReason(reason);
         mRequest.setId_transaksi(tranxId);
-        tripActivityPresenter.cancelRideReason(mRequest);
+        tripActivityPresenter.cancelRide(mRequest);
+    }
+
+    public static void startOnclick(GetSaldoResponse.Balance[] balance){
+        Intent intent = new Intent(App.getInstance(), MotorTripActivity.class);
+        intent.putExtra(AppConstants.BALANCE,balance[0].getSisa_uang());
+        App.getInstance().startActivity(intent);
     }
 }
