@@ -1,7 +1,6 @@
 package com.oway.datasource.implementation;
 
 import com.oway.di.BaseUrl;
-import com.oway.model.request.CancelRideReasonRequest;
 import com.oway.model.request.CancelRideRequest;
 import com.oway.model.request.CustomerTransactionRequest;
 import com.oway.model.request.GetCurrentLocationRequest;
@@ -13,7 +12,6 @@ import com.oway.model.request.GetSearchPlacesRequest;
 import com.oway.model.request.LoginRequest;
 import com.oway.model.request.RegisterRequest;
 import com.oway.model.request.SendDriverRequest;
-import com.oway.model.response.CancelRideReasonResponse;
 import com.oway.model.response.CancelRideResponse;
 import com.oway.model.response.CustomerTransactionResponse;
 import com.oway.model.response.GetEstimateBikeResponse;
@@ -37,9 +35,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 @Singleton
 public class ApiService {
@@ -116,9 +112,7 @@ public class ApiService {
         return apiService.getEstimateBikeRequest(priceRequest);
     }
 
-    public Call<CancelRideReasonResponse> cancelRideReason(CancelRideReasonRequest mRequest) {
-        return apiService.cancelRideReason(mRequest);
-    }
+
 
 
     public Call<CancelRideResponse> cancelRide(CancelRideRequest request) {
@@ -171,8 +165,6 @@ public class ApiService {
         @POST("/api/customer/nearbysearch")
         Call<GetRecommendedPlacesResponse> getSearchPlacesRequest(@Body GetSearchPlacesRequest placeRequest);
 
-        @POST("api/trx/customer_set_reason_cancel")
-        Call<CancelRideReasonResponse> cancelRideReason(@Body CancelRideReasonRequest mRequest);
     }
 }
 

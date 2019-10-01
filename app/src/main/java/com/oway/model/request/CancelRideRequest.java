@@ -12,6 +12,16 @@ public class CancelRideRequest {
 
     private String id_transaksi;
     private String access_token;
+    private String reason;
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
 
     public String getId_transaksi() {
         return id_transaksi;

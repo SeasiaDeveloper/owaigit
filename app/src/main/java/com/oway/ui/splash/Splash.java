@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
+import com.oway.App;
 import com.oway.R;
 import com.oway.base.BaseActivity;
 import com.oway.datasource.pref.PreferenceHandler;
@@ -33,6 +35,7 @@ public class Splash extends BaseActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
         CommonUtils.getFirebaseId();
+
         BusProvider.getInstance().register(this);
         BusProvider.getInstance().post(new OnApplyPushNotificationEvent("df", "jj"));
         new Handler().postDelayed(new Runnable() {
