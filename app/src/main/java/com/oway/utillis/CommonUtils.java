@@ -45,12 +45,15 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
+import androidx.core.content.ContextCompat;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -66,6 +69,7 @@ import com.here.android.mpa.common.PositioningManager;
 import com.here.android.mpa.mapping.Map;
 import com.here.android.mpa.mapping.MapMarker;
 import com.here.android.mpa.mapping.SupportMapFragment;
+import com.oway.App;
 import com.oway.R;
 import com.oway.callbacks.CancelButtonClick;
 import com.oway.callbacks.CancelReasonDialog;
@@ -401,7 +405,7 @@ public final class CommonUtils {
         button.setTypeface(font);
     }
 
-   public static String getFirebaseId() {
+    public static String getFirebaseId() {
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -479,18 +483,22 @@ public final class CommonUtils {
             }
         });
         btnxOrder.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceType")
             @Override
             public void onClick(View view) {
                 RadioGroup radioGroup = dialog.findViewById(R.id.rdoGropu);
                 int selectedId = radioGroup.getCheckedRadioButtonId();
                 RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
+
                 String amount, selection;
                 if (radioButton.getText().toString().equals("CASH")) {
                     amount = tvCash.getText().toString();
+                    radioButton.setTextColor(ContextCompat.getColorStateList(App.getInstance(), R.drawable.radio_button_checked_state));
                     selection = "0";
                 } else {
                     amount = tvSaldo.getText().toString();
                     selection = "1";
+                    radioButton.setTextColor(ContextCompat.getColor(context, R.color.col_orange));
                 }
                 dialog.dismiss();
                 profileDialog.onOrderClick(amount, selection);
@@ -504,9 +512,9 @@ public final class CommonUtils {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(true);
         dialog.setContentView(R.layout.cancel_order_dialog_box);
-        CustomButton cancelButtonReasonDialog=dialog.findViewById(R.id.cb_cancel_reason);
-        CustomButton okReason=dialog.findViewById(R.id.cb_ok_reason);
-        CustomEditText notesCancelReason=dialog.findViewById(R.id.et_cancel_reason_notes);
+        CustomButton cancelButtonReasonDialog = dialog.findViewById(R.id.cb_cancel_reason);
+        CustomButton okReason = dialog.findViewById(R.id.cb_ok_reason);
+        CustomEditText notesCancelReason = dialog.findViewById(R.id.et_cancel_reason_notes);
         okReason.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -518,26 +526,21 @@ public final class CommonUtils {
                 if (radioButton.getText().toString().equals("I can't find my driver")) {
                     amount = radioButton.getText().toString();
                     selection = "0";
-                } else if(radioButton.getText().toString().equals("I have wrong submit destination")){
+                } else if (radioButton.getText().toString().equals("I have wrong submit destination")) {
                     amount = radioButton.getText().toString();
                     selection = "1";
-                }else if (radioButton.getText().toString().equals("Driver is too late")){
+                } else if (radioButton.getText().toString().equals("Driver is too late")) {
                     amount = radioButton.getText().toString();
                     selection = "2";
-                }else {
+                } else {
                     amount = notesCancelReason.getText().toString();
                     selection = "3";
                 }
                 dialog.dismiss();
                 cancelReasonDialog.onOkReasonDialogClick(amount, selection);
-
-
             }
         });
         dialog.show();
-
-
-
 
 
     }
@@ -584,5 +587,26 @@ public final class CommonUtils {
         String date = df.format(Calendar.getInstance().getTime());
         Logger.e("ss", date);
         return date;
+    }
+
+    public  static double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        return (dist);
+    }
+
+    private static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private static double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
     }
 }

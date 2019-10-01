@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -28,26 +27,31 @@ import com.oway.callbacks.CancelButtonClick;
 import com.oway.callbacks.CancelReasonDialog;
 import com.oway.callbacks.DriverProfileDialog;
 import com.oway.callbacks.PopularLocationsCallBack;
+import com.oway.customviews.CustomTextView;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.PopularLocationsModal;
+import com.oway.model.request.CancelRideReasonRequest;
 import com.oway.model.request.CustomerTransactionRequest;
 import com.oway.model.request.GetCurrentLocationRequest;
 import com.oway.model.request.GetEstimateBikeRequest;
 import com.oway.model.request.GetNearestDriverRequest;
 import com.oway.model.request.GetRecommendedPlacesRequest;
 import com.oway.model.request.SendDriverRequest;
+import com.oway.model.response.CancelRideReasonResponse;
 import com.oway.model.response.CustomerTransactionResponse;
 import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
 import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.model.response.LocationDetailsResponse;
 import com.oway.model.response.SendDriverResponse;
+import com.oway.otto.OnApplyPushNotificationEvent;
 import com.oway.ui.home.MainActivity;
 import com.oway.utillis.AppConstants;
 import com.oway.utillis.CommonUtils;
 import com.oway.utillis.Location;
 import com.oway.utillis.ToastUtils;
 import com.oway.utillis.ValidationUtils;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 
@@ -59,6 +63,9 @@ import butterknife.OnClick;
 import retrofit2.Response;
 
 public class MotorTripActivity extends BaseActivity implements Location.OnLocationChangeListener, Location.OnLocationSatiListener, CancelButtonClick, DriverProfileDialog, TripActivityView, CancelReasonDialog {
+    private static final String LOG_TAG = MotorTripActivity.class.getSimpleName();
+    private boolean isClicked = true;
+
     private boolean isPickUpClick = true;
     private ArrayList<PopularLocationsModal> modalArrayList = new ArrayList<PopularLocationsModal>();
     private Map map = null;
@@ -71,6 +78,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     private final int SOURCE_SELECT = 100;
     private final int DESTINATION_SELECT = 101;
     private boolean isValid;
+    private String tranxId;
     private String startAddress, startLat, startLng, endAddress, endLat, endLng;
     @BindView(R.id.popular_location)
     RecyclerView recyclerView;
@@ -94,10 +102,14 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     RelativeLayout layoutBottomSheet;
     @BindView(R.id.ll_driver_riding_to_you)
     RelativeLayout layoutDriverRidingToYou;
-    @BindView(R.id.btn_float)
-    ImageButton btnFab;
     @BindView(R.id.imgCurrent)
     ImageView imgCurrent;
+    ImageView btnFab;
+    @BindView(R.id.tv_balance)
+    CustomTextView tvxBalance;
+
+    @BindView(R.id.cencel_ride)
+    Button cencel_ride;
 
     @BindView(R.id.btn_map_source)
     Button btn_map_source;
@@ -159,11 +171,16 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         isValid = validationUtils.checkPickAndDestination(etxPickUp, etxDropDown);
         if (isValid) {
             GetEstimateBikeRequest mRequest = new GetEstimateBikeRequest();
-            mRequest.setDistance("2");
+            mRequest.setDistance(String.valueOf(CommonUtils.distance(Double.parseDouble(startLat), Double.parseDouble(startLng), Double.parseDouble(endLat), Double.parseDouble(endLng))));
             mRequest.setId_fitur(PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, ""));
             mRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
             tripActivityPresenter.getEstimatePriceBike(mRequest);
         }
+    }
+
+    @OnClick(R.id.cencel_ride)
+    public void onCancel() {
+        showCancelRide(tranxId);
     }
 
     @Override
@@ -178,7 +195,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         recyclerView.setVisibility(View.GONE);
         layoutPleaseWaitForRide.setVisibility(View.VISIBLE);
         imgCurrent.setVisibility(View.GONE);
-
         CustomerTransactionRequest mRequest = new CustomerTransactionRequest();
         mRequest.setEkl_customer(PreferenceHandler.readString(this, AppConstants.USER_ID, ""));
         mRequest.setOrder_fitur(PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, ""));
@@ -186,7 +202,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         mRequest.setStart_longitude(Double.parseDouble(startLng));
         mRequest.setEnd_latitude(Double.parseDouble(endLat));
         mRequest.setEnd_longitude(Double.parseDouble(endLng));
-        mRequest.setDistance("1");
+        mRequest.setDistance(String.valueOf(CommonUtils.distance(Double.parseDouble(startLat), Double.parseDouble(startLng), Double.parseDouble(endLat), Double.parseDouble(endLng))));
         mRequest.setPrice(price);
         mRequest.setOrder_time(CommonUtils.getCurrentDateTime());
         mRequest.setPickup_address(startAddress);
@@ -196,8 +212,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         mRequest.setSeat(0);
         mRequest.setAccess_token(PreferenceHandler.readString(this, AppConstants.MBR_TOKEN, ""));
         tripActivityPresenter.getCustomerRequestTransaction(mRequest);
-
-
     }
 
     @OnClick(R.id.back_motor)
@@ -209,34 +223,25 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @OnClick(R.id.civ_search)
     public void onSearchClick() {
-        Intent intent = new Intent(this, SearchPlacesActivity.class);
-        intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
-        intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
-        if (isPickUpClick)
-            startActivityForResult(intent, SOURCE_SELECT);
-        else
-            startActivityForResult(intent, DESTINATION_SELECT);
-
+        startSearchPlaceActivity();
     }
 
 
     @OnClick(R.id.etxPickUp)
     public void onPicUpTouch() {
-        etxPickUp.requestFocus();  //keep focus on the EditText(redTime)
+        etxPickUp.requestFocus();
         isPickUpClick = true;
-        Intent intent = new Intent(MotorTripActivity.this, SearchPlacesActivity.class);
-        intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
-        intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
-        if (isPickUpClick)
-            startActivityForResult(intent, SOURCE_SELECT);
-        else
-            startActivityForResult(intent, DESTINATION_SELECT);
+        startSearchPlaceActivity();
     }
 
     @OnClick(R.id.etxDropDown)
     public void onDropDown() {
-        etxDropDown.requestFocus();  //keep focus on the EditText(redTime)
+        etxDropDown.requestFocus();
         isPickUpClick = false;
+        startSearchPlaceActivity();
+    }
+
+    private void startSearchPlaceActivity() {
         Intent intent = new Intent(MotorTripActivity.this, SearchPlacesActivity.class);
         intent.putExtra(AppConstants.LATITUDE, mlocation.latitude);
         intent.putExtra(AppConstants.LONGITUDE, mlocation.longitude);
@@ -259,6 +264,10 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         reasonDialog = this;
 
     }
+    @Subscribe
+    public void OnApplyPushNotificationEvent(OnApplyPushNotificationEvent event) {
+      ToastUtils.shortToast(event.getFeature()+" "+event.getType());
+    }
 
     @Override
     protected void setUp() {
@@ -276,7 +285,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         tripActivityPresenter.onAttach(MotorTripActivity.this);
         mapFragment = getSupportMapFragment();
         initializeMap();
-
+        Intent intent = getIntent();
+        tvxBalance.setText(intent.getStringExtra("balance"));
     }
 
 
@@ -293,8 +303,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @Override
     public void onLocationChanged(LatLng location) {
-        // if(mlocation==null)
-        //  {
         mlocation = location;
         GetCurrentLocationRequest mRequest = new GetCurrentLocationRequest();
         mRequest.setLatitude(String.valueOf(location.latitude));
@@ -303,9 +311,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         tripActivityPresenter.getLocationDetails(mRequest);
         getNearByDriver();
         getRecommendedPlaces();
-
-
-        // }
     }
 
     private void getRecommendedPlaces() {
@@ -402,6 +407,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         SendDriverRequest mRequest = new SendDriverRequest();
         mRequest.setAccess_token(PreferenceHandler.readString(this, AppConstants.MBR_TOKEN, ""));
         mRequest.setId_transaksi(String.valueOf(response.getTransaksi().getId()));
+        tranxId = String.valueOf(response.getTransaksi().getId());
         tripActivityPresenter.getDriverRequest(mRequest);
     }
 
@@ -419,6 +425,16 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @Override
     public void onSendNearestDriverFailure(String response) {
         ToastUtils.shortToast(response);
+    }
+
+    @Override
+    public void onCancelRideReasonSuccess(CancelRideReasonResponse response) {
+        ToastUtils.shortToast(response.getRespMessage());
+    }
+
+    @Override
+    public void onCancelRideReasonFailure(String msg) {
+        ToastUtils.shortToast(msg);
     }
 
     void initializeMap() {
@@ -440,6 +456,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         });
     }
 
+
     @OnClick(R.id.btn_map_source)
     public void onSourceBtnClick() {
         etxPickUp.setText(startAddress);
@@ -456,8 +473,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SOURCE_SELECT && resultCode == RESULT_OK) {
-            startLat = data.getStringExtra(AppConstants.SELECT_LONGITUDE);
-            startLng = data.getStringExtra(AppConstants.SELECT_LATITUDE);
+            startLat = data.getStringExtra(AppConstants.SELECT_LATITUDE);
+            startLng = data.getStringExtra(AppConstants.SELECT_LONGITUDE);
             startAddress = data.getStringExtra(AppConstants.ADDRESS);
             if (!etxPickUp.getText().toString().isEmpty())
                 btn_map_source.setVisibility(View.VISIBLE);
@@ -465,8 +482,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
                 etxPickUp.setText(startAddress);
 
         } else if (requestCode == DESTINATION_SELECT && resultCode == RESULT_OK) {
-            endLat = data.getStringExtra(AppConstants.SELECT_LONGITUDE);
-            endLng = data.getStringExtra(AppConstants.SELECT_LATITUDE);
+            endLat = data.getStringExtra(AppConstants.SELECT_LATITUDE);
+            endLng = data.getStringExtra(AppConstants.SELECT_LONGITUDE);
             endAddress = data.getStringExtra(AppConstants.ADDRESS);
             if (!etxDropDown.getText().toString().isEmpty())
                 btn_map_destination.setVisibility(View.VISIBLE);
@@ -482,6 +499,11 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @Override
     public void onOkReasonDialogClick(String reason, String selectionId) {
-
+        CancelRideReasonRequest mRequest = new CancelRideReasonRequest();
+        mRequest.setEkl_customer(PreferenceHandler.readString(this, AppConstants.USER_ID, ""));
+        mRequest.setAccess_token(PreferenceHandler.readString(this, AppConstants.MBR_TOKEN, ""));
+        mRequest.setReason(reason);
+        mRequest.setId_transaksi(tranxId);
+        tripActivityPresenter.cancelRideReason(mRequest);
     }
 }

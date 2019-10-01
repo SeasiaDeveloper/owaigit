@@ -4,7 +4,7 @@ import android.util.Log;
 
 public final class Logger {
 
-    private static final String TAG = "BiFoot ";
+    private static final String TAG = "OWAI ";
     public static boolean isEnable = true;
 
     private Logger() {

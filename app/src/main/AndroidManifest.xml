@@ -92,7 +92,11 @@
                 <data android:scheme="@string/ak_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
+        <service android:name=".fireBase.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <meta-data
             android:name="com.facebook.accountkit.FacebookAppEventsEnabled"
             android:value="false" />

@@ -30,14 +30,24 @@ import com.google.android.material.snackbar.Snackbar;
 import com.oway.App;
 import com.oway.R;
 import com.oway.datasource.implementation.ApiService;
+import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.di.component.ActivityComponent;
 import com.oway.di.component.DaggerActivityComponent;
 import com.oway.di.module.ActivityModule;
+import com.oway.model.request.CancelRideRequest;
+import com.oway.model.response.CancelRideResponse;
 import com.oway.ui.login.LoginActivity;
+import com.oway.utillis.AppConstants;
 import com.oway.utillis.CommonUtils;
+import com.oway.utillis.ConstsCore;
 import com.oway.utillis.FontCache;
+import com.oway.utillis.ToastUtils;
 
 import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public abstract class BaseActivity extends AppCompatActivity
         implements com.oway.base.MvpView, com.oway.base.BaseFragment.Callback {
@@ -282,5 +292,52 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    public void showCancelRide(String transID) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+        alertDialogBuilder.setTitle("Cancel Ride");
+        alertDialogBuilder
+                .setMessage("Are you sure you want to cancel Ride?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        consumeCancelService(transID);
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        // show it
+        alertDialog.show();
+    }
+
+    public void consumeCancelService(String transID) {
+
+        CancelRideRequest mRequest = new CancelRideRequest();
+        mRequest.setId_transaksi(transID);
+        mRequest.setAccess_token(PreferenceHandler.readString(App.getInstance(), AppConstants.MBR_TOKEN, ""));
+        showLoading();
+        apiService.cancelRide(mRequest).enqueue(new Callback<CancelRideResponse>() {
+            @Override
+            public void onResponse(Call<CancelRideResponse> call, Response<CancelRideResponse> response) {
+                hideLoading();
+                if (response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
+                    ToastUtils.shortToast(response.body().getRespMessage());
+                    finish();
+                } else {
+                    ToastUtils.shortToast(response.body().getRespMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CancelRideResponse> call, Throwable t) {
+                showMessage(R.string.something_went_wrong);
+            }
+        });
     }
 }

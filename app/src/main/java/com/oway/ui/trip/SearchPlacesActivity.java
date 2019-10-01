@@ -49,7 +49,7 @@ public class SearchPlacesActivity extends BaseActivity implements SearchPlacesVi
 
     private ArrayList<GetRecommendedPlacesResponse.ResultsBean> placesResponses = new ArrayList<GetRecommendedPlacesResponse.ResultsBean>();
     @Inject
-    SearchPlacesPresenter<SearchPlacesView> searchPlacesPresenter;
+     SearchPlacesPresenter<SearchPlacesView> searchPlacesPresenter;
     private PlacesAdapter adapter;
 
     @Override
