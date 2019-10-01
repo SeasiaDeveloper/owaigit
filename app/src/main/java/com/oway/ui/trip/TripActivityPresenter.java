@@ -5,12 +5,14 @@ import com.oway.R;
 import com.oway.base.BasePresenter;
 import com.oway.base.MvpView;
 import com.oway.datasource.implementation.ApiService;
+import com.oway.model.request.CancelRideReasonRequest;
 import com.oway.model.request.CustomerTransactionRequest;
 import com.oway.model.request.GetCurrentLocationRequest;
 import com.oway.model.request.GetEstimateBikeRequest;
 import com.oway.model.request.GetNearestDriverRequest;
 import com.oway.model.request.GetRecommendedPlacesRequest;
 import com.oway.model.request.SendDriverRequest;
+import com.oway.model.response.CancelRideReasonResponse;
 import com.oway.model.response.CustomerTransactionResponse;
 import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
@@ -94,6 +96,41 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
             @Override
             public void onFailure(Call<GetRecommendedPlacesResponse> call, Throwable t) {
                 // dismissLoading();
+                if (getMvpView() != null) {
+                    String msg = t.getMessage();
+                    getMvpView().showMessage(R.string.something_went_wrong);
+                }
+            }
+        });
+    }
+
+    public void cancelRideReason(CancelRideReasonRequest mRequest) {
+
+        if (!NetworkUtils.isNetworkConnected(getMvpView().getActivityContext())) {
+            getMvpView().showMessage(R.string.internet_check);
+            return;
+        }
+        showLoading();
+        apiService.cancelRideReason(mRequest).enqueue(new Callback<CancelRideReasonResponse>() {
+            @Override
+            public void onResponse(Call<CancelRideReasonResponse> call, Response<CancelRideReasonResponse> response) {
+                dismissLoading();
+                CancelRideReasonResponse body = response.body();
+                if (body != null) {
+                    getMvpView().onCancelRideReasonSuccess(response.body());
+                   /* if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
+                        getMvpView().onGetBikePriceSuccess(body);
+                    } else if (response.body().getCode() == ConstsCore.STATUS_CODE_FAILED) {
+                        getMvpView().onGetBikePriceFailure(body.getRespMessage());
+                    }*/
+                } else {
+                    getMvpView().onCancelRideReasonFailure(App.getInstance().getResources().getString(R.string.something_went_wrong));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CancelRideReasonResponse> call, Throwable t) {
+                dismissLoading();
                 if (getMvpView() != null) {
                     String msg = t.getMessage();
                     getMvpView().showMessage(R.string.something_went_wrong);

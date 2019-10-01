@@ -81,7 +81,6 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
             @Override
             public void onItemClick(View v, int position) {
                 PreferenceHandler.writeString(getActivity(), AppConstants.SELECTION_GRID, String.valueOf(position + 1));
-                PreferenceHandler.writeString(getActivity(), AppConstants.SELECTION_GRID, String.valueOf(position + 1));
                 Intent intent = new Intent(getActivity(), MotorTripActivity.class);
                 intent.putExtra("balance",balance[0].getSisa_uang());
                 startActivity(intent);

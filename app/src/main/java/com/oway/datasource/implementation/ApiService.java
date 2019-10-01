@@ -1,6 +1,8 @@
 package com.oway.datasource.implementation;
 
 import com.oway.di.BaseUrl;
+import com.oway.model.request.CancelRideReasonRequest;
+import com.oway.model.request.CancelRideRequest;
 import com.oway.model.request.CustomerTransactionRequest;
 import com.oway.model.request.GetCurrentLocationRequest;
 import com.oway.model.request.GetEstimateBikeRequest;
@@ -11,6 +13,8 @@ import com.oway.model.request.GetSearchPlacesRequest;
 import com.oway.model.request.LoginRequest;
 import com.oway.model.request.RegisterRequest;
 import com.oway.model.request.SendDriverRequest;
+import com.oway.model.response.CancelRideReasonResponse;
+import com.oway.model.response.CancelRideResponse;
 import com.oway.model.response.CustomerTransactionResponse;
 import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
@@ -111,6 +115,16 @@ public class ApiService {
     public Call<GetEstimateBikeResponse> getEstimateBikePrice(GetEstimateBikeRequest priceRequest) {
         return apiService.getEstimateBikeRequest(priceRequest);
     }
+
+    public Call<CancelRideReasonResponse> cancelRideReason(CancelRideReasonRequest mRequest) {
+        return apiService.cancelRideReason(mRequest);
+    }
+
+
+    public Call<CancelRideResponse> cancelRide(CancelRideRequest request) {
+        return apiService.cancelRide(request);
+    }
+
     public Call<CustomerTransactionResponse> getCustomerTransRequest(CustomerTransactionRequest mRequest) {
         return apiService.getCustomerTransactionRequest(mRequest);
     }
@@ -139,6 +153,9 @@ public class ApiService {
         @POST("api/customer/getestimateprice")
         Call<GetEstimateBikeResponse> getEstimateBikeRequest(@Body GetEstimateBikeRequest bikeRequest);
 
+        @POST("api/trx/usercanceltransaction")
+        Call<CancelRideResponse> cancelRide(@Body CancelRideRequest request);
+
         @POST("api/ride/customer_request_transaction")
         Call<CustomerTransactionResponse> getCustomerTransactionRequest(@Body CustomerTransactionRequest bikeRequest);
 
@@ -153,6 +170,9 @@ public class ApiService {
 
         @POST("/api/customer/nearbysearch")
         Call<GetRecommendedPlacesResponse> getSearchPlacesRequest(@Body GetSearchPlacesRequest placeRequest);
+
+        @POST("api/trx/customer_set_reason_cancel")
+        Call<CancelRideReasonResponse> cancelRideReason(@Body CancelRideReasonRequest mRequest);
     }
 }
 
