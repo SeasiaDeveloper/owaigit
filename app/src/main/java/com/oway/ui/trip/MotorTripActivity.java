@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -34,6 +35,7 @@ import com.oway.customviews.CustomTextView;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.PopularLocationsModal;
 import com.oway.model.request.CancelRideRequest;
+import com.oway.model.VehicleTypeModal;
 import com.oway.model.request.CustomerTransactionRequest;
 import com.oway.model.request.GetCurrentLocationRequest;
 import com.oway.model.request.GetEstimateBikeRequest;
@@ -45,6 +47,7 @@ import com.oway.model.response.CustomerTransactionResponse;
 import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
 import com.oway.model.response.GetRecommendedPlacesResponse;
+import com.oway.model.response.GetSaldoResponse;
 import com.oway.model.response.LocationDetailsResponse;
 import com.oway.model.response.SendDriverResponse;
 import com.oway.otto.OnApplyPushNotificationEvent;
@@ -83,6 +86,12 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     private boolean isValid;
     private String tranxId;
     private String startAddress, startLat, startLng, endAddress, endLat, endLng,no_reason="no reason";
+    private ArrayList<VehicleTypeModal> vehicleTypeModalArrayList = new ArrayList<>();
+    private int cars[] = {R.drawable.motor, R.drawable.car, R.drawable.car_muv};
+    private String seats[] = {"1-4 seats", "1-6 seats", "2-4 seats"};
+    private String people[] = {"Ready for 1-4 seats", "Ready for 1-6 seats", "Ready for 2-4 seats"};
+    private String toBepaid[] = {"Rp 9000.00", "Rp 12000.00", "Rp 15000.00"};
+    VehicleTypeModal vehicleTypeModal = new VehicleTypeModal();
     @BindView(R.id.popular_location)
     RecyclerView recyclerView;
     @BindView(R.id.etxPickUp)
@@ -108,9 +117,11 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @BindView(R.id.imgCurrent)
     ImageView imgCurrent;
     ImageView btnFab;
+
     @BindView(R.id.tv_balance)
     CustomTextView tvxBalance;
-
+    @BindView(R.id.rv_vehicle_types)
+    RecyclerView rvxVehicleTypes;
     @BindView(R.id.cencel_ride)
     Button cencel_ride;
 
@@ -134,6 +145,14 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     private LatLng mlocation;
 
+    @OnClick(R.id.ib_call_driver)
+    public void onCall(){
+        CommonUtils.callDriver();
+    }
+    @OnClick(R.id.ib_call_driver_bottom_sheet)
+    public void onCallFromBottomSheet(){
+        CommonUtils.callDriver();
+    }
     @OnClick(R.id.btn_float)
     public void onFloatButtonClick() {
         if ((sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED)) {
@@ -298,7 +317,20 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         mapFragment = getSupportMapFragment();
         initializeMap();
         Intent intent = getIntent();
-        tvxBalance.setText(intent.getStringExtra("balance"));
+        tvxBalance.setText(intent.getStringExtra(AppConstants.BALANCE));
+
+        for (int i = 0; i <= 2; i++) {
+            vehicleTypeModal = new VehicleTypeModal();
+            vehicleTypeModal.setCarImage(cars[i]);
+            vehicleTypeModal.setNoOfSeats(seats[i]);
+            vehicleTypeModal.setNoOfPeople(people[i]);
+            vehicleTypeModal.setAmountToPay(toBepaid[i]);
+            vehicleTypeModalArrayList.add(vehicleTypeModal);
+        }
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        rvxVehicleTypes.setLayoutManager(layoutManager);
+        VehicleTypesAdapter adapter = new VehicleTypesAdapter(vehicleTypeModalArrayList, this);
+        rvxVehicleTypes.setAdapter(adapter);
     }
 
 
@@ -521,5 +553,11 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         mRequest.setReason(reason);
         mRequest.setId_transaksi(tranxId);
         tripActivityPresenter.cancelRide(mRequest);
+    }
+
+    public static void startOnclick(GetSaldoResponse.Balance[] balance){
+        Intent intent = new Intent(App.getInstance(), MotorTripActivity.class);
+        intent.putExtra(AppConstants.BALANCE,balance[0].getSisa_uang());
+        App.getInstance().startActivity(intent);
     }
 }

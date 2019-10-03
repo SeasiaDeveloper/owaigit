@@ -16,13 +16,17 @@
 package com.oway.utillis;
 
 
+import android.Manifest;
+import android.Manifest.permission;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -48,6 +52,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -56,6 +61,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -95,6 +101,10 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static androidx.core.content.ContextCompat.checkSelfPermission;
+import static com.facebook.accountkit.internal.AccountKitController.getApplicationContext;
+
 
 /*import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;*/
@@ -168,6 +178,13 @@ public final class CommonUtils {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(true);
         dialog.setContentView(R.layout.you_got_driver_dialog_box);
+        ImageButton ibxcallDriver = dialog.findViewById(R.id.ib_call);
+        ibxcallDriver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CommonUtils.callDriver();
+            }
+        });
         Button btnxOkOnDriverInfo = dialog.findViewById(R.id.btn_ok_driver_info);
         btnxOkOnDriverInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,7 +209,7 @@ public final class CommonUtils {
         CustomTextView tvCash = dialog.findViewById(R.id.tvCash);
         CustomTextView tvSaldo = dialog.findViewById(R.id.tvSaldo);
         RadioButton rbxCash = dialog.findViewById(R.id.rb_cash);
-        RadioButton rbxsaldo = dialog.findViewById(R.id.rb_saldo);
+
 
         tvCash.setText(String.valueOf(response.getPrice().getCash()));
         tvSaldo.setText(String.valueOf(response.getPrice().getBalance()));
@@ -207,12 +224,14 @@ public final class CommonUtils {
                     ivxSaldo.setImageResource(R.drawable.pay_saldo);
                     ivxCash.setImageResource(R.drawable.doller_sign);
 
-                } else  if (checkedId == R.id.rb_saldo) {
+                } else if (checkedId == R.id.rb_saldo) {
                     ivxSaldo.setImageResource(R.drawable.saldo_color);
                     ivxCash.setImageResource(R.drawable.doller_sign);
                 }
             }
         });
+
+
 
         btnxCencelOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -264,22 +283,24 @@ public final class CommonUtils {
                 RadioGroup radioGroup = dialog.findViewById(R.id.rdoReasonGroup);
                 int selectedId = radioGroup.getCheckedRadioButtonId();
                 RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
-                String amount, selection;
-                if (radioButton.getText().toString().equals("I can't find my driver")) {
-                    amount = radioButton.getText().toString();
+                radioButton.getText();
+
+                String cancelReason, selection;
+                if (radioButton.getText().toString().equals(AppConstants.CANCEL_REASON_ONE)) {
+                    cancelReason = radioButton.getText().toString();
                     selection = "0";
-                } else if (radioButton.getText().toString().equals("I have wrong submit destination")) {
-                    amount = radioButton.getText().toString();
+                } else if (radioButton.getText().toString().equals(AppConstants.CANCEL_REASON_TWO)) {
+                    cancelReason = radioButton.getText().toString();
                     selection = "1";
-                } else if (radioButton.getText().toString().equals("Driver is too late")) {
-                    amount = radioButton.getText().toString();
+                } else if (radioButton.getText().toString().equals(AppConstants.CANCEL_REASON_THREE)) {
+                    cancelReason = radioButton.getText().toString();
                     selection = "2";
                 } else {
-                    amount = notesCancelReason.getText().toString();
+                    cancelReason = notesCancelReason.getText().toString();
                     selection = "3";
                 }
                 dialog.dismiss();
-                cancelReasonDialog.onOkReasonDialogClick(amount, selection);
+                cancelReasonDialog.onOkReasonDialogClick(cancelReason, selection);
             }
         });
         dialog.show();
@@ -310,7 +331,7 @@ public final class CommonUtils {
         return date;
     }
 
-    public  static double distance(double lat1, double lon1, double lat2, double lon2) {
+    public static double distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
         double dist = Math.sin(deg2rad(lat1))
                 * Math.sin(deg2rad(lat2))
@@ -329,6 +350,28 @@ public final class CommonUtils {
 
     private static double rad2deg(double rad) {
         return (rad * 180.0 / Math.PI);
+    }
+
+    public static void callDriver() {
+        try {
+
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:9872465742"));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            App.getInstance().startActivity(intent);
+        } catch (Exception e) {
+
+        }
     }
 
     public static void showCancelRide(CancelReasonDialog mClick) {

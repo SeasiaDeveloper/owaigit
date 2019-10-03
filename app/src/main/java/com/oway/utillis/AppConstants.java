@@ -44,6 +44,13 @@ public final class AppConstants {
     public static final String LATITUDE="latitude";
     public static final String LONGITUDE="longitude";
 
+    public static final String CANCEL_REASON_ONE="I can't find my driver";
+    public static final String CANCEL_REASON_TWO="I have wrong submit destination";
+    public static final String CANCEL_REASON_THREE="Driver is too late";
+
+    public static final String BALANCE = "balance";
+
+
     public static final int REQUEST_CODE_PICK=1001;
     public static final int REQUEST_CODE_DROP=1002;
 
