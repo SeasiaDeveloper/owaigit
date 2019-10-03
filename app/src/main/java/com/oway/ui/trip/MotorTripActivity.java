@@ -86,12 +86,16 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     private boolean isValid;
     private String tranxId;
     private String startAddress, startLat, startLng, endAddress, endLat, endLng,no_reason="no reason";
+
     private ArrayList<VehicleTypeModal> vehicleTypeModalArrayList = new ArrayList<>();
     private int cars[] = {R.drawable.motor, R.drawable.car, R.drawable.car_muv};
     private String seats[] = {"1-4 seats", "1-6 seats", "2-4 seats"};
     private String people[] = {"Ready for 1-4 seats", "Ready for 1-6 seats", "Ready for 2-4 seats"};
     private String toBepaid[] = {"Rp 9000.00", "Rp 12000.00", "Rp 15000.00"};
     VehicleTypeModal vehicleTypeModal = new VehicleTypeModal();
+
+
+
     @BindView(R.id.popular_location)
     RecyclerView recyclerView;
     @BindView(R.id.etxPickUp)

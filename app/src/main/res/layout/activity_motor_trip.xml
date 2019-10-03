@@ -496,9 +496,10 @@
                 android:textSize="@dimen/_13sdp"
                 android:visibility="gone" />
         </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_100sdp"
+            android:layout_height="@dimen/_170sdp"
             android:layout_gravity="center"
             android:id="@+id/rv_vehicle_types"
             >
