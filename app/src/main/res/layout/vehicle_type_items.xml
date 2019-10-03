@@ -52,6 +52,8 @@
             android:id="@+id/tv_amount_to_be_paid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textSize="@dimen/_10sdp"
             android:layout_gravity="center"
             android:gravity="start" />
 
