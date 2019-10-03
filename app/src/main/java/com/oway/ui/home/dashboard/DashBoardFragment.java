@@ -25,6 +25,7 @@ import com.oway.model.response.GetSaldoResponse;
 import com.oway.ui.trip.MotorTripActivity;
 import com.oway.utillis.AppConstants;
 import com.oway.utillis.GlideImageLoader;
+import com.oway.utillis.ToastUtils;
 import com.yyydjk.library.BannerLayout;
 
 import java.lang.reflect.Array;
@@ -66,7 +67,6 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
 
         getSaldo();
 
-
         for (int i = 0; i <= 3; i++) {
             itemsModal = new DashboardGridItemsModal();
             itemsModal.setImageUrl(arr[i]);
@@ -87,18 +87,15 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
         });
         recyclerView.setAdapter(adapter);
 
-
         imageUrls = new ArrayList<String>();
         imageUrls.add("https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/ironman-spiderman-homecoming-poster-frontpage-700x354.jpg");
         imageUrls.add("https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/ironman-spiderman-homecoming-poster-frontpage-700x354.jpg");
         imageUrls.add("https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/ironman-spiderman-homecoming-poster-frontpage-700x354.jpg");
         imageUrls.add("https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/ironman-spiderman-homecoming-poster-frontpage-700x354.jpg");
-
         bannerLayout = view.findViewById(R.id.bannerLayout);
         bannerLayout.setImageLoader(new GlideImageLoader());
         bannerLayout.setViewUrls(imageUrls);
         return view;
-
 
     }
 
@@ -129,9 +126,7 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
 
     @Override
     public void onGetSaldoResponseSuccess(GetSaldoResponse response) {
-
-         balance = response.getBalance();
-
+        balance = response.getBalance();
         tvxMainBalance.setText("Rp " + balance[0].getSisa_uang());
         txvBonusBalance.setText("Rp bonus " + balance[0].getBonus_member());
 
@@ -139,6 +134,6 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
 
     @Override
     public void onGetsaldoResponseFailure(String response) {
-
+        ToastUtils.shortToast(response);
     }
 }
