@@ -146,7 +146,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             layoutBelowFloatButton.setVisibility(View.VISIBLE);
             btnFab.setRotation(360);
-
         }
     }
 
