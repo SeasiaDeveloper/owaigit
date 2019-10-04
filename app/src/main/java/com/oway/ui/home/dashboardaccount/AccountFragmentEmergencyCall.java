@@ -3,8 +3,8 @@ package com.oway.ui.home.dashboardaccount;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.oway.App;
 import com.oway.R;
@@ -12,22 +12,20 @@ import com.oway.R;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class EditProfileActivity extends AppCompatActivity {
+public class AccountFragmentEmergencyCall extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_profile);
+        setContentView(R.layout.activity_account_fragment_emergency_call);
         ButterKnife.bind(this);
     }
-
-    public static void onStartActivity(Context context) {
-        Intent intent = new Intent(App.getInstance(), EditProfileActivity.class);
+    public static void onStartCall(Context context) {
+        Intent intent = new Intent(App.getInstance(), AccountFragmentEmergencyCall.class);
         context.startActivity(intent);
     }
-    @OnClick(R.id.btn_back)
+    @OnClick(R.id.btn_back_call)
     public void onClick(){
         finish();
     }
-
 }

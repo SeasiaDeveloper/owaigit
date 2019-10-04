@@ -347,4 +347,13 @@ public final class CommonUtils {
         // show it
         alertDialog.show();
     }
+    public static void showLogoutDialog(Context context){
+        Dialog dialog = new Dialog(context, R.style.CustomAlertDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setContentView(R.layout.logout_dialog);
+        dialog.show();
+    }
+
+
 }

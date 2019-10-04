@@ -155,5 +155,18 @@
     <string name="rate">Rate apps</string>
     <string name="report">Report service</string>
     <string name="logout">Logout acoount</string>
+    <string name="save">Save</string>
+    <string name="tv_nama">Nama</string>
+    <string name="terms"><![CDATA[Terms & Condition]]></string>
+    <string name="web">OWAI Web</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="push_notify">Push Notification</string>
+    <string name="sms">SMS</string>
+    <string name="food">Food</string>
+    <string name="car">Car</string>
+    <string name="ride">Ride</string>
+    <string name="bt_logout">Logout Now</string>
+    <string name="close">Close</string>
+    <string name="attention">Attention!</string>
 
 </resources>
