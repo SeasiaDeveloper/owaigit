@@ -46,7 +46,7 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
     private RecyclerView recyclerView;
     private BannerLayout bannerLayout;
     private List<String> imageUrls;
-    public GetSaldoResponse.Balance[] balance;
+    public String balance;
 
     @BindView(R.id.tv_main_balance)
     CustomTextView tvxMainBalance;
@@ -64,9 +64,7 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
         unbinder = ButterKnife.bind(this, view);
         getActivityComponent().inject(this);
         dashBoardFragmentPresenter.onAttach(this);
-
         getSaldo();
-
         for (int i = 0; i <= 3; i++) {
             itemsModal = new DashboardGridItemsModal();
             itemsModal.setImageUrl(arr[i]);
@@ -83,14 +81,7 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
             }
         });
         recyclerView.setAdapter(adapter);
-        imageUrls = new ArrayList<String>();
-        imageUrls.add("https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/ironman-spiderman-homecoming-poster-frontpage-700x354.jpg");
-        imageUrls.add("https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/ironman-spiderman-homecoming-poster-frontpage-700x354.jpg");
-        imageUrls.add("https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/ironman-spiderman-homecoming-poster-frontpage-700x354.jpg");
-        imageUrls.add("https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/ironman-spiderman-homecoming-poster-frontpage-700x354.jpg");
         bannerLayout = view.findViewById(R.id.bannerLayout);
-        bannerLayout.setImageLoader(new GlideImageLoader());
-        bannerLayout.setViewUrls(imageUrls);
         return view;
 
     }
@@ -101,7 +92,6 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
         saldoRequest.setAccess_token(PreferenceHandler.readString(getActivity(), AppConstants.MBR_TOKEN, ""));
         dashBoardFragmentPresenter.getSaldo(saldoRequest);
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -122,10 +112,19 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
 
     @Override
     public void onGetSaldoResponseSuccess(GetSaldoResponse response) {
-        balance = response.getBalance();
-        tvxMainBalance.setText("Rp " + balance[0].getSisa_uang());
-        txvBonusBalance.setText("Rp bonus " + balance[0].getBonus_member());
+        balance = response.getBalance().get(0).getSisa_uang();
+        tvxMainBalance.setText("Rp " + response.getBalance().get(0).getSisa_uang());
+        txvBonusBalance.setText("Rp bonus " + response.getBalance().get(0).getBonus_member());
+        setSliderImages(response);
+    }
 
+    private void setSliderImages(GetSaldoResponse response) {
+        imageUrls = new ArrayList<String>();
+        for(int i=0;i<response.getImage_slider().size();i++) {
+            imageUrls.add(response.getImage_slider().get(i).getUrl());
+        }
+        bannerLayout.setImageLoader(new GlideImageLoader());
+        bannerLayout.setViewUrls(imageUrls);
     }
 
     @Override

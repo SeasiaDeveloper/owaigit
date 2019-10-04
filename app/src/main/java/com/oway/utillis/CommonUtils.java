@@ -162,7 +162,7 @@ public final class CommonUtils {
         dialog.show();
     }
 
-    public static void showCancelRideDialog(Context context, DriverProfileDialog profileDialog, GetEstimateBikeResponse response) {
+    public static void showCancelRideDialog(Context context, DriverProfileDialog profileDialog, double cash, double balance) {
         Dialog dialog = new Dialog(context, R.style.Theme_AppCompat_Light_Dialog_Alert);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(true);
@@ -175,27 +175,10 @@ public final class CommonUtils {
         CustomTextView tvSaldo = dialog.findViewById(R.id.tvSaldo);
         RadioButton rbxCash = dialog.findViewById(R.id.rb_cash);
 
-        tvCash.setText(String.valueOf(response.getPrice().getCash()));
-        tvSaldo.setText(String.valueOf(response.getPrice().getBalance()));
+        tvCash.setText(String.valueOf(cash));
+        tvSaldo.setText(String.valueOf(balance));
         RadioGroup radioGroup = dialog.findViewById(R.id.rdoGropu);
         rbxCash.setChecked(true);
-
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-                if (checkedId == R.id.rb_cash) {
-
-                   // ivxSaldo.setImageResource(R.drawable.pay_saldo);
-                   //  ivxCash.setImageResource(R.drawable.doller_sign);
-
-                } else if (checkedId == R.id.rb_saldo) {
-                  //  ivxSaldo.setImageResource(R.drawable.saldo_color);
-                   //ivxCash.setImageResource(R.drawable.doller_sign);
-                }
-            }
-        });
-
 
         btnxCencelOrder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,14 +200,10 @@ public final class CommonUtils {
                 String amount, selection;
                 if (radioButton.getText().toString().equals("CASH")) {
                     amount = tvCash.getText().toString();
-
                     selection = "0";
-
-
                 } else {
                     amount = tvSaldo.getText().toString();
                     selection = "1";
-
                 }
                 dialog.dismiss();
                 profileDialog.onOrderClick(amount, selection);
@@ -284,9 +263,6 @@ public final class CommonUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // MapMarker defaultMarker = new MapMarker();
-        // defaultMarker.setCoordinate(new GeoCoordinate(Double.parseDouble(drives.getData().get(i).getLatitude()), Double.parseDouble(drives.getData().get(i).getLongitude()), 0.0));
-        //map.addMapObject(defaultMarker);
     }
 
     private static void checkSelection(int i) {
@@ -350,9 +326,9 @@ public final class CommonUtils {
         }
     }
 
-    public static void showCancelRide(CancelReasonDialog mClick) {
+    public static void showCancelRide(CancelReasonDialog mClick,Context context) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                App.getInstance());
+                context);
         alertDialogBuilder.setTitle("Cancel Ride");
         alertDialogBuilder
                 .setMessage("Are you sure you want to cancel Ride?")

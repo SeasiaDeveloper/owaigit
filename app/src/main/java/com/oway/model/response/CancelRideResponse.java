@@ -4,20 +4,19 @@ public class CancelRideResponse {
 
 
     /**
-     * Code : 400
-     * errNumber : 801
-     * respTime : 2019-09-30 06:00:04
-     * status : FAILED
-     * respMessage : File : /var/www/development.owai.co.id/laravel/app/Http/Controllers/RideController.php
-     Line : 261
-     Code : 0
-     Message : Undefined variable: reason
+     * Code : 200
+     * errNumber : 0
+     * respTime : 2019-10-04 02:09:25
+     * status : SUCCESS
+     * id_transaksi : 236
+     * respMessage : TRANSACTION SUCCESS CANCELLED
      */
 
     private int Code;
     private String errNumber;
     private String respTime;
     private String status;
+    private int id_transaksi;
     private String respMessage;
 
     public int getCode() {
@@ -50,6 +49,14 @@ public class CancelRideResponse {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getId_transaksi() {
+        return id_transaksi;
+    }
+
+    public void setId_transaksi(int id_transaksi) {
+        this.id_transaksi = id_transaksi;
     }
 
     public String getRespMessage() {

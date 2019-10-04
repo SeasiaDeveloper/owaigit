@@ -114,9 +114,6 @@ public class ApiService {
         return apiService.getEstimateBikeRequest(priceRequest);
     }
 
-
-
-
     public Call<CancelRideResponse> cancelRide(CancelRideRequest request) {
         return apiService.cancelRide(request);
     }
@@ -168,7 +165,7 @@ public class ApiService {
         @POST("api/customer/getaddressbycoordinate")
         Call<LocationDetailsResponse> getLocationDetails(@Body GetCurrentLocationRequest mRequest);
 
-        @POST("/api/customer/getsaldo")
+        @POST("/api/customer/dashboard_api")
         Call<GetSaldoResponse> getSaldoRequest(@Body GetSaldoRequest saldoRequest);
 
         @POST("/api/customer/nearbysearch")

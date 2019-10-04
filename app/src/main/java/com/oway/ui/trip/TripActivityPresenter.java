@@ -118,13 +118,12 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
             public void onResponse(Call<CancelRideResponse> call, Response<CancelRideResponse> response) {
                 dismissLoading();
                 CancelRideResponse body = response.body();
-                if (body != null) {
-                    getMvpView().onCancelRideSuccess(response.body());
-                   /* if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
-                        getMvpView().onGetBikePriceSuccess(body);
+                if (body != null && body.getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
+                    if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
+                        getMvpView().onCancelRideSuccess(body);
                     } else if (response.body().getCode() == ConstsCore.STATUS_CODE_FAILED) {
-                        getMvpView().onGetBikePriceFailure(body.getRespMessage());
-                    }*/
+                        getMvpView().onCancelRideFailure(body.getRespMessage());
+                    }
                 } else {
                     getMvpView().onCancelRideFailure(App.getInstance().getResources().getString(R.string.something_went_wrong));
                 }
