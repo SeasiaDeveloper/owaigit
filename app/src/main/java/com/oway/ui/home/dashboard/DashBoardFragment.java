@@ -72,8 +72,6 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
             itemsModal.setImageUrl(arr[i]);
             itemsModal.setItemText(brr[i]);
             gridItemList.add(itemsModal);
-
-
         }
         recyclerView = view.findViewById(R.id.rvxRecycler);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(4, LinearLayoutManager.VERTICAL));
@@ -85,7 +83,6 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
             }
         });
         recyclerView.setAdapter(adapter);
-
         imageUrls = new ArrayList<String>();
         imageUrls.add("https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/ironman-spiderman-homecoming-poster-frontpage-700x354.jpg");
         imageUrls.add("https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/ironman-spiderman-homecoming-poster-frontpage-700x354.jpg");

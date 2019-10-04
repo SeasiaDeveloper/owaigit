@@ -22,6 +22,28 @@
             android:layout_marginBottom="@dimen/_15sdp"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:background="@drawable/saldo_color"
+                    />
+
+            <com.oway.customviews.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="start"
+                android:text="@string/tv_rates"
+                android:textSize="@dimen/_11sdp"
+                android:textStyle="bold" />
+            </LinearLayout>
+
             <com.oway.customviews.CustomTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,7 +51,7 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:gravity="start"
                 android:text="@string/pay_with"
-                android:textSize="@dimen/_10sdp"
+                android:textSize="@dimen/_13sdp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -110,7 +132,7 @@
                             android:layout_width="@dimen/_37sdp"
                             android:layout_height="@dimen/_20sdp"
                             android:layout_gravity="center"
-                            android:src="@drawable/pay_saldo"
+                            android:src="@drawable/saldo_color"
                             android:id="@+id/iv_saldo_dialog"
                             />
 

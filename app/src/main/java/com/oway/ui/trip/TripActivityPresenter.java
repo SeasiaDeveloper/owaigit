@@ -10,12 +10,14 @@ import com.oway.model.request.CustomerTransactionRequest;
 import com.oway.model.request.GetCurrentLocationRequest;
 import com.oway.model.request.GetEstimateBikeRequest;
 import com.oway.model.request.GetNearestDriverRequest;
+import com.oway.model.request.GetPriceBySeatRequest;
 import com.oway.model.request.GetRecommendedPlacesRequest;
 import com.oway.model.request.SendDriverRequest;
 import com.oway.model.response.CancelRideResponse;
 import com.oway.model.response.CustomerTransactionResponse;
 import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
+import com.oway.model.response.GetPriceBySeatResponse;
 import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.model.response.LocationDetailsResponse;
 import com.oway.model.response.SendDriverResponse;
@@ -229,6 +231,41 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
             @Override
             public void onFailure(Call<CustomerTransactionResponse> call, Throwable t) {
                 // dismissLoading();
+                if (getMvpView() != null) {
+                    String msg = t.getMessage();
+                    getMvpView().showMessage(R.string.something_went_wrong);
+                }
+            }
+        });
+    }
+
+
+    public void getPriceBySeat(GetPriceBySeatRequest request) {
+
+        if (!NetworkUtils.isNetworkConnected(getMvpView().getActivityContext())) {
+            getMvpView().showMessage(R.string.internet_check);
+            return;
+        }
+        showLoading();
+        apiService.getPriceBySeat(request).enqueue(new Callback<GetPriceBySeatResponse>() {
+            @Override
+            public void onResponse(Call<GetPriceBySeatResponse> call, Response<GetPriceBySeatResponse> response) {
+                dismissLoading();
+                GetPriceBySeatResponse body = response.body();
+                if (body != null) {
+                    if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
+                        getMvpView().onGetPriceBySeatSuccess(body);
+                    } else if (response.body().getCode() == ConstsCore.STATUS_CODE_FAILED) {
+                        //getMvpView().onGetPriceBySeatFailure(response.body().getRespMessage());
+                    }
+                } else {
+                    getMvpView().onGetPriceBySeatFailure(App.getInstance().getResources().getString(R.string.something_went_wrong));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetPriceBySeatResponse> call, Throwable t) {
+                dismissLoading();
                 if (getMvpView() != null) {
                     String msg = t.getMessage();
                     getMvpView().showMessage(R.string.something_went_wrong);

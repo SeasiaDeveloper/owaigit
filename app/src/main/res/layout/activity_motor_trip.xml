@@ -502,6 +502,7 @@
             android:layout_height="@dimen/_170sdp"
             android:layout_gravity="center"
             android:id="@+id/rv_vehicle_types"
+            android:visibility="gone"
             >
 
         </androidx.recyclerview.widget.RecyclerView>
@@ -511,8 +512,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@color/col_orange"
+            android:background="@color/col_gray"
             android:text="@string/next"
+            android:enabled="false"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_12sdp" />
     </LinearLayout>

@@ -6,6 +6,7 @@ import com.oway.model.response.CancelRideResponse;
 import com.oway.model.response.CustomerTransactionResponse;
 import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
+import com.oway.model.response.GetPriceBySeatResponse;
 import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.model.response.LocationDetailsResponse;
 import com.oway.model.response.SendDriverResponse;
@@ -41,6 +42,8 @@ public interface TripActivityView extends MvpView {
 
     void onCancelRideFailure(String msg);
 
+    void onGetPriceBySeatSuccess(GetPriceBySeatResponse response);
 
+    void onGetPriceBySeatFailure(String response);
 
 }

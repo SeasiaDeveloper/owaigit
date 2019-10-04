@@ -6,6 +6,16 @@ public class VehicleTypeModal {
     String noOfPeople;
     String amountToPay;
 
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
+    }
+
+    boolean isSelect;
+
     public VehicleTypeModal() {
 
     }

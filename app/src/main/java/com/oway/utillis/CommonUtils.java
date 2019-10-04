@@ -17,54 +17,29 @@ package com.oway.utillis;
 
 
 import android.Manifest;
-import android.Manifest.permission;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
-import android.content.res.Resources;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.provider.Settings;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.ColorInt;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -73,11 +48,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.common.Image;
-import com.here.android.mpa.common.OnEngineInitListener;
-import com.here.android.mpa.common.PositioningManager;
 import com.here.android.mpa.mapping.Map;
 import com.here.android.mpa.mapping.MapMarker;
-import com.here.android.mpa.mapping.SupportMapFragment;
 import com.oway.App;
 import com.oway.R;
 import com.oway.callbacks.CancelButtonClick;
@@ -87,22 +59,14 @@ import com.oway.callbacks.RegisterButtonclick;
 import com.oway.customviews.CustomButton;
 import com.oway.customviews.CustomEditText;
 import com.oway.customviews.CustomTextView;
+import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static androidx.core.content.ContextCompat.checkSelfPermission;
 import static com.facebook.accountkit.internal.AccountKitController.getApplicationContext;
 
 
@@ -114,6 +78,7 @@ public final class CommonUtils {
     private static final String TAG = "CommonUtils";
     private static String token = null;
     private static Map map;
+    static int image;
 
     private CommonUtils() {
         // This utility class is not publicly instantiable
@@ -210,7 +175,6 @@ public final class CommonUtils {
         CustomTextView tvSaldo = dialog.findViewById(R.id.tvSaldo);
         RadioButton rbxCash = dialog.findViewById(R.id.rb_cash);
 
-
         tvCash.setText(String.valueOf(response.getPrice().getCash()));
         tvSaldo.setText(String.valueOf(response.getPrice().getBalance()));
         RadioGroup radioGroup = dialog.findViewById(R.id.rdoGropu);
@@ -221,16 +185,16 @@ public final class CommonUtils {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
                 if (checkedId == R.id.rb_cash) {
-                    ivxSaldo.setImageResource(R.drawable.pay_saldo);
-                    ivxCash.setImageResource(R.drawable.doller_sign);
+
+                   // ivxSaldo.setImageResource(R.drawable.pay_saldo);
+                   //  ivxCash.setImageResource(R.drawable.doller_sign);
 
                 } else if (checkedId == R.id.rb_saldo) {
-                    ivxSaldo.setImageResource(R.drawable.saldo_color);
-                    ivxCash.setImageResource(R.drawable.doller_sign);
+                  //  ivxSaldo.setImageResource(R.drawable.saldo_color);
+                   //ivxCash.setImageResource(R.drawable.doller_sign);
                 }
             }
         });
-
 
 
         btnxCencelOrder.setOnClickListener(new View.OnClickListener() {
@@ -309,11 +273,12 @@ public final class CommonUtils {
 
     public static void setDriversOnMap(GetNearestDriverResponse drives, Map map) {
         try {
+            checkSelection(Integer.parseInt(PreferenceHandler.readString(App.getInstance(), AppConstants.SELECTION_GRID, "")));
             for (int i = 0; i < drives.getData().size(); i++) {
-                Image image = new Image();
-                image.setImageResource(R.drawable.bike);
+                Image imageRes = new Image();
+                imageRes.setImageResource(image);
                 LatLng lt = new LatLng(Double.parseDouble(drives.getData().get(i).getLatitude()), Double.parseDouble(drives.getData().get(i).getLongitude()));
-                MapMarker customMarker = new MapMarker(new GeoCoordinate(lt.latitude, lt.longitude), image);
+                MapMarker customMarker = new MapMarker(new GeoCoordinate(lt.latitude, lt.longitude), imageRes);
                 map.addMapObject(customMarker);
             }
         } catch (Exception e) {
@@ -322,6 +287,17 @@ public final class CommonUtils {
         // MapMarker defaultMarker = new MapMarker();
         // defaultMarker.setCoordinate(new GeoCoordinate(Double.parseDouble(drives.getData().get(i).getLatitude()), Double.parseDouble(drives.getData().get(i).getLongitude()), 0.0));
         //map.addMapObject(defaultMarker);
+    }
+
+    private static void checkSelection(int i) {
+        switch (i) {
+            case 1:
+                image = R.drawable.bike;
+                break;
+            case 2:
+                image = R.drawable.carcurrent;
+                break;
+        }
     }
 
     public static String getCurrentDateTime() {

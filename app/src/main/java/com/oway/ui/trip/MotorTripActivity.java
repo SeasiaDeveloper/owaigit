@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -34,18 +33,20 @@ import com.oway.callbacks.PopularLocationsCallBack;
 import com.oway.customviews.CustomTextView;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.PopularLocationsModal;
-import com.oway.model.request.CancelRideRequest;
 import com.oway.model.VehicleTypeModal;
+import com.oway.model.request.CancelRideRequest;
 import com.oway.model.request.CustomerTransactionRequest;
 import com.oway.model.request.GetCurrentLocationRequest;
 import com.oway.model.request.GetEstimateBikeRequest;
 import com.oway.model.request.GetNearestDriverRequest;
+import com.oway.model.request.GetPriceBySeatRequest;
 import com.oway.model.request.GetRecommendedPlacesRequest;
 import com.oway.model.request.SendDriverRequest;
 import com.oway.model.response.CancelRideResponse;
 import com.oway.model.response.CustomerTransactionResponse;
 import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
+import com.oway.model.response.GetPriceBySeatResponse;
 import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.model.response.GetSaldoResponse;
 import com.oway.model.response.LocationDetailsResponse;
@@ -85,16 +86,11 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     private final int DESTINATION_SELECT = 101;
     private boolean isValid;
     private String tranxId;
-    private String startAddress, startLat, startLng, endAddress, endLat, endLng,no_reason="no reason";
-
+    private String startAddress, startLat, startLng, endAddress, endLat, endLng, no_reason = "no reason";
     private ArrayList<VehicleTypeModal> vehicleTypeModalArrayList = new ArrayList<>();
-    private int cars[] = {R.drawable.motor, R.drawable.car, R.drawable.car_muv};
-    private String seats[] = {"1-4 seats", "1-6 seats", "2-4 seats"};
-    private String people[] = {"Ready for 1-4 seats", "Ready for 1-6 seats", "Ready for 2-4 seats"};
-    private String toBepaid[] = {"Rp 9000.00", "Rp 12000.00", "Rp 15000.00"};
-    VehicleTypeModal vehicleTypeModal = new VehicleTypeModal();
+    private int seat=0;
 
-
+    private VehicleTypeModal vehicleTypeModal = new VehicleTypeModal();
 
     @BindView(R.id.popular_location)
     RecyclerView recyclerView;
@@ -128,6 +124,9 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     RecyclerView rvxVehicleTypes;
     @BindView(R.id.cencel_ride)
     Button cencel_ride;
+    @BindView(R.id.btn_map_next)
+    Button btn_map_next;
+
 
     @BindView(R.id.btn_map_source)
     Button btn_map_source;
@@ -150,13 +149,15 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     private LatLng mlocation;
 
     @OnClick(R.id.ib_call_driver)
-    public void onCall(){
+    public void onCall() {
         CommonUtils.callDriver();
     }
+
     @OnClick(R.id.ib_call_driver_bottom_sheet)
-    public void onCallFromBottomSheet(){
+    public void onCallFromBottomSheet() {
         CommonUtils.callDriver();
     }
+
     @OnClick(R.id.btn_float)
     public void onFloatButtonClick() {
         if ((sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED)) {
@@ -193,14 +194,25 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @OnClick(R.id.btn_map_next)
     public void onClickNextOnMap() {
-        isValid = validationUtils.checkPickAndDestination(etxPickUp, etxDropDown);
-        if (isValid) {
-            GetEstimateBikeRequest mRequest = new GetEstimateBikeRequest();
-            mRequest.setDistance(String.valueOf(CommonUtils.distance(Double.parseDouble(startLat), Double.parseDouble(startLng), Double.parseDouble(endLat), Double.parseDouble(endLng))));
-            mRequest.setId_fitur(PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, ""));
-            mRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
-            tripActivityPresenter.getEstimatePriceBike(mRequest);
+
+        if (PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, "").equals("1")) {
+            isValid = validationUtils.checkPickAndDestination(etxPickUp, etxDropDown);
+            if (isValid) {
+                GetEstimateBikeRequest mRequest = new GetEstimateBikeRequest();
+                mRequest.setDistance(String.valueOf(CommonUtils.distance(Double.parseDouble(startLat), Double.parseDouble(startLng), Double.parseDouble(endLat), Double.parseDouble(endLng))));
+                mRequest.setId_fitur(PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, ""));
+                mRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
+                tripActivityPresenter.getEstimatePriceBike(mRequest);
+            }
+        } else if (PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, "").equals("2")) {
+            GetPriceBySeatRequest mRequestPrice = new GetPriceBySeatRequest();
+            mRequestPrice.setLatitude(String.valueOf(mlocation.latitude));
+            mRequestPrice.setLongitude(String.valueOf(mlocation.longitude));
+            mRequestPrice.setDistance(String.valueOf(CommonUtils.distance(Double.parseDouble(startLat), Double.parseDouble(startLng), Double.parseDouble(endLat), Double.parseDouble(endLng))));
+            mRequestPrice.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
+            tripActivityPresenter.getPriceBySeat(mRequestPrice);
         }
+
     }
 
     @OnClick(R.id.cencel_ride)
@@ -236,7 +248,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         mRequest.setDestination_address(endAddress);
         mRequest.setFinal_price(price);
         mRequest.setUse_balance(selection);
-        mRequest.setSeat(0);
+        mRequest.setSeat(seat);
         mRequest.setAccess_token(PreferenceHandler.readString(this, AppConstants.MBR_TOKEN, ""));
         tripActivityPresenter.getCustomerRequestTransaction(mRequest);
     }
@@ -293,7 +305,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(App.getInstance(),"call",Toast.LENGTH_SHORT).show();
+                Toast.makeText(App.getInstance(), "call", Toast.LENGTH_SHORT).show();
             }
         }, 5000);
 
@@ -323,18 +335,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         Intent intent = getIntent();
         tvxBalance.setText(intent.getStringExtra(AppConstants.BALANCE));
 
-        for (int i = 0; i <= 2; i++) {
-            vehicleTypeModal = new VehicleTypeModal();
-            vehicleTypeModal.setCarImage(cars[i]);
-            vehicleTypeModal.setNoOfSeats(seats[i]);
-            vehicleTypeModal.setNoOfPeople(people[i]);
-            vehicleTypeModal.setAmountToPay(toBepaid[i]);
-            vehicleTypeModalArrayList.add(vehicleTypeModal);
-        }
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        rvxVehicleTypes.setLayoutManager(layoutManager);
-        VehicleTypesAdapter adapter = new VehicleTypesAdapter(vehicleTypeModalArrayList, this);
-        rvxVehicleTypes.setAdapter(adapter);
     }
 
 
@@ -347,7 +347,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         nearRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
         tripActivityPresenter.getNearestDriver(nearRequest);
     }
-
 
     @Override
     public void onLocationChanged(LatLng location) {
@@ -486,6 +485,29 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         ToastUtils.shortToast(msg);
     }
 
+    @Override
+    public void onGetPriceBySeatSuccess(GetPriceBySeatResponse response) {
+
+        for (int i = 0; i < response.getData().size(); i++) {
+            vehicleTypeModal = new VehicleTypeModal();
+            vehicleTypeModal.setCarImage(R.drawable.car);
+            vehicleTypeModal.setNoOfSeats(String.valueOf(response.getData().get(i).getSeat()));
+            vehicleTypeModal.setNoOfPeople(String.valueOf(response.getData().get(i).getDescription()));
+            vehicleTypeModal.setAmountToPay(String.valueOf(response.getData().get(i).getCash()));
+            vehicleTypeModalArrayList.add(vehicleTypeModal);
+        }
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        rvxVehicleTypes.setLayoutManager(layoutManager);
+        VehicleTypesAdapter adapter = new VehicleTypesAdapter(vehicleTypeModalArrayList, this);
+        rvxVehicleTypes.setAdapter(adapter);
+        rvxVehicleTypes.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onGetPriceBySeatFailure(String response) {
+
+    }
+
     void initializeMap() {
         mapFragment.init(new OnEngineInitListener() {
             @Override
@@ -504,7 +526,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
             }
         });
     }
-
 
     @OnClick(R.id.btn_map_source)
     public void onSourceBtnClick() {
@@ -525,19 +546,24 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
             startLat = data.getStringExtra(AppConstants.SELECT_LATITUDE);
             startLng = data.getStringExtra(AppConstants.SELECT_LONGITUDE);
             startAddress = data.getStringExtra(AppConstants.ADDRESS);
-            if (!etxPickUp.getText().toString().isEmpty())
+          /*  if (!etxPickUp.getText().toString().isEmpty())
                 btn_map_source.setVisibility(View.VISIBLE);
-            else
-                etxPickUp.setText(startAddress);
+            else*/
+            etxPickUp.setText(startAddress);
 
         } else if (requestCode == DESTINATION_SELECT && resultCode == RESULT_OK) {
             endLat = data.getStringExtra(AppConstants.SELECT_LATITUDE);
             endLng = data.getStringExtra(AppConstants.SELECT_LONGITUDE);
             endAddress = data.getStringExtra(AppConstants.ADDRESS);
-            if (!etxDropDown.getText().toString().isEmpty())
+         /*   if (!etxDropDown.getText().toString().isEmpty())
                 btn_map_destination.setVisibility(View.VISIBLE);
-            else
-                etxDropDown.setText(endAddress);
+            else*/
+            etxDropDown.setText(endAddress);
+        }
+
+        if (!etxPickUp.getText().toString().isEmpty() && !etxDropDown.getText().toString().isEmpty()) {
+            btn_map_next.setEnabled(true);
+            btn_map_next.setBackgroundColor(getResources().getColor(R.color.col_orange));
         }
     }
 
@@ -559,9 +585,9 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         tripActivityPresenter.cancelRide(mRequest);
     }
 
-    public static void startOnclick(GetSaldoResponse.Balance[] balance){
+    public static void startOnclick(GetSaldoResponse.Balance[] balance) {
         Intent intent = new Intent(App.getInstance(), MotorTripActivity.class);
-        intent.putExtra(AppConstants.BALANCE,balance[0].getSisa_uang());
+        intent.putExtra(AppConstants.BALANCE, balance[0].getSisa_uang());
         App.getInstance().startActivity(intent);
     }
 }
