@@ -13,5 +13,9 @@
     <color name="cencel">#898989</color>
     <color name="cencel_red">#EF0505</color>
     <color name="cencel_button">#E1E1E1</color>
-
+    <color name="view_history">#D89207</color>
+    <color name="on_going">#EFEEEF</color>
+    <color name="install_button_text">#127532</color>
+    <color name="black_opacity">#73000000</color>
+    <color name="acc_text_col">#363636</color>
 </resources>

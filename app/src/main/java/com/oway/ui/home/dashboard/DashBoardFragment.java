@@ -28,7 +28,6 @@ import com.oway.utillis.GlideImageLoader;
 import com.oway.utillis.ToastUtils;
 import com.yyydjk.library.BannerLayout;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 

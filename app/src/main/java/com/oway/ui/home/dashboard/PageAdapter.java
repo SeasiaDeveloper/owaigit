@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.oway.ui.home.dashboardaccount.DashBoardAccountFragment;
+import com.oway.ui.home.dashboardactivity.DashboardActivityFragment;
+import com.oway.ui.home.dashboardpayment.DashBoardPaymentFragment;
+
 public class PageAdapter extends FragmentStatePagerAdapter {
 
 
@@ -19,11 +23,11 @@ public class PageAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new DashBoardFragment();
             case 1:
-                return new DashBoardFragment();
+                return new DashboardActivityFragment();
             case 2:
-                return new DashBoardFragment();
+                return new DashBoardPaymentFragment();
             case 3:
-                return new DashBoardFragment();
+                return new DashBoardAccountFragment();
             default:
                 return null;
         }
