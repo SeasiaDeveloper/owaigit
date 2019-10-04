@@ -6,6 +6,7 @@ import com.oway.model.request.CustomerTransactionRequest;
 import com.oway.model.request.GetCurrentLocationRequest;
 import com.oway.model.request.GetEstimateBikeRequest;
 import com.oway.model.request.GetNearestDriverRequest;
+import com.oway.model.request.GetPriceBySeatRequest;
 import com.oway.model.request.GetRecommendedPlacesRequest;
 import com.oway.model.request.GetSaldoRequest;
 import com.oway.model.request.GetSearchPlacesRequest;
@@ -16,6 +17,7 @@ import com.oway.model.response.CancelRideResponse;
 import com.oway.model.response.CustomerTransactionResponse;
 import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
+import com.oway.model.response.GetPriceBySeatResponse;
 import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.model.response.LocationDetailsResponse;
 import com.oway.model.response.GetSaldoResponse;
@@ -112,9 +114,6 @@ public class ApiService {
         return apiService.getEstimateBikeRequest(priceRequest);
     }
 
-
-
-
     public Call<CancelRideResponse> cancelRide(CancelRideRequest request) {
         return apiService.cancelRide(request);
     }
@@ -125,6 +124,10 @@ public class ApiService {
 
     public Call<SendDriverResponse> getNearestDriverRequest(SendDriverRequest mRequest) {
         return apiService.getDriverRequest(mRequest);
+    }
+
+    public Call<GetPriceBySeatResponse> getPriceBySeat(GetPriceBySeatRequest mRequest) {
+        return apiService.getPriceBySeat(mRequest);
     }
 
     public Call<LocationDetailsResponse> getCurrentAddress(GetCurrentLocationRequest mRequest) {
@@ -156,10 +159,13 @@ public class ApiService {
         @POST("api/trx/send_request_to_driver")
         Call<SendDriverResponse> getDriverRequest(@Body SendDriverRequest request);
 
+        @POST("api/customer/price_by_seat")
+        Call<GetPriceBySeatResponse> getPriceBySeat(@Body GetPriceBySeatRequest request);
+
         @POST("api/customer/getaddressbycoordinate")
         Call<LocationDetailsResponse> getLocationDetails(@Body GetCurrentLocationRequest mRequest);
 
-        @POST("/api/customer/getsaldo")
+        @POST("/api/customer/dashboard_api")
         Call<GetSaldoResponse> getSaldoRequest(@Body GetSaldoRequest saldoRequest);
 
         @POST("/api/customer/nearbysearch")

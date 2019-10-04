@@ -34,9 +34,15 @@ public class SearchPlacesPresenter<V extends MvpView> extends BasePresenter<Sear
             public void onResponse(Call<GetRecommendedPlacesResponse> call, Response<GetRecommendedPlacesResponse> response) {
                 // dismissLoading();
                 GetRecommendedPlacesResponse body = response.body();
-                if (isBodyVerified(body.getCode())&&body != null) {
-                    getMvpView().onGetSearchPlacesResponseSuccess(response.body());
-                } else {
+                if(body!=null) {
+                    if (isBodyVerified(response.body().getCode()) && body != null) {
+                        getMvpView().onGetSearchPlacesResponseSuccess(response.body());
+                    } else {
+                        getMvpView().onGetsearchPlacesResponseFailure(App.getInstance().getResources().getString(R.string.something_went_wrong));
+                    }
+                }
+                else
+                {
                     getMvpView().onGetsearchPlacesResponseFailure(App.getInstance().getResources().getString(R.string.something_went_wrong));
                 }
             }

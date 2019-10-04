@@ -158,5 +158,4 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     public void logout() {
         getBaseActivity().logout();
     }
-
 }

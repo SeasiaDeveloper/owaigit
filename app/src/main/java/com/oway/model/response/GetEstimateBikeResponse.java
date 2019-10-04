@@ -57,26 +57,27 @@ public class GetEstimateBikeResponse {
     }
 
     public static class PriceBean {
-        public long getCash() {
+
+        private double cash;
+
+        public double getCash() {
             return cash;
         }
 
-        public void setCash(long cash) {
+        public void setCash(double cash) {
             this.cash = cash;
         }
 
-        public long getBalance() {
+        public double getBalance() {
             return balance;
         }
 
-        public void setBalance(long balance) {
+        public void setBalance(double balance) {
             this.balance = balance;
         }
-        /**
-         * cash : 7000
-         * balance : 7000
-         */
-        private long cash;
-        private long balance;
 
-}}
+        private double balance;
+
+}
+
+}

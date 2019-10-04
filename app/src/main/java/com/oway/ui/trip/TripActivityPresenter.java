@@ -10,12 +10,14 @@ import com.oway.model.request.CustomerTransactionRequest;
 import com.oway.model.request.GetCurrentLocationRequest;
 import com.oway.model.request.GetEstimateBikeRequest;
 import com.oway.model.request.GetNearestDriverRequest;
+import com.oway.model.request.GetPriceBySeatRequest;
 import com.oway.model.request.GetRecommendedPlacesRequest;
 import com.oway.model.request.SendDriverRequest;
 import com.oway.model.response.CancelRideResponse;
 import com.oway.model.response.CustomerTransactionResponse;
 import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
+import com.oway.model.response.GetPriceBySeatResponse;
 import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.model.response.LocationDetailsResponse;
 import com.oway.model.response.SendDriverResponse;
@@ -45,7 +47,7 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
         apiService.getNearestDriver(nearRequest).enqueue(new Callback<GetNearestDriverResponse>() {
             @Override
             public void onResponse(Call<GetNearestDriverResponse> call, Response<GetNearestDriverResponse> response) {
-               // dismissLoading();
+                // dismissLoading();
                 GetNearestDriverResponse body = response.body();
                 if (body != null) {
                     if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
@@ -60,7 +62,7 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
 
             @Override
             public void onFailure(Call<GetNearestDriverResponse> call, Throwable t) {
-             //   dismissLoading();
+                //   dismissLoading();
                 if (getMvpView() != null) {
                     String msg = t.getMessage();
                     getMvpView().showMessage(R.string.something_went_wrong);
@@ -116,13 +118,12 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
             public void onResponse(Call<CancelRideResponse> call, Response<CancelRideResponse> response) {
                 dismissLoading();
                 CancelRideResponse body = response.body();
-                if (body != null) {
-                    getMvpView().onCancelRideSuccess(response.body());
-                   /* if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
-                        getMvpView().onGetBikePriceSuccess(body);
+                if (body != null && body.getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
+                    if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
+                        getMvpView().onCancelRideSuccess(body);
                     } else if (response.body().getCode() == ConstsCore.STATUS_CODE_FAILED) {
-                        getMvpView().onGetBikePriceFailure(body.getRespMessage());
-                    }*/
+                        getMvpView().onCancelRideFailure(body.getRespMessage());
+                    }
                 } else {
                     getMvpView().onCancelRideFailure(App.getInstance().getResources().getString(R.string.something_went_wrong));
                 }
@@ -183,18 +184,18 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
         apiService.getCurrentAddress(mRequest).enqueue(new Callback<LocationDetailsResponse>() {
             @Override
             public void onResponse(Call<LocationDetailsResponse> call, Response<LocationDetailsResponse> response) {
-                 dismissLoading();
+                dismissLoading();
                 LocationDetailsResponse body = response.body();
                 if (body != null) {
                     getMvpView().onGetAddressSuccess(response);
                 } else {
-                    getMvpView().onGetRecommendedPlacesFailure(App.getInstance().getResources().getString(R.string.something_went_wrong));
+                    getMvpView().onGetAddressFailure(App.getInstance().getResources().getString(R.string.something_went_wrong));
                 }
             }
 
             @Override
             public void onFailure(Call<LocationDetailsResponse> call, Throwable t) {
-                 dismissLoading();
+                dismissLoading();
                 if (getMvpView() != null) {
                     String msg = t.getMessage();
                     getMvpView().showMessage(R.string.something_went_wrong);
@@ -229,6 +230,41 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
             @Override
             public void onFailure(Call<CustomerTransactionResponse> call, Throwable t) {
                 // dismissLoading();
+                if (getMvpView() != null) {
+                    String msg = t.getMessage();
+                    getMvpView().showMessage(R.string.something_went_wrong);
+                }
+            }
+        });
+    }
+
+
+    public void getPriceBySeat(GetPriceBySeatRequest request) {
+
+        if (!NetworkUtils.isNetworkConnected(getMvpView().getActivityContext())) {
+            getMvpView().showMessage(R.string.internet_check);
+            return;
+        }
+        showLoading();
+        apiService.getPriceBySeat(request).enqueue(new Callback<GetPriceBySeatResponse>() {
+            @Override
+            public void onResponse(Call<GetPriceBySeatResponse> call, Response<GetPriceBySeatResponse> response) {
+                dismissLoading();
+                GetPriceBySeatResponse body = response.body();
+                if (body != null) {
+                    if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
+                        getMvpView().onGetPriceBySeatSuccess(body);
+                    } else if (response.body().getCode() == ConstsCore.STATUS_CODE_FAILED) {
+                        //getMvpView().onGetPriceBySeatFailure(response.body().getRespMessage());
+                    }
+                } else {
+                    getMvpView().onGetPriceBySeatFailure(App.getInstance().getResources().getString(R.string.something_went_wrong));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetPriceBySeatResponse> call, Throwable t) {
+                dismissLoading();
                 if (getMvpView() != null) {
                     String msg = t.getMessage();
                     getMvpView().showMessage(R.string.something_went_wrong);

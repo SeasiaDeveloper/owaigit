@@ -84,8 +84,25 @@ public class CustomerTransactionResponse {
         private String longitude_start;
         private String latitude_end;
         private String longitude_end;
-        private int jarak;
-        private int harga;
+
+        public double getJarak() {
+            return jarak;
+        }
+
+        public void setJarak(double jarak) {
+            this.jarak = jarak;
+        }
+
+        public double getHarga() {
+            return harga;
+        }
+
+        public void setHarga(double harga) {
+            this.harga = harga;
+        }
+
+        private double jarak;
+        private double harga;
         private String waktu_order;
         private Object waktu_selesai;
         private String alamat_asal;
@@ -138,21 +155,7 @@ public class CustomerTransactionResponse {
             this.longitude_end = longitude_end;
         }
 
-        public int getJarak() {
-            return jarak;
-        }
 
-        public void setJarak(int jarak) {
-            this.jarak = jarak;
-        }
-
-        public int getHarga() {
-            return harga;
-        }
-
-        public void setHarga(int harga) {
-            this.harga = harga;
-        }
 
         public String getWaktu_order() {
             return waktu_order;

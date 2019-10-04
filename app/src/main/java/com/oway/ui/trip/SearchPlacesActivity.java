@@ -19,6 +19,7 @@ import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.request.GetSearchPlacesRequest;
 import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.utillis.AppConstants;
+import com.oway.utillis.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -133,6 +134,7 @@ public class SearchPlacesActivity extends BaseActivity implements SearchPlacesVi
 
     @Override
     public void onGetsearchPlacesResponseFailure(String response) {
+        ToastUtils.shortToast(response);
 
     }
 
