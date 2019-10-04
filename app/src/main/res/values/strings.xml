@@ -10,6 +10,8 @@
     <string name="validate_name">Please enter user name</string>
     <string name="validate_password">Please enter password</string>
     <string name="FACEBOOK_APP_ID">658871691141399</string>
+    <string name="seat_validation">Please select Car seat first</string>
+
     <string name="dummy_upline_id">EKL0000000</string>
     <string name="phone_string">PHONE NUMBER</string>
     <string name="google_key">AIzaSyA5SxZFlAfeBQjNXFBn5CQAzyok5HxXxY4</string>

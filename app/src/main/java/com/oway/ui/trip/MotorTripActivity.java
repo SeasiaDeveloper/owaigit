@@ -212,7 +212,18 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
                 tripActivityPresenter.getPriceBySeat(mRequestPrice);
             }
             else {
+                boolean selectCar = false;
+                for(int i=0;i<vehicleTypeModalArrayList.size();i++)
+                {
+                    if(vehicleTypeModalArrayList.get(i).isSelect()) {
+                        seat = Integer.parseInt(vehicleTypeModalArrayList.get(i).getNoOfSeats());
+                        selectCar=true;
+                    }
+                }
+                if(selectCar)
                 CommonUtils.showCancelRideDialog(this, profileDialog, mResponse.getData().get(1).getCash(),mResponse.getData().get(1).getBalance());
+                else
+                    ToastUtils.shortToast(getResources().getString(R.string.seat_validation));
             }
         }
     }
