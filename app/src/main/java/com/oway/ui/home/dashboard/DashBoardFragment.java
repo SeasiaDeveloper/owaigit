@@ -27,7 +27,6 @@ import com.oway.utillis.AppConstants;
 import com.oway.utillis.GlideImageLoader;
 import com.yyydjk.library.BannerLayout;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 

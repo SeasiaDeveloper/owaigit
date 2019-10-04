@@ -137,5 +137,20 @@
     <string name="logged_in">Login Successfully</string>
     <string name="search">Search Location</string>
     <string name="confirm">CONFIRM</string>
+    <string name="history">View History</string>
+    <string name="latest_activity">Latest Activity</string>
+    <string name="on_going">Ongoing</string>
+    <string name="no_activity">No Activity here</string>
+    <string name="recomendations">Our recomendation</string>
+    <string name="install">Install</string>
+    <string name="more">More</string>
+    <string name="profile_name">JHON KEY</string>
+    <string name="phone_num">0812243345</string>
+    <string name="edit_profil">Edit Profil</string>
+    <string name="help">Help Center</string>
+    <string name="emergency">Emergency call</string>
+    <string name="rate">Rate apps</string>
+    <string name="report">Report service</string>
+    <string name="logout">Logout acoount</string>
 
 </resources>
