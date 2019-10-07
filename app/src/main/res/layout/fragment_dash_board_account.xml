@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/ll_parents"
     tools:context="com.oway.ui.home.dashboardaccount.DashBoardAccountFragment">
 
     <ScrollView
@@ -89,6 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:id="@+id/ll_edit_profile"
                 android:layout_marginStart="@dimen/_25sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_25sdp"
@@ -131,6 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_25sdp"
                 android:layout_marginTop="@dimen/_20sdp"
+                android:id="@+id/ll_help_center"
                 android:layout_marginEnd="@dimen/_25sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:orientation="horizontal">
@@ -173,6 +176,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_25sdp"
                 android:layout_marginTop="@dimen/_20sdp"
+                android:id="@+id/ll_emergency_call"
                 android:layout_marginEnd="@dimen/_25sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:orientation="horizontal">
@@ -214,6 +218,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_25sdp"
                 android:layout_marginTop="@dimen/_20sdp"
+                android:id="@+id/ll_settings"
                 android:layout_marginEnd="@dimen/_25sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:orientation="horizontal">
@@ -253,6 +258,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_25sdp"
                 android:layout_marginTop="@dimen/_20sdp"
+                android:id="@+id/ll_rate_app"
                 android:layout_marginEnd="@dimen/_25sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:orientation="horizontal">
@@ -293,6 +299,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_25sdp"
                 android:layout_marginTop="@dimen/_20sdp"
+                android:id="@+id/ll_report_services"
                 android:layout_marginEnd="@dimen/_25sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:orientation="horizontal">
@@ -334,6 +341,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_25sdp"
                 android:layout_marginTop="@dimen/_20sdp"
+                android:id="@+id/ll_logout"
                 android:layout_marginEnd="@dimen/_25sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:orientation="horizontal">

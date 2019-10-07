@@ -18,6 +18,7 @@ package com.oway.utillis;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -28,12 +29,16 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
@@ -65,6 +70,7 @@ import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.response.GetNearestDriverResponse;
 import com.oway.model.response.PushNotificationResponse;
 import com.oway.otto.OnApplyPushNotificationEvent;
+import com.oway.callbacks.TermsAndConditionCallBack;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -382,4 +388,45 @@ public final class CommonUtils {
         response.setColor(data.get("color"));
         return response;
     }
+
+    public static void showLogoutDialog(Context context) {
+        Dialog dialog = new Dialog(context, R.style.CustomAlertDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setContentView(R.layout.logout_dialog);
+        dialog.show();
+    }
+
+    public static void showPopUpWindow(Context context, Activity activity, LinearLayout layout, TermsAndConditionCallBack conditionCallBack) {
+        DisplayMetrics dm = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        View viewGroup = activity.getLayoutInflater().inflate(R.layout.terms_and_condition, null, false);
+
+        PopupWindow popupWindow = new PopupWindow(viewGroup, width, height);
+        popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+        Button btxDismiss=viewGroup.findViewById(R.id.bt_dismiss_popup);
+        btxDismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                conditionCallBack.onCancelConditionClick();
+            }
+        });
+        Button btxUnderstand=viewGroup.findViewById(R.id.bt_understand);
+        btxUnderstand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                conditionCallBack.onYesClick();
+            }
+        });
+
+
+    }
+
+
 }

@@ -29,6 +29,7 @@ import com.oway.callbacks.CancelButtonClick;
 import com.oway.callbacks.CancelReasonDialog;
 import com.oway.callbacks.DriverProfileDialog;
 import com.oway.callbacks.PopularLocationsCallBack;
+import com.oway.callbacks.TermsAndConditionCallBack;
 import com.oway.customviews.CustomTextView;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.PopularLocationsModal;
@@ -68,7 +69,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Response;
 
-public class MotorTripActivity extends BaseActivity implements Location.OnLocationChangeListener, Location.OnLocationSatiListener, CancelButtonClick, DriverProfileDialog, TripActivityView, CancelReasonDialog {
+public class MotorTripActivity extends BaseActivity implements Location.OnLocationChangeListener, Location.OnLocationSatiListener, CancelButtonClick, DriverProfileDialog, TripActivityView, CancelReasonDialog, TermsAndConditionCallBack {
     private static final String LOG_TAG = MotorTripActivity.class.getSimpleName();
     private boolean isClicked = true;
 
@@ -80,6 +81,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     private Location location;
     private CancelReasonDialog reasonDialog;
     private CancelButtonClick cancelButtonClick;
+    private TermsAndConditionCallBack termsAndConditionCallBack;
     private DriverProfileDialog profileDialog;
     private final int SOURCE_SELECT = 100;
     private final int DESTINATION_SELECT = 101;
@@ -116,6 +118,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     RelativeLayout layoutDriverRidingToYou;
     @BindView(R.id.imgCurrent)
     ImageView imgCurrent;
+
+    @BindView(R.id.btn_float)
     ImageView btnFab;
 
     @BindView(R.id.tv_balance)
@@ -311,6 +315,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         cancelButtonClick = this;
         profileDialog = this;
         reasonDialog = this;
+        termsAndConditionCallBack = (TermsAndConditionCallBack) this;
 
     }
 
@@ -618,5 +623,15 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         Intent intent = new Intent(App.getInstance(), MotorTripActivity.class);
         intent.putExtra(AppConstants.BALANCE, balance);
         App.getInstance().startActivity(intent);
+    }
+
+    @Override
+    public void onCancelConditionClick() {
+
+    }
+
+    @Override
+    public void onYesClick() {
+
     }
 }
