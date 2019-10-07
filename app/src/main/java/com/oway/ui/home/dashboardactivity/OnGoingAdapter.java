@@ -9,18 +9,11 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mikhaellopez.circularimageview.CircularImageView;
 import com.oway.R;
 import com.oway.customviews.CustomTextView;
 import com.oway.model.LatestActivityModal;
-import com.oway.model.VehicleTypeModal;
 
 import java.util.ArrayList;
-
-
-
-
-
 
 public class OnGoingAdapter extends RecyclerView.Adapter<OnGoingAdapter.ViewHolder> {
     private Context context;
@@ -62,7 +55,7 @@ public class OnGoingAdapter extends RecyclerView.Adapter<OnGoingAdapter.ViewHold
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ivxCarImage=itemView.findViewById(R.id.car_image);
+            ivxCarImage = itemView.findViewById(R.id.car_image);
             tvxTypeOfOrder = itemView.findViewById(R.id.tv_types);
             tvxDestination = itemView.findViewById(R.id.tv_destination_address);
             tvxTime = itemView.findViewById(R.id.tv_point_of_time);

@@ -18,16 +18,26 @@ public class PushNotificationResponse {
      */
 
     private String type;
-    private String feature;
-    private String id_transaksi;
+    private int feature;
+    private int id_transaksi;
     private String status;
     private String ekl_driver;
     private String driver_name;
     private String driver_picture;
     private String nopol;
-    private String type_vehicle;
     private String vehicle;
+    private String type_vehicle;
     private String color;
+
+    public String getType_vehicle() {
+        return type_vehicle;
+    }
+
+    public void setType_vehicle(String type_vehicle) {
+        this.type_vehicle = type_vehicle;
+    }
+
+
 
     public String getType() {
         return type;
@@ -37,19 +47,19 @@ public class PushNotificationResponse {
         this.type = type;
     }
 
-    public String getFeature() {
+    public int getFeature() {
         return feature;
     }
 
-    public void setFeature(String feature) {
+    public void setFeature(int feature) {
         this.feature = feature;
     }
 
-    public String getId_transaksi() {
+    public int getId_transaksi() {
         return id_transaksi;
     }
 
-    public void setId_transaksi(String id_transaksi) {
+    public void setId_transaksi(int id_transaksi) {
         this.id_transaksi = id_transaksi;
     }
 
@@ -93,14 +103,6 @@ public class PushNotificationResponse {
         this.nopol = nopol;
     }
 
-    public String getType_vehicle() {
-        return type_vehicle;
-    }
-
-    public void setType_vehicle(String type_vehicle) {
-        this.type_vehicle = type_vehicle;
-    }
-
     public String getVehicle() {
         return vehicle;
     }
@@ -116,4 +118,7 @@ public class PushNotificationResponse {
     public void setColor(String color) {
         this.color = color;
     }
+
+
+
 }

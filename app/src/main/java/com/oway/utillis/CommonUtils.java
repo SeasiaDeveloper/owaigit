@@ -36,11 +36,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -60,9 +62,11 @@ import com.oway.customviews.CustomButton;
 import com.oway.customviews.CustomEditText;
 import com.oway.customviews.CustomTextView;
 import com.oway.datasource.pref.PreferenceHandler;
-import com.oway.model.response.GetEstimateBikeResponse;
 import com.oway.model.response.GetNearestDriverResponse;
+import com.oway.model.response.PushNotificationResponse;
+import com.oway.otto.OnApplyPushNotificationEvent;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -86,8 +90,8 @@ public final class CommonUtils {
 
     public static ProgressDialog showLoadingDialog(Context context) {
         ProgressDialog progressDialog = new ProgressDialog(context);
-        progressDialog.show();
         if (progressDialog.getWindow() != null) {
+            progressDialog.show();
             progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
         progressDialog.setContentView(R.layout.progress_dialog);
@@ -138,12 +142,28 @@ public final class CommonUtils {
         dialog.getWindow().setAttributes(lWindowParams);
     }
 
-    public static void showCancelDialog(Context context, CancelButtonClick cancelClick) {
+    public static void showCancelDialog(Context context, CancelButtonClick cancelClick, OnApplyPushNotificationEvent event) {
         Dialog dialog = new Dialog(context, R.style.CustomAlertDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(true);
         dialog.setContentView(R.layout.you_got_driver_dialog_box);
         ImageButton ibxcallDriver = dialog.findViewById(R.id.ib_call);
+
+        ImageView imgDriver=(ImageView)dialog.findViewById(R.id.imgDriver);
+        TextView tvDriverName=(TextView)dialog.findViewById(R.id.tvDriverName);
+        TextView tvModel=(TextView)dialog.findViewById(R.id.tvModel);
+        TextView tvSubModel=(TextView)dialog.findViewById(R.id.tvSubModel);
+        RatingBar rtBa=(RatingBar) dialog.findViewById(R.id.rtBar);
+        TextView tvEstimationTime=(TextView)dialog.findViewById(R.id.tvEstimationTime);
+
+        tvDriverName.setText(event.getDriver_name());
+        tvModel.setText(event.getType_vehicle());
+        tvSubModel.setText(event.getVehicle());
+        rtBa.setRating(3.4f);
+        tvEstimationTime.setText("Time Estimation "+" 5"+ " min");
+
+        Glide.with(context).load(event.getDriver_picture()).into(imgDriver);
+
         ibxcallDriver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -154,7 +174,6 @@ public final class CommonUtils {
         btnxOkOnDriverInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 dialog.dismiss();
                 cancelClick.onCancelClick();
             }
@@ -326,7 +345,7 @@ public final class CommonUtils {
         }
     }
 
-    public static void showCancelRide(CancelReasonDialog mClick,Context context) {
+    public static void showCancelRide(CancelReasonDialog mClick, Context context) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 context);
         alertDialogBuilder.setTitle("Cancel Ride");
@@ -346,5 +365,21 @@ public final class CommonUtils {
         AlertDialog alertDialog = alertDialogBuilder.create();
         // show it
         alertDialog.show();
+    }
+
+    public static PushNotificationResponse getNotificationResponse(java.util.Map<String, String> data) {
+        PushNotificationResponse response = new PushNotificationResponse();
+        response.setType(data.get("type"));
+        response.setFeature(Integer.parseInt(data.get("feature")));
+        response.setId_transaksi(Integer.parseInt(data.get("id_transaksi")));
+        response.setStatus(data.get("status"));
+        response.setEkl_driver(data.get("ekl_driver"));
+        response.setDriver_name(data.get("driver_name"));
+        response.setDriver_picture(data.get("driver_picture"));
+        response.setNopol(data.get("nopol"));
+        response.setType_vehicle(data.get("type_vehicle"));
+        response.setVehicle(data.get("vehicle"));
+        response.setColor(data.get("color"));
+        return response;
     }
 }

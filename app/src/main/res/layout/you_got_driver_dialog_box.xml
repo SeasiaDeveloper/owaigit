@@ -30,6 +30,7 @@
                 android:textStyle="bold" />
 
             <com.mikhaellopez.circularimageview.CircularImageView
+               android:id="@+id/imgDriver"
                 android:layout_width="@dimen/_80sdp"
                 android:layout_height="@dimen/_80sdp"
                 android:layout_gravity="center"
@@ -40,6 +41,7 @@
                 app:civ_border_width="@dimen/_2sdp" />
 
             <TextView
+                android:id="@+id/tvDriverName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -48,6 +50,7 @@
                 android:textSize="@dimen/_15sdp" />
 
             <TextView
+                android:id="@+id/tvModel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -56,6 +59,7 @@
                 android:textSize="@dimen/_15sdp" />
 
             <TextView
+                android:id="@+id/tvSubModel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -64,15 +68,18 @@
                 android:textSize="@dimen/_15sdp" />
 
             <RatingBar
+                android:id="@+id/rtBar"
                 style="@style/customRatingBar"
                 android:layout_width="@dimen/_150sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:isIndicator="false"
+                android:clickable="false"
+                android:isIndicator="true"
                 android:theme="@style/RatingBar" />
 
             <TextView
+                android:id="@+id/tvEstimationTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

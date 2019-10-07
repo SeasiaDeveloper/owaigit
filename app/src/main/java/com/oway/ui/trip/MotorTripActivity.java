@@ -49,6 +49,7 @@ import com.oway.model.response.GetPriceBySeatResponse;
 import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.model.response.LocationDetailsResponse;
 import com.oway.model.response.SendDriverResponse;
+import com.oway.otto.BusProvider;
 import com.oway.otto.OnApplyPushNotificationEvent;
 import com.oway.ui.home.MainActivity;
 import com.oway.utillis.AppConstants;
@@ -302,6 +303,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
+        BusProvider.getInstance().register(this);
         View view = findViewById(R.id.include_sheets);
         sheetBehavior = BottomSheetBehavior.from(view);
         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -314,7 +316,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @Subscribe
     public void OnApplyPushNotificationEvent(OnApplyPushNotificationEvent event) {
-        ToastUtils.shortToast(event.getFeature() + " " + event.getType());
+        CommonUtils.showCancelDialog(this, cancelButtonClick,event);
     }
 
     @Override
@@ -393,7 +395,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
             public void run() {
                 cancelRide();
             }
-        }, 10000);
+        }, 60000);
     }
 
     @Override
@@ -478,7 +480,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         layoutPopularLocations.setVisibility(View.GONE);
         layoutSourceDestination.setVisibility(View.GONE);
         layoutPleaseWaitForRide.setVisibility(View.VISIBLE);
-        setOneMinuteHandler();
+       // setOneMinuteHandler();
 
     }
 
