@@ -10,11 +10,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.accountkit.internal.Utility;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.here.android.mpa.common.OnEngineInitListener;
@@ -72,6 +74,7 @@ import retrofit2.Response;
 public class MotorTripActivity extends BaseActivity implements Location.OnLocationChangeListener, Location.OnLocationSatiListener, CancelButtonClick, DriverProfileDialog, TripActivityView, CancelReasonDialog, TermsAndConditionCallBack {
     private static final String LOG_TAG = MotorTripActivity.class.getSimpleName();
     private boolean isClicked = true;
+    private OnApplyPushNotificationEvent mEvent;
 
     private boolean isPickUpClick = true;
     private ArrayList<PopularLocationsModal> modalArrayList = new ArrayList<PopularLocationsModal>();
@@ -131,9 +134,10 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @BindView(R.id.btn_map_next)
     Button btn_map_next;
 
-
     @BindView(R.id.btn_map_source)
     Button btn_map_source;
+
+
 
     @BindView(R.id.btn_map_destination)
     Button btn_map_destination;
@@ -154,12 +158,12 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @OnClick(R.id.ib_call_driver)
     public void onCall() {
-        CommonUtils.callDriver();
+        CommonUtils.callDriver("event.getDriver_phone()", null);
     }
 
     @OnClick(R.id.ib_call_driver_bottom_sheet)
     public void onCallFromBottomSheet() {
-        CommonUtils.callDriver();
+        CommonUtils.callDriver("event.getDriver_phone()", null);
     }
 
     @OnClick(R.id.btn_float)
@@ -192,6 +196,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         layoutSourceDestination.setVisibility(View.GONE);
         layoutBottomSheet.setVisibility(View.VISIBLE);
         layoutDriverRidingToYou.setVisibility(View.VISIBLE);
+        CommonUtils.setDrivingArrivingData(layoutDriverRidingToYou,mEvent);
+        CommonUtils.setBottomSheetData(this,layoutBottomSheet,mEvent);
     }
 
 
@@ -322,6 +328,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @Subscribe
     public void OnApplyPushNotificationEvent(OnApplyPushNotificationEvent event) {
         CommonUtils.showCancelDialog(this, cancelButtonClick,event);
+        mEvent=event;
     }
 
     @Override

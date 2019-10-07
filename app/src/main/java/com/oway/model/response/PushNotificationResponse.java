@@ -29,6 +29,46 @@ public class PushNotificationResponse {
     private String type_vehicle;
     private String color;
 
+    public String getDriver_phone() {
+        return driver_phone;
+    }
+
+    public void setDriver_phone(String driver_phone) {
+        this.driver_phone = driver_phone;
+    }
+
+    private String driver_phone;
+
+    public String getMobile_number() {
+        return mobile_number;
+    }
+
+    public void setMobile_number(String mobile_number) {
+        this.mobile_number = mobile_number;
+    }
+
+    private String mobile_number;
+
+    public String getReach_estimate() {
+        return reach_estimate;
+    }
+
+    public void setReach_estimate(String reach_estimate) {
+        this.reach_estimate = reach_estimate;
+    }
+
+    private String reach_estimate;
+
+    public double getDriver_rating() {
+        return driver_rating;
+    }
+
+    public void setDriver_rating(double driver_rating) {
+        this.driver_rating = driver_rating;
+    }
+
+    private double driver_rating;
+
     public String getType_vehicle() {
         return type_vehicle;
     }
@@ -36,7 +76,6 @@ public class PushNotificationResponse {
     public void setType_vehicle(String type_vehicle) {
         this.type_vehicle = type_vehicle;
     }
-
 
 
     public String getType() {

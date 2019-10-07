@@ -14,6 +14,27 @@ public class OnApplyPushNotificationEvent {
     private final String type_vehicle;
     private final String vehicle;
     private final String color;
+    private final double rating;
+
+    public String getDriver_phone() {
+        return driver_phone;
+    }
+
+    public void setDriver_phone(String driver_phone) {
+        this.driver_phone = driver_phone;
+    }
+
+    private String driver_phone;
+
+    public double getRating() {
+        return rating;
+    }
+
+    public String getReach_estimate() {
+        return reach_estimate;
+    }
+
+    private final String reach_estimate;
     public String getStatus() {
         return status;
     }
@@ -61,7 +82,7 @@ public class OnApplyPushNotificationEvent {
     }
 
     public OnApplyPushNotificationEvent(String type, int feature, int id_transaksi, String status, String ekl_driver, String driver_name, String driver_picture
-            , String nopal, String type_vehicle, String vehicle, String color) {
+            , String nopal, String type_vehicle, String vehicle, String color,double rating,String reach_estimate,String driver_phone) {
         this.type = type;
         this.feature = feature;
         this.id_transaksi = id_transaksi;
@@ -73,6 +94,8 @@ public class OnApplyPushNotificationEvent {
         this.type_vehicle = type_vehicle;
         this.vehicle = vehicle;
         this.color = color;
-
+        this.rating=rating;
+        this.reach_estimate=reach_estimate;
+        this.driver_phone=driver_phone;
     }
 }
