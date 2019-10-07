@@ -21,19 +21,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.home.dashboardaccount.DashboardAccountReportServices"
+        <activity
+            android:name=".ui.trip.FinishTripActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
-        <activity android:name=".ui.home.dashboardaccount.AccountFragmentSettingActivity"
+        <activity
+            android:name=".ui.home.dashboardaccount.DashboardAccountReportServices"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ui.home.dashboardaccount.AccountFragmentEmergencyCall"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ui.home.dashboardaccount.AccountFragmentSettingActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ui.home.dashboardaccount.AccountHelpCenter"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.home.dashboardaccount.AccountFragmentEmergencyCall"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.home.dashboardaccount.AccountHelpCenter"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.home.dashboardaccount.EditProfileActivity"
             android:screenOrientation="portrait"

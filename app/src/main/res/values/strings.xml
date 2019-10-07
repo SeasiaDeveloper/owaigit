@@ -168,5 +168,14 @@
     <string name="bt_logout">Logout Now</string>
     <string name="close">Close</string>
     <string name="attention">Attention!</string>
+    <string name="read_agreement">You need to read agreement</string>
+    <string name="terms_and_conditions">Terms &amp; Conditions\nLorem ipsum dolor sit amet, consectetur adipiscing\nelit, sed doeiusmod tempor incididunt ut labore et\ndolore magna aliqua. Ut enim ad minim veniam,\nquis nostrud exercitation ullamco laboris nisi ut\naliquip ex ea commodo consequat. Duis aute irure\ndolor in reprehenderit in voluptate velit esse cillum\ndolore eu fugiat nulla pariatur. Excepteur sint\noccaecat cupidatat non proident, sunt in culpa\nqui officia deserunt mollit anim id est laborum.</string>
+    <string name="understand">Yes,Understand</string>
+    <string name="cancel">Cancel</string>
+    <string name="colon">:</string>
+    <string name="tujuan">Tujuan</string>
+    <string name="jarak">Jarak tempuh</string>
+    <string name="total">Total biaya</string>
+    <string name="feedback">Give a feedback</string>
 
 </resources>
