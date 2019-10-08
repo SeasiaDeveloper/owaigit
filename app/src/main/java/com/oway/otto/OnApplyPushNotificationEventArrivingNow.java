@@ -1,6 +1,6 @@
 package com.oway.otto;
 
-public class OnApplyPushNotificationEvent {
+public class OnApplyPushNotificationEventArrivingNow  {
 
 
     private final String type;
@@ -15,6 +15,26 @@ public class OnApplyPushNotificationEvent {
     private final String vehicle;
     private final String color;
     private final double rating;
+
+    public String getMessage_id() {
+        return message_id;
+    }
+
+    public void setMessage_id(String message_id) {
+        this.message_id = message_id;
+    }
+
+    private String message_id;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    private String message;
 
     public String getDriver_phone() {
         return driver_phone;
@@ -81,8 +101,8 @@ public class OnApplyPushNotificationEvent {
         return id_transaksi;
     }
 
-    public OnApplyPushNotificationEvent(String type, int feature, int id_transaksi, String status, String ekl_driver, String driver_name, String driver_picture
-            , String nopal, String type_vehicle, String vehicle, String color,double rating,String reach_estimate,String driver_phone) {
+    public OnApplyPushNotificationEventArrivingNow(String type, int feature, int id_transaksi, String status, String ekl_driver, String driver_name, String driver_picture
+            , String nopal, String type_vehicle, String vehicle, String color, double rating, String reach_estimate, String driver_phone, String message, String message_id) {
         this.type = type;
         this.feature = feature;
         this.id_transaksi = id_transaksi;
@@ -97,5 +117,7 @@ public class OnApplyPushNotificationEvent {
         this.rating=rating;
         this.reach_estimate=reach_estimate;
         this.driver_phone=driver_phone;
+        this.message=message;
+        this.message_id=message_id;
     }
 }

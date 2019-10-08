@@ -68,8 +68,8 @@ import com.oway.customviews.CustomTextView;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.response.GetNearestDriverResponse;
 import com.oway.model.response.PushNotificationResponse;
-import com.oway.otto.OnApplyPushNotificationEvent;
-import com.oway.ui.trip.MotorTripActivity;
+import com.oway.otto.OnApplyPushNotificationEventArrived;
+import com.oway.otto.OnApplyPushNotificationEventArrivingNow;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -144,7 +144,7 @@ public final class CommonUtils {
         dialog.getWindow().setAttributes(lWindowParams);
     }
 
-    public static void showCancelDialog(Context context, CancelButtonClick cancelClick, OnApplyPushNotificationEvent event) {
+    public static void showCancelDialog(Context context, CancelButtonClick cancelClick, OnApplyPushNotificationEventArrivingNow event) {
         Dialog dialog = new Dialog(context, R.style.CustomAlertDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(true);
@@ -180,7 +180,8 @@ public final class CommonUtils {
                 cancelClick.onCancelClick();
             }
         });
-        dialog.show();
+        if (!dialog.isShowing())
+            dialog.show();
     }
 
     public static void showCancelRideDialog(Context context, DriverProfileDialog profileDialog, double cash, double balance) {
@@ -240,6 +241,15 @@ public final class CommonUtils {
         dialog.setContentView(R.layout.cancel_order_dialog_box);
         CustomButton cancelButtonReasonDialog = dialog.findViewById(R.id.cb_cancel_reason);
         CustomButton okReason = dialog.findViewById(R.id.cb_ok_reason);
+
+        CustomButton cb_cancel_reason = dialog.findViewById(R.id.cb_cancel_reason);
+        cb_cancel_reason.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
         CustomEditText notesCancelReason = dialog.findViewById(R.id.et_cancel_reason_notes);
         okReason.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -373,6 +383,8 @@ public final class CommonUtils {
         response.setDriver_rating(Double.parseDouble(data.get("driver_rating")));
         response.setReach_estimate(data.get("reach_estimate"));
         response.setDriver_phone(data.get("driver_phone"));
+        response.setMessage(data.get("message"));
+        response.setMessage_id(data.get("message_id"));
         return response;
     }
 
@@ -413,12 +425,12 @@ public final class CommonUtils {
         });
     }
 
-    public static void setDrivingArrivingData(RelativeLayout layoutDriverRidingToYou, OnApplyPushNotificationEvent mEvent) {
+    public static void setDrivingArrivingData(RelativeLayout layoutDriverRidingToYou, OnApplyPushNotificationEventArrivingNow mEvent) {
         TextView tvEstimationTime = (TextView) layoutDriverRidingToYou.findViewById(R.id.tvEstimateTimeArriving);
         tvEstimationTime.setText(mEvent.getReach_estimate());
     }
 
-    public static void setBottomSheetData(Context context, RelativeLayout bottomSheet, OnApplyPushNotificationEvent mEvent) {
+    public static void setBottomSheetData(Context context, RelativeLayout bottomSheet, OnApplyPushNotificationEventArrivingNow mEvent) {
         ImageView imageDriver = (ImageView) bottomSheet.findViewById(R.id.iv_driver_image);
         TextView tv_driver_name = (TextView) bottomSheet.findViewById(R.id.tv_driver_name);
         TextView tv_driver_car_name = (TextView) bottomSheet.findViewById(R.id.tv_driver_car_name);
@@ -426,10 +438,13 @@ public final class CommonUtils {
         ImageView ib_message = (ImageView) bottomSheet.findViewById(R.id.ib_message);
         ImageView ib_call_driver = (ImageView) bottomSheet.findViewById(R.id.ib_call_driver);
 
+        TextView tv_text_one_slider = (TextView) bottomSheet.findViewById(R.id.tv_text_one_slider);
+
         Glide.with(App.getInstance()).load(mEvent.getDriver_picture()).into(imageDriver);
         tv_driver_name.setText(mEvent.getDriver_name());
         tv_driver_car_name.setText(mEvent.getType_vehicle());
         tv_driver_sub_car_name.setText(mEvent.getVehicle());
+        tv_text_one_slider.setText(mEvent.getMessage());
         ib_call_driver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -446,7 +461,7 @@ public final class CommonUtils {
 
         //ImageView ib_message = (ImageView) bottomSheet.findViewById(R.id.ib_message);
         ImageView ib_call_driver_bottom_sheet = (ImageView) bottomSheet.findViewById(R.id.ib_call_driver_bottom_sheet);
-        TextView tvArrivedTimeSlider=(TextView)bottomSheet.findViewById(R.id.tvArrivedTimeSlider);
+        TextView tvArrivedTimeSlider = (TextView) bottomSheet.findViewById(R.id.tvArrivedTimeSlider);
         Glide.with(App.getInstance()).load(mEvent.getDriver_picture()).into(imageDriverSlider);
         tvDriverNameSlider.setText(mEvent.getDriver_name());
         tvCarNameSlider.setText(mEvent.getType_vehicle());
@@ -459,5 +474,10 @@ public final class CommonUtils {
             }
         });
 
+    }
+    public static OnApplyPushNotificationEventArrivingNow cloneObject(OnApplyPushNotificationEventArrived arrived)
+    {
+        OnApplyPushNotificationEventArrivingNow arrivingNow=new OnApplyPushNotificationEventArrivingNow(arrived.getType(),arrived.getFeature(),arrived.getId_transaksi(),arrived.getStatus(),arrived.getEkl_driver(),arrived.getDriver_name(),arrived.getDriver_picture(),arrived.getNopal(),arrived.getType_vehicle(),arrived.getVehicle(),arrived.getColor(),arrived.getRating(),"Make Sure your's location",arrived.getDriver_phone(),arrived.getMessage(),arrived.getMessage_id());
+        return arrivingNow;
     }
 }

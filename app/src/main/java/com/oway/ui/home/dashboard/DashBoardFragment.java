@@ -76,7 +76,7 @@ public class DashBoardFragment extends BaseFragment implements DashBoardFragment
             @Override
             public void onItemClick(View v, int position) {
                 PreferenceHandler.writeString(getActivity(), AppConstants.SELECTION_GRID, String.valueOf(position + 1));
-                MotorTripActivity.startOnclick(balance);
+                MotorTripActivity.startOnclick(balance,getActivity());
             }
         });
         recyclerView.setAdapter(adapter);

@@ -29,6 +29,26 @@ public class PushNotificationResponse {
     private String type_vehicle;
     private String color;
 
+    public String getMessage_id() {
+        return message_id;
+    }
+
+    public void setMessage_id(String message_id) {
+        this.message_id = message_id;
+    }
+
+    private String message_id;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    private String message;
+
     public String getDriver_phone() {
         return driver_phone;
     }
