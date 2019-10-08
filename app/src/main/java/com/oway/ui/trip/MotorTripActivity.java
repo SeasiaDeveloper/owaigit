@@ -123,7 +123,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     RelativeLayout layoutDriverRidingToYou;
     @BindView(R.id.imgCurrent)
     ImageView imgCurrent;
-
+    @BindView(R.id.btn_float_loc)
+    ImageView btnxLocFloat;
     @BindView(R.id.btn_float)
     ImageView btnFab;
 
@@ -178,6 +179,20 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             layoutBelowFloatButton.setVisibility(View.VISIBLE);
             btnFab.setRotation(360);
+        }
+    }
+    @OnClick(R.id.btn_float_loc)
+    public void onButtonClick() {
+        if ((sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED)) {
+            btnxLocFloat.setRotation(180);
+            sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+            layoutBelowFloatButton.setVisibility(View.GONE);
+
+        } else {
+            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            layoutBelowFloatButton.setVisibility(View.VISIBLE);
+            btnxLocFloat.setRotation(360);
         }
     }
 
@@ -314,6 +329,12 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         BusProvider.getInstance().register(this);
         View view = findViewById(R.id.include_sheets);
         sheetBehavior = BottomSheetBehavior.from(view);
+        sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        sheetBehavior.setPeekHeight(0);
+
+
+        View viewWithLoc = findViewById(R.id.include_sheets_loc);
+        sheetBehavior = BottomSheetBehavior.from(viewWithLoc);
         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         sheetBehavior.setPeekHeight(0);
         cancelButtonClick = this;

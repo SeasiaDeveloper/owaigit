@@ -179,5 +179,7 @@
     <string name="jarak">Jarak tempuh</string>
     <string name="total">Total biaya</string>
     <string name="feedback">Give a feedback</string>
+    <string name="dist">12 Km</string>
+    <string name="amt">120000,232323</string>
 
 </resources>
