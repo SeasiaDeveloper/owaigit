@@ -36,8 +36,8 @@ public class Splash extends BaseActivity {
         setContentView(R.layout.activity_splash);
         CommonUtils.getFirebaseId();
 
-        BusProvider.getInstance().register(this);
-        BusProvider.getInstance().post(new OnApplyPushNotificationEvent("df", "jj"));
+        //BusProvider.getInstance().register(this);
+        //BusProvider.getInstance().post(new OnApplyPushNotificationEvent("df", "jj"));
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -50,6 +50,7 @@ import com.oway.model.response.GetPriceBySeatResponse;
 import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.model.response.LocationDetailsResponse;
 import com.oway.model.response.SendDriverResponse;
+import com.oway.otto.BusProvider;
 import com.oway.otto.OnApplyPushNotificationEvent;
 import com.oway.ui.home.MainActivity;
 import com.oway.utillis.AppConstants;
@@ -117,8 +118,10 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     RelativeLayout layoutDriverRidingToYou;
     @BindView(R.id.imgCurrent)
     ImageView imgCurrent;
+    @BindView(R.id.btn_float)
     ImageView btnFab;
-
+@BindView(R.id.btn_float_loc)
+ImageView btnxLocFloat;
     @BindView(R.id.tv_balance)
     CustomTextView tvxBalance;
     @BindView(R.id.rv_vehicle_types)
@@ -159,6 +162,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         CommonUtils.callDriver();
     }
 
+
     @OnClick(R.id.btn_float)
     public void onFloatButtonClick() {
         if ((sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED)) {
@@ -173,7 +177,20 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
             btnFab.setRotation(360);
         }
     }
+    @OnClick(R.id.btn_float_loc)
+    public void onButtonClick() {
+        if ((sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED)) {
+            btnxLocFloat.setRotation(180);
+            sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
+            layoutBelowFloatButton.setVisibility(View.GONE);
+
+        } else {
+            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            layoutBelowFloatButton.setVisibility(View.VISIBLE);
+            btnxLocFloat.setRotation(360);
+        }
+    }
     /*@OnClick(R.id.cencel_ride)
     public void onCancelRide() {
         layoutPleaseWaitForRide.setVisibility(View.GONE);
@@ -304,8 +321,14 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
+        BusProvider.getInstance().register(this);
         View view = findViewById(R.id.include_sheets);
         sheetBehavior = BottomSheetBehavior.from(view);
+        sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        sheetBehavior.setPeekHeight(0);
+
+        View viewWithLoc = findViewById(R.id.include_sheets_loc);
+        sheetBehavior = BottomSheetBehavior.from(viewWithLoc);
         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         sheetBehavior.setPeekHeight(0);
         cancelButtonClick = this;
@@ -317,7 +340,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @Subscribe
     public void OnApplyPushNotificationEvent(OnApplyPushNotificationEvent event) {
-        ToastUtils.shortToast(event.getFeature() + " " + event.getType());
+        CommonUtils.showCancelDialog(this, cancelButtonClick,event);
     }
 
     @Override
@@ -396,7 +419,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
             public void run() {
                 cancelRide();
             }
-        }, 10000);
+        }, 60000);
     }
 
     @Override
@@ -481,7 +504,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         layoutPopularLocations.setVisibility(View.GONE);
         layoutSourceDestination.setVisibility(View.GONE);
         layoutPleaseWaitForRide.setVisibility(View.VISIBLE);
-        setOneMinuteHandler();
+       // setOneMinuteHandler();
 
     }
 
