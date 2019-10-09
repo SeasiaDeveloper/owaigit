@@ -70,7 +70,6 @@ import com.oway.model.response.GetNearestDriverResponse;
 import com.oway.model.response.PushNotificationResponse;
 import com.oway.otto.OnApplyPushNotificationEventArrived;
 import com.oway.otto.OnApplyPushNotificationEventArrivingNow;
-import com.oway.otto.OnApplyPushNotificationEvent;
 import com.oway.callbacks.TermsAndConditionCallBack;
 
 import java.text.DateFormat;
@@ -338,13 +337,13 @@ public final class CommonUtils {
     }
 
     public static void callDriver(String driver_phone, Context context) {
-        try {
+       /* try {
             Intent callIntent = new Intent(Intent.ACTION_CALL);
             callIntent.setData(Uri.parse("tel:" + driver_phone));
             context.startActivity(callIntent);
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public static void showCancelRide(CancelReasonDialog mClick, Context context) {
@@ -369,26 +368,7 @@ public final class CommonUtils {
         alertDialog.show();
     }
 
-    public static PushNotificationResponse getNotificationResponse(java.util.Map<String, String> data) {
-        PushNotificationResponse response = new PushNotificationResponse();
-        response.setType(data.get("type"));
-        response.setFeature(Integer.parseInt(data.get("feature")));
-        response.setId_transaksi(Integer.parseInt(data.get("id_transaksi")));
-        response.setStatus(data.get("status"));
-        response.setEkl_driver(data.get("ekl_driver"));
-        response.setDriver_name(data.get("driver_name"));
-        response.setDriver_picture(data.get("driver_picture"));
-        response.setNopol(data.get("nopol"));
-        response.setType_vehicle(data.get("type_vehicle"));
-        response.setVehicle(data.get("vehicle"));
-        response.setColor(data.get("color"));
-        response.setDriver_rating(Double.parseDouble(data.get("driver_rating")));
-        response.setReach_estimate(data.get("reach_estimate"));
-        response.setDriver_phone(data.get("driver_phone"));
-        response.setMessage(data.get("message"));
-        response.setMessage_id(data.get("message_id"));
-        return response;
-    }
+
 
     public static void showLogoutDialog(Context context) {
         Dialog dialog = new Dialog(context, R.style.CustomAlertDialog);
