@@ -1,6 +1,6 @@
-package com.oway.otto;
+package com.oway.model.response;
 
-public class OnApplyPushNotificationEventTripStart {
+public class PushNotificationResponseStart {
 
 
     /**
@@ -41,7 +41,6 @@ public class OnApplyPushNotificationEventTripStart {
     private String message;
     private String driver_picture;
     private String driver_name;
-    private String type_vehicle;
 
     public String getDriver_picture() {
         return driver_picture;
@@ -75,8 +74,8 @@ public class OnApplyPushNotificationEventTripStart {
         this.vehicle = vehicle;
     }
 
+    private String type_vehicle;
     private String vehicle;
-
 
     public String getMessage() {
         return message;
@@ -95,33 +94,6 @@ public class OnApplyPushNotificationEventTripStart {
     }
 
     private String message_id;
-
-    public OnApplyPushNotificationEventTripStart(String type, int feature,int id_transaksi,String status,String ekl_pelanggan,String latitude_start,String longitude_start
-    ,String latitude_end,String longitude_end,int distance,String reach_estimate,int price,String order_time,String pickup_address,String destination_address,int using_balance,String message,String message_id,String driver_picture,String driver_name,String type_vehicle,String vehicle) {
-        this.type=type;
-        this.feature=feature;
-        this.id_transaksi=id_transaksi;
-        this.status=status;
-        this.ekl_pelanggan=ekl_pelanggan;
-        this.latitude_start=latitude_start;
-        this.latitude_end=latitude_end;
-        this.longitude_start=longitude_start;
-        this.longitude_end=longitude_end;
-        this.distance=distance;
-        this.reach_estimate=reach_estimate;
-        this.price=price;
-        this.order_time=order_time;
-        this.pickup_address=pickup_address;
-        this.destination_address=destination_address;
-        this.using_balance=using_balance;
-        this.message=message;
-        this.message_id=message_id;
-        this.driver_picture=driver_picture;
-        this.driver_name=driver_name;
-        this.type_vehicle=type_vehicle;
-        this.vehicle=vehicle;
-
-    }
 
     public String getType() {
         return type;

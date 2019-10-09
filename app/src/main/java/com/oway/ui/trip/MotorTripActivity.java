@@ -16,7 +16,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.facebook.accountkit.internal.Utility;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.here.android.mpa.common.OnEngineInitListener;
@@ -53,8 +52,9 @@ import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.model.response.LocationDetailsResponse;
 import com.oway.model.response.SendDriverResponse;
 import com.oway.otto.BusProvider;
-import com.oway.otto.OnApplyPushNotificationEventArrivingNow;
 import com.oway.otto.OnApplyPushNotificationEventArrived;
+import com.oway.otto.OnApplyPushNotificationEventArrivingNow;
+import com.oway.otto.OnApplyPushNotificationEventTripStart;
 import com.oway.ui.home.MainActivity;
 import com.oway.utillis.AppConstants;
 import com.oway.utillis.CommonUtils;
@@ -149,6 +149,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @Inject
     ValidationUtils validationUtils;
 
+    @BindView(R.id.ll_bottom_sheet_loc)
+    RelativeLayout layoutTripStart;
 
     @OnClick(R.id.btn_cancel_ride)
     public void onCancelRideClick() {
@@ -181,6 +183,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
             btnFab.setRotation(360);
         }
     }
+
     @OnClick(R.id.btn_float_loc)
     public void onButtonClick() {
         if ((sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED)) {
@@ -361,6 +364,12 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         CommonUtils.setBottomSheetData(this, layoutBottomSheet, mEvent);
     }
 
+    @Subscribe
+    public void OnApplyPushNotificationEventTripStart(OnApplyPushNotificationEventTripStart event) {
+        CommonUtils.setTripStartData(this,layoutTripStart,event);
+
+    }
+
     @Override
     protected void setUp() {
     }
@@ -379,7 +388,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         initializeMap();
         Intent intent = getIntent();
         tvxBalance.setText(intent.getStringExtra(AppConstants.BALANCE));
-
     }
 
     private void getNearByDriver() {

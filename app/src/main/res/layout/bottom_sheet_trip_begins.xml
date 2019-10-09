@@ -44,49 +44,60 @@
                         android:orientation="horizontal">
 
                         <com.oway.customviews.CustomTextView
-                            android:layout_width="@dimen/_90sdp"
+                            android:id="@+id/tvDistance"
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="@dimen/_10sdp"
                             android:layout_height="wrap_content"
                             android:text="@string/dist" />
 
                         <com.oway.customviews.CustomTextView
+                            android:id="@+id/tvDescription"
                             android:layout_width="@dimen/_90sdp"
+                            android:layout_marginLeft="@dimen/_40sdp"
                             android:layout_height="wrap_content"
                             android:text="@string/notes" />
 
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/tvPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginLeft="@dimen/_20sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
                         android:text="@string/amt" />
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginStart="@dimen/_35sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_25sdp"
+                        android:layout_marginBottom="@dimen/_20sdp"
+                        android:visibility="gone"
                         android:text="@string/report" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="@dimen/_60sdp"
-                    android:layout_height="@dimen/_20sdp"
+                    android:layout_height="@dimen/_25sdp"
                     android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/_10sdp"
                     android:background="@drawable/vehicle_type_item_shape"
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/tvCash"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_height="match_parent"
                         android:text="@string/cash"
-                        android:textSize="@dimen/_10sdp" />
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_13sdp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -131,6 +142,7 @@
                     android:layout_marginTop="@dimen/_16sdp"
                     android:layout_toEndOf="@id/iv_driver_image_below_loc"
                     android:singleLine="true"
+                    android:textStyle="bold"
                     android:text="@string/driver_name"
                     android:textSize="@dimen/_12sdp" />
 
@@ -140,12 +152,14 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_driver_name_loc"
                     android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_toEndOf="@id/iv_driver_image_below_loc"
                     android:singleLine="true"
                     android:text="@string/driver_car"
                     android:textSize="@dimen/_10sdp" />
 
                 <com.oway.customviews.CustomTextView
+                    android:id="@+id/tvModel"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_driver_car_name_loc"
@@ -153,6 +167,7 @@
                     android:layout_toEndOf="@id/iv_driver_image_below_loc"
                     android:singleLine="true"
                     android:text="@string/got_driver"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:textSize="@dimen/_10sdp" />
 
                 <com.mikhaellopez.circularimageview.CircularImageView

@@ -383,9 +383,8 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_10sdp"
-
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -396,7 +395,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="center"
-
                 app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
 
 
@@ -426,6 +424,7 @@
                         android:textStyle="bold" />
 
                     <com.oway.customviews.CustomTextView
+                        android:id="@+id/tv_text_two_loc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tv_text_one_loc"
@@ -443,7 +442,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|center"
-
                     android:background="@android:color/white"
                     app:layout_anchor="@id/include_sheets_loc"
                     app:layout_anchorGravity="top|end">
@@ -496,32 +494,38 @@
                                         android:layout_marginStart="@dimen/_15sdp"
                                         android:layout_marginTop="@dimen/_16sdp"
                                         android:layout_marginEnd="@dimen/_15sdp"
+                                        android:layout_marginBottom="@dimen/_20sdp"
                                         android:orientation="horizontal">
 
                                         <ImageView
                                             android:layout_width="@dimen/_16sdp"
                                             android:layout_height="@dimen/_16sdp"
+                                            android:layout_marginTop="@dimen/_5sdp"
                                             android:src="@drawable/pickupicon" />
 
-                                        <TextView
+                                        <com.oway.customviews.CustomTextView
                                             android:id="@+id/tv_pick_loc"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
-                                            android:text="@string/name"
-                                            android:textSize="@dimen/_12sdp" />
+                                            android:text=" Abc Road"
+                                            android:layout_marginLeft="@dimen/_5sdp"
+                                            android:textSize="@dimen/_13sdp" />
                                     </LinearLayout>
 
-                                    <TextView
+                                    <com.oway.customviews.CustomTextView
+                                        android:id="@+id/tvSource"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:layout_marginStart="@dimen/_30sdp"
+                                        android:layout_marginStart="@dimen/_35sdp"
                                         android:layout_marginTop="@dimen/_5sdp"
                                         android:layout_marginEnd="@dimen/_25sdp"
                                         android:layout_marginBottom="@dimen/_20sdp"
                                         android:text="@string/tv_logout"
-                                        android:textSize="@dimen/_8sdp" />
+                                        android:visibility="gone"
+                                        android:layout_marginLeft="@dimen/_5sdp"
+                                        android:textSize="@dimen/_11sdp" />
 
                                 </LinearLayout>
 
@@ -543,32 +547,38 @@
                                         android:layout_marginStart="@dimen/_15sdp"
                                         android:layout_marginTop="@dimen/_16sdp"
                                         android:layout_marginEnd="@dimen/_15sdp"
+                                        android:layout_marginBottom="@dimen/_20sdp"
                                         android:orientation="horizontal">
 
                                         <ImageView
                                             android:layout_width="@dimen/_16sdp"
                                             android:layout_height="@dimen/_16sdp"
+                                            android:layout_marginTop="@dimen/_5sdp"
                                             android:src="@drawable/dropicon" />
 
-                                        <TextView
+                                        <com.oway.customviews.CustomTextView
                                             android:id="@+id/tv_drop_loc"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
                                             android:text="@string/name"
-                                            android:textSize="@dimen/_12sdp" />
+                                            android:layout_marginLeft="@dimen/_5sdp"
+                                            android:textSize="@dimen/_13sdp" />
                                     </LinearLayout>
 
-                                    <TextView
+                                    <com.oway.customviews.CustomTextView
+                                        android:id="@+id/tvDestination"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:layout_marginStart="@dimen/_30sdp"
+                                        android:layout_marginStart="@dimen/_35sdp"
                                         android:layout_marginTop="@dimen/_5sdp"
                                         android:layout_marginEnd="@dimen/_25sdp"
                                         android:layout_marginBottom="@dimen/_20sdp"
                                         android:text="@string/tv_logout"
-                                        android:textSize="@dimen/_8sdp" />
+                                        android:visibility="gone"
+                                        android:layout_marginLeft="@dimen/_5sdp"
+                                        android:textSize="@dimen/_11sdp" />
 
                                 </LinearLayout>
 
@@ -604,6 +614,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/ll_locations"
         android:orientation="vertical"
+        android:visibility="gone"
         >
 
         <ImageView
@@ -677,6 +688,7 @@
         android:layout_marginBottom="@dimen/_10sdp"
         android:background="@android:color/white"
         android:orientation="vertical"
+        android:visibility="gone"
         >
 
         <LinearLayout

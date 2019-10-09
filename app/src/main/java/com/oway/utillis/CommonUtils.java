@@ -68,8 +68,10 @@ import com.oway.customviews.CustomTextView;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.response.GetNearestDriverResponse;
 import com.oway.model.response.PushNotificationResponse;
+import com.oway.model.response.PushNotificationResponseStart;
 import com.oway.otto.OnApplyPushNotificationEventArrived;
 import com.oway.otto.OnApplyPushNotificationEventArrivingNow;
+import com.oway.otto.OnApplyPushNotificationEventTripStart;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -83,7 +85,6 @@ public final class CommonUtils {
 
     private static final String TAG = "CommonUtils";
     private static String token = null;
-    private static Map map;
     static int image;
 
     private CommonUtils() {
@@ -296,6 +297,7 @@ public final class CommonUtils {
         }
     }
 
+
     private static void checkSelection(int i) {
         switch (i) {
             case 1:
@@ -388,6 +390,34 @@ public final class CommonUtils {
         return response;
     }
 
+    public static PushNotificationResponseStart getNotificationArrivedNowResponse(java.util.Map<String, String> data) {
+        PushNotificationResponseStart response = new PushNotificationResponseStart();
+        response.setType(data.get("type"));
+        response.setFeature(Integer.parseInt(data.get("feature")));
+        response.setId_transaksi(Integer.parseInt(data.get("id_transaksi")));
+        response.setStatus(data.get("status"));
+        response.setEkl_pelanggan(data.get("ekl_pelanggan"));
+        response.setLatitude_start(data.get("latitude_start"));
+        response.setLongitude_start(data.get("longitude_start"));
+        response.setLatitude_end(data.get("latitude_end"));
+        response.setDistance(Integer.parseInt(data.get("distance")));
+        //response.setDistance(12);
+        response.setReach_estimate(data.get("reach_estimate"));
+        //response.setPrice(12);
+        response.setPrice(Integer.parseInt(data.get("price")));
+        response.setOrder_time("");
+        response.setPickup_address(data.get("pickup_address"));
+        response.setDestination_address(data.get("destination_address"));
+        response.setUsing_balance(Integer.parseInt(data.get("using_balance")));
+        response.setMessage(data.get("message"));
+        response.setMessage_id(String.valueOf(data.get("message_id")));
+        response.setDriver_picture(data.get("driver_picture"));
+        response.setDriver_name(data.get("driver_name"));
+        response.setType_vehicle(data.get("type_vehicle"));
+        response.setVehicle(data.get("vehicle"));
+        return response;
+    }
+
     public static void showLogoutDialog(Context context) {
         Dialog dialog = new Dialog(context, R.style.CustomAlertDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -473,7 +503,40 @@ public final class CommonUtils {
                 CommonUtils.callDriver(mEvent.getDriver_phone(), context);
             }
         });
+    }
 
+    public static void setTripStartData(Context context, RelativeLayout bottomSheet, OnApplyPushNotificationEventTripStart mEvent) {
+        TextView tv_text_one_loc = (TextView) bottomSheet.findViewById(R.id.tv_text_one_loc);
+        TextView tv_text_two_loc = (TextView) bottomSheet.findViewById(R.id.tv_text_two_loc);
+        TextView tv_source = (TextView) bottomSheet.findViewById(R.id.tv_pick_loc);
+        TextView tv_destination = (TextView) bottomSheet.findViewById(R.id.tv_drop_loc);
+        TextView tv_distance = (TextView) bottomSheet.findViewById(R.id.tvDistance);
+        TextView tv_description = (TextView) bottomSheet.findViewById(R.id.tvDescription);
+        TextView tv_price = (TextView) bottomSheet.findViewById(R.id.tvPrice);
+        TextView tvCash=(TextView)bottomSheet.findViewById(R.id.tvCash);
+
+        ImageView iv_driver_image_below_loc = (ImageView) bottomSheet.findViewById(R.id.iv_driver_image_below_loc);
+        TextView tv_driver_name_loc = (TextView) bottomSheet.findViewById(R.id.tv_driver_name_loc);
+        TextView tv_driver_car_name_loc = (TextView) bottomSheet.findViewById(R.id.tv_driver_car_name_loc);
+        TextView tvModel = (TextView) bottomSheet.findViewById(R.id.tvModel);
+
+
+        Glide.with(App.getInstance()).load(mEvent.getDriver_picture()).into(iv_driver_image_below_loc);
+        tv_driver_name_loc.setText(mEvent.getDriver_name());
+        tv_driver_car_name_loc.setText(mEvent.getType_vehicle());
+        tvModel.setText(mEvent.getVehicle());
+
+        tv_text_one_loc.setText(mEvent.getMessage());
+        tv_text_two_loc.setText(mEvent.getReach_estimate());
+        tv_source.setText(mEvent.getPickup_address());
+        tv_destination.setText(mEvent.getDestination_address());
+        tv_distance.setText(String.valueOf(mEvent.getDistance())+" KM");
+        tv_description.setText(mEvent.getReach_estimate());
+        tv_price.setText("RP "+String.valueOf(mEvent.getPrice()));
+        if(mEvent.getUsing_balance()==0)
+            tvCash.setText(context.getResources().getString(R.string.tv_cash));
+        else
+            tvCash.setText(context.getResources().getString(R.string.saldo));
     }
     public static OnApplyPushNotificationEventArrivingNow cloneObject(OnApplyPushNotificationEventArrived arrived)
     {
