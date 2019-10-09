@@ -42,8 +42,10 @@ import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.model.LatLng;
@@ -51,10 +53,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.here.android.mpa.common.GeoBoundingBox;
 import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.common.Image;
 import com.here.android.mpa.mapping.Map;
 import com.here.android.mpa.mapping.MapMarker;
+import com.here.android.mpa.mapping.MapRoute;
+import com.here.android.mpa.routing.RouteManager;
+import com.here.android.mpa.routing.RouteOptions;
+import com.here.android.mpa.routing.RoutePlan;
+import com.here.android.mpa.routing.RouteResult;
 import com.oway.App;
 import com.oway.R;
 import com.oway.callbacks.CancelButtonClick;
@@ -72,9 +80,15 @@ import com.oway.otto.OnApplyPushNotificationEventArrived;
 import com.oway.otto.OnApplyPushNotificationEventArrivingNow;
 import com.oway.callbacks.TermsAndConditionCallBack;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+
+import static com.facebook.accountkit.internal.AccountKitController.getApplicationContext;
 
 
 /*import com.google.firebase.iid.FirebaseInstanceId;
@@ -83,9 +97,12 @@ import com.google.firebase.iid.InstanceIdResult;*/
 public final class CommonUtils {
 
     private static final String TAG = "CommonUtils";
+    private static MapRoute mapRoute = null;
     private static String token = null;
-    private static Map map;
     static int image;
+    static Map mMap;
+    private static MapMarker mapMarker = null;
+    private static MapMarker mapMarker_source = null;
 
     private CommonUtils() {
         // This utility class is not publicly instantiable
@@ -369,7 +386,6 @@ public final class CommonUtils {
     }
 
 
-
     public static void showLogoutDialog(Context context) {
         Dialog dialog = new Dialog(context, R.style.CustomAlertDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -465,9 +481,9 @@ public final class CommonUtils {
         });
 
     }
-    public static OnApplyPushNotificationEventArrivingNow cloneObject(OnApplyPushNotificationEventArrived arrived)
-    {
-        OnApplyPushNotificationEventArrivingNow arrivingNow=new OnApplyPushNotificationEventArrivingNow(arrived.getType(),arrived.getFeature(),arrived.getId_transaksi(),arrived.getStatus(),arrived.getEkl_driver(),arrived.getDriver_name(),arrived.getDriver_picture(),arrived.getNopal(),arrived.getType_vehicle(),arrived.getVehicle(),arrived.getColor(),arrived.getRating(),"Make Sure your's location",arrived.getDriver_phone(),arrived.getMessage(),arrived.getMessage_id());
+
+    public static OnApplyPushNotificationEventArrivingNow cloneObject(OnApplyPushNotificationEventArrived arrived) {
+        OnApplyPushNotificationEventArrivingNow arrivingNow = new OnApplyPushNotificationEventArrivingNow(arrived.getType(), arrived.getFeature(), arrived.getId_transaksi(), arrived.getStatus(), arrived.getEkl_driver(), arrived.getDriver_name(), arrived.getDriver_picture(), arrived.getNopal(), arrived.getType_vehicle(), arrived.getVehicle(), arrived.getColor(), arrived.getRating(), "Make Sure your's location", arrived.getDriver_phone(), arrived.getMessage(), arrived.getMessage_id());
         return arrivingNow;
     }
 
@@ -486,4 +502,85 @@ public final class CommonUtils {
         response.setColor(data.get("color"));
         return response;
     }
+
+    public static void getDirections(Map map, double startLatitude, double startLongitude, double endLatitude, double endLongitude) {
+        // 1. clear previous results
+        mMap = map;
+
+        if (map != null && mapRoute != null) {
+            map.removeMapObject(mapRoute);
+            map.removeMapObject(mapMarker_source);
+            map.removeMapObject(mapMarker);
+            mapRoute = null;
+
+        }
+
+        // 2. Initialize RouteManager
+        RouteManager routeManager = new RouteManager();
+
+        // 3. Select routing options
+        RoutePlan routePlan = new RoutePlan();
+
+        RouteOptions routeOptions = new RouteOptions();
+        routeOptions.setTransportMode(RouteOptions.TransportMode.CAR);
+        routeOptions.setRouteType(RouteOptions.Type.FASTEST);
+        routePlan.setRouteOptions(routeOptions);
+        Image image = new Image();
+
+
+        // 4. Select Waypoints for your routes
+        // START: Nokia, Burnaby
+        routePlan.addWaypoint(new GeoCoordinate(startLatitude, startLongitude));
+        try {
+            image.setImageResource(R.drawable.source_mark);
+            mapMarker_source = new MapMarker(new GeoCoordinate(startLatitude, startLongitude, 0.0), image);
+            Objects.requireNonNull(map).addMapObject(mapMarker_source);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // END: Airport, YVR
+        routePlan.addWaypoint(new GeoCoordinate(endLatitude, endLongitude));
+        try {
+            image.setImageResource(R.drawable.destination_mark);
+            mapMarker = new MapMarker(new GeoCoordinate(endLatitude, endLongitude, 0.0), image);
+            Objects.requireNonNull(map).addMapObject(mapMarker);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        // 5. Retrieve Routing information via RouteManagerEventListener
+        RouteManager.Error error = routeManager.calculateRoute(routePlan, routeManagerListener);
+        if (error != RouteManager.Error.NONE) {
+            Toast.makeText(getApplicationContext(),
+                    "Route calculation failed with: " + error.toString(), Toast.LENGTH_SHORT)
+                    .show();
+        }
+
+
+    }
+
+
+    private static RouteManager.Listener routeManagerListener = new RouteManager.Listener() {
+        public void onCalculateRouteFinished(RouteManager.Error errorCode,
+                                             List<RouteResult> result) {
+
+            if (errorCode == RouteManager.Error.NONE && result.get(0).getRoute() != null) {
+                // create a map route object and place it on the map
+                mapRoute = new MapRoute(result.get(0).getRoute());
+                Objects.requireNonNull(mapRoute).setColor(R.color.col_gray);
+                mMap.addMapObject(mapRoute);
+
+                // Get the bounding box containing the route and zoom in (no animation)
+                GeoBoundingBox gbb = result.get(0).getRoute().getBoundingBox();
+                mMap.zoomTo(gbb, Map.Animation.NONE, Map.MOVE_PRESERVE_ORIENTATION);
+
+
+            }
+        }
+
+        public void onProgress(int percentage) {
+
+        }
+    };
 }

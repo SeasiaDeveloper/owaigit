@@ -125,8 +125,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     ImageView imgCurrent;
     @BindView(R.id.btn_float)
     ImageView btnFab;
-@BindView(R.id.btn_float_loc)
-ImageView btnxLocFloat;
+    @BindView(R.id.btn_float_loc)
+    ImageView btnxLocFloat;
     @BindView(R.id.tv_balance)
     CustomTextView tvxBalance;
     @BindView(R.id.rv_vehicle_types)
@@ -181,6 +181,7 @@ ImageView btnxLocFloat;
             btnFab.setRotation(360);
         }
     }
+
     @OnClick(R.id.btn_float_loc)
     public void onButtonClick() {
         if ((sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED)) {
@@ -249,6 +250,7 @@ ImageView btnxLocFloat;
                     ToastUtils.shortToast(getResources().getString(R.string.seat_validation));
             }
         }
+
     }
 
     @OnClick(R.id.cencel_ride)
@@ -282,6 +284,7 @@ ImageView btnxLocFloat;
         mRequest.setSeat(seat);
         mRequest.setAccess_token(PreferenceHandler.readString(this, AppConstants.MBR_TOKEN, ""));
         tripActivityPresenter.getCustomerRequestTransaction(mRequest);
+
     }
 
     @OnClick(R.id.back_motor)
@@ -580,6 +583,7 @@ ImageView btnxLocFloat;
                     } catch (Exception e) {
                         Log.e("HERE", e.getMessage());
                     }
+
                 } else {
                     Log.e("error", "Cannot initialize SupportMapFragment (" + error + ")");
                 }
@@ -622,6 +626,7 @@ ImageView btnxLocFloat;
         }
 
         if (!etxPickUp.getText().toString().isEmpty() && !etxDropDown.getText().toString().isEmpty()) {
+            CommonUtils.getDirections(map, Double.valueOf(startLat), Double.valueOf(startLng), Double.valueOf(endLat), Double.valueOf(endLng));
             btn_map_next.setEnabled(true);
             btn_map_next.setBackgroundColor(getResources().getColor(R.color.col_orange));
         }
