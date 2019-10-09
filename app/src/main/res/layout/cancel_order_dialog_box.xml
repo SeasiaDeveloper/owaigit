@@ -97,22 +97,22 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:background="@drawable/order_dialog_shape">
+                android:background="@drawable/login_edittext">
 
                 <com.oway.customviews.CustomEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top|center"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:padding="@dimen/_10sdp"
                     android:background="@android:color/transparent"
                     android:hint="@string/notes"
                     android:id="@+id/et_cancel_reason_notes"
-                    android:maxLength="100"
                     android:maxLines="5"
                     android:paddingStart="@dimen/_8sdp"
                     android:paddingTop="@dimen/_4sdp"
                     android:paddingEnd="@dimen/_8sdp"
                     android:textColorHint="@color/cencel"
-                    android:textSize="@dimen/_10sdp" />
+                    android:textSize="@dimen/_12sdp" />
             </LinearLayout>
 
             <LinearLayout

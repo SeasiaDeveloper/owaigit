@@ -16,7 +16,6 @@
 package com.oway.utillis;
 
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,7 +24,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -42,10 +40,10 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.model.LatLng;
@@ -63,21 +61,21 @@ import com.oway.callbacks.CancelButtonClick;
 import com.oway.callbacks.CancelReasonDialog;
 import com.oway.callbacks.DriverProfileDialog;
 import com.oway.callbacks.RegisterButtonclick;
+import com.oway.callbacks.TermsAndConditionCallBack;
 import com.oway.customviews.CustomButton;
 import com.oway.customviews.CustomEditText;
 import com.oway.customviews.CustomTextView;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.response.GetNearestDriverResponse;
 import com.oway.model.response.PushNotificationResponse;
+import com.oway.otto.OnApplyPushNotificationEventArrived;
+import com.oway.otto.OnApplyPushNotificationEventArrivingNow;
 import com.oway.otto.OnApplyPushNotificationEvent;
 import com.oway.callbacks.TermsAndConditionCallBack;
 
-import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
-import static com.facebook.accountkit.internal.AccountKitController.getApplicationContext;
 
 
 /*import com.google.firebase.iid.FirebaseInstanceId;
@@ -148,32 +146,32 @@ public final class CommonUtils {
         dialog.getWindow().setAttributes(lWindowParams);
     }
 
-    public static void showCancelDialog(Context context, CancelButtonClick cancelClick, OnApplyPushNotificationEvent event) {
+    public static void showCancelDialog(Context context, CancelButtonClick cancelClick, OnApplyPushNotificationEventArrivingNow event) {
         Dialog dialog = new Dialog(context, R.style.CustomAlertDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(true);
         dialog.setContentView(R.layout.you_got_driver_dialog_box);
         ImageButton ibxcallDriver = dialog.findViewById(R.id.ib_call);
 
-        ImageView imgDriver=(ImageView)dialog.findViewById(R.id.imgDriver);
-        TextView tvDriverName=(TextView)dialog.findViewById(R.id.tvDriverName);
-        TextView tvModel=(TextView)dialog.findViewById(R.id.tvModel);
-        TextView tvSubModel=(TextView)dialog.findViewById(R.id.tvSubModel);
-        RatingBar rtBa=(RatingBar) dialog.findViewById(R.id.rtBar);
-        TextView tvEstimationTime=(TextView)dialog.findViewById(R.id.tvEstimationTime);
+        ImageView imgDriver = (ImageView) dialog.findViewById(R.id.imgDriver);
+        TextView tvDriverName = (TextView) dialog.findViewById(R.id.tvDriverName);
+        TextView tvModel = (TextView) dialog.findViewById(R.id.tvModel);
+        TextView tvSubModel = (TextView) dialog.findViewById(R.id.tvSubModel);
+        RatingBar rtBa = (RatingBar) dialog.findViewById(R.id.rtBar);
+        TextView tvEstimationTime = (TextView) dialog.findViewById(R.id.tvEstimationTime);
 
         tvDriverName.setText(event.getDriver_name());
         tvModel.setText(event.getType_vehicle());
         tvSubModel.setText(event.getVehicle());
-        rtBa.setRating(3.4f);
-        tvEstimationTime.setText("Time Estimation "+" 5"+ " min");
+        rtBa.setRating(Float.parseFloat(String.valueOf(event.getRating())));
+        tvEstimationTime.setText(event.getReach_estimate());
 
         Glide.with(context).load(event.getDriver_picture()).into(imgDriver);
 
         ibxcallDriver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CommonUtils.callDriver();
+                CommonUtils.callDriver(event.getDriver_phone(), context);
             }
         });
         Button btnxOkOnDriverInfo = dialog.findViewById(R.id.btn_ok_driver_info);
@@ -184,7 +182,8 @@ public final class CommonUtils {
                 cancelClick.onCancelClick();
             }
         });
-        dialog.show();
+        if (!dialog.isShowing())
+            dialog.show();
     }
 
     public static void showCancelRideDialog(Context context, DriverProfileDialog profileDialog, double cash, double balance) {
@@ -244,6 +243,15 @@ public final class CommonUtils {
         dialog.setContentView(R.layout.cancel_order_dialog_box);
         CustomButton cancelButtonReasonDialog = dialog.findViewById(R.id.cb_cancel_reason);
         CustomButton okReason = dialog.findViewById(R.id.cb_ok_reason);
+
+        CustomButton cb_cancel_reason = dialog.findViewById(R.id.cb_cancel_reason);
+        cb_cancel_reason.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
         CustomEditText notesCancelReason = dialog.findViewById(R.id.et_cancel_reason_notes);
         okReason.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -329,25 +337,13 @@ public final class CommonUtils {
         return (rad * 180.0 / Math.PI);
     }
 
-    public static void callDriver() {
+    public static void callDriver(String driver_phone, Context context) {
         try {
-
-            Intent intent = new Intent(Intent.ACTION_CALL);
-            intent.setData(Uri.parse("tel:9872465742"));
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
-            App.getInstance().startActivity(intent);
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:" + driver_phone));
+            context.startActivity(callIntent);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -371,6 +367,27 @@ public final class CommonUtils {
         AlertDialog alertDialog = alertDialogBuilder.create();
         // show it
         alertDialog.show();
+    }
+
+    public static PushNotificationResponse getNotificationResponse(java.util.Map<String, String> data) {
+        PushNotificationResponse response = new PushNotificationResponse();
+        response.setType(data.get("type"));
+        response.setFeature(Integer.parseInt(data.get("feature")));
+        response.setId_transaksi(Integer.parseInt(data.get("id_transaksi")));
+        response.setStatus(data.get("status"));
+        response.setEkl_driver(data.get("ekl_driver"));
+        response.setDriver_name(data.get("driver_name"));
+        response.setDriver_picture(data.get("driver_picture"));
+        response.setNopol(data.get("nopol"));
+        response.setType_vehicle(data.get("type_vehicle"));
+        response.setVehicle(data.get("vehicle"));
+        response.setColor(data.get("color"));
+        response.setDriver_rating(Double.parseDouble(data.get("driver_rating")));
+        response.setReach_estimate(data.get("reach_estimate"));
+        response.setDriver_phone(data.get("driver_phone"));
+        response.setMessage(data.get("message"));
+        response.setMessage_id(data.get("message_id"));
+        return response;
     }
 
     public static void showLogoutDialog(Context context) {
@@ -400,7 +417,7 @@ public final class CommonUtils {
 
         PopupWindow popupWindow = new PopupWindow(viewGroup, width, height);
         popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
-        Button btxDismiss=viewGroup.findViewById(R.id.bt_dismiss_popup);
+        Button btxDismiss = viewGroup.findViewById(R.id.bt_dismiss_popup);
         btxDismiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -408,7 +425,7 @@ public final class CommonUtils {
                 conditionCallBack.onCancelConditionClick();
             }
         });
-        Button btxUnderstand=viewGroup.findViewById(R.id.bt_understand);
+        Button btxUnderstand = viewGroup.findViewById(R.id.bt_understand);
         btxUnderstand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -416,11 +433,63 @@ public final class CommonUtils {
                 conditionCallBack.onYesClick();
             }
         });
-
-
     }
 
+    public static void setDrivingArrivingData(RelativeLayout layoutDriverRidingToYou, OnApplyPushNotificationEventArrivingNow mEvent) {
+        TextView tvEstimationTime = (TextView) layoutDriverRidingToYou.findViewById(R.id.tvEstimateTimeArriving);
+        tvEstimationTime.setText(mEvent.getReach_estimate());
+    }
 
+    public static void setBottomSheetData(Context context, RelativeLayout bottomSheet, OnApplyPushNotificationEventArrivingNow mEvent) {
+        ImageView imageDriver = (ImageView) bottomSheet.findViewById(R.id.iv_driver_image);
+        TextView tv_driver_name = (TextView) bottomSheet.findViewById(R.id.tv_driver_name);
+        TextView tv_driver_car_name = (TextView) bottomSheet.findViewById(R.id.tv_driver_car_name);
+        TextView tv_driver_sub_car_name = (TextView) bottomSheet.findViewById(R.id.tv_driver_sub_car_name);
+        ImageView ib_message = (ImageView) bottomSheet.findViewById(R.id.ib_message);
+        ImageView ib_call_driver = (ImageView) bottomSheet.findViewById(R.id.ib_call_driver);
+
+        TextView tv_text_one_slider = (TextView) bottomSheet.findViewById(R.id.tv_text_one_slider);
+
+        Glide.with(App.getInstance()).load(mEvent.getDriver_picture()).into(imageDriver);
+        tv_driver_name.setText(mEvent.getDriver_name());
+        tv_driver_car_name.setText(mEvent.getType_vehicle());
+        tv_driver_sub_car_name.setText(mEvent.getVehicle());
+        tv_text_one_slider.setText(mEvent.getMessage());
+        ib_call_driver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CommonUtils.callDriver(mEvent.getDriver_phone(), context);
+            }
+        });
+
+        ImageView imageDriverSlider = (ImageView) bottomSheet.findViewById(R.id.driverImageSlider);
+        TextView tvDriverNameSlider = (TextView) bottomSheet.findViewById(R.id.tvDriverNameSlider);
+        TextView tvCarNameSlider = (TextView) bottomSheet.findViewById(R.id.tvCarNameSlider);
+        TextView tvSubCarNameSlider = (TextView) bottomSheet.findViewById(R.id.tvSubCarNameSlider);
+        RatingBar rtBa = (RatingBar) bottomSheet.findViewById(R.id.rtBar);
+        rtBa.setRating(Float.parseFloat(String.valueOf(mEvent.getRating())));
+
+        //ImageView ib_message = (ImageView) bottomSheet.findViewById(R.id.ib_message);
+        ImageView ib_call_driver_bottom_sheet = (ImageView) bottomSheet.findViewById(R.id.ib_call_driver_bottom_sheet);
+        TextView tvArrivedTimeSlider = (TextView) bottomSheet.findViewById(R.id.tvArrivedTimeSlider);
+        Glide.with(App.getInstance()).load(mEvent.getDriver_picture()).into(imageDriverSlider);
+        tvDriverNameSlider.setText(mEvent.getDriver_name());
+        tvCarNameSlider.setText(mEvent.getType_vehicle());
+        tvSubCarNameSlider.setText(mEvent.getVehicle());
+        tvArrivedTimeSlider.setText(mEvent.getReach_estimate());
+        ib_call_driver_bottom_sheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CommonUtils.callDriver(mEvent.getDriver_phone(), context);
+            }
+        });
+
+    }
+    public static OnApplyPushNotificationEventArrivingNow cloneObject(OnApplyPushNotificationEventArrived arrived)
+    {
+        OnApplyPushNotificationEventArrivingNow arrivingNow=new OnApplyPushNotificationEventArrivingNow(arrived.getType(),arrived.getFeature(),arrived.getId_transaksi(),arrived.getStatus(),arrived.getEkl_driver(),arrived.getDriver_name(),arrived.getDriver_picture(),arrived.getNopal(),arrived.getType_vehicle(),arrived.getVehicle(),arrived.getColor(),arrived.getRating(),"Make Sure your's location",arrived.getDriver_phone(),arrived.getMessage(),arrived.getMessage_id());
+        return arrivingNow;
+    }
 
     public static PushNotificationResponse getNotificationResponse(java.util.Map<String, String> data) {
         PushNotificationResponse response = new PushNotificationResponse();

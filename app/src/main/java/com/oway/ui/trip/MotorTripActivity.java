@@ -12,9 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.accountkit.internal.Utility;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.here.android.mpa.common.OnEngineInitListener;
@@ -51,7 +53,8 @@ import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.model.response.LocationDetailsResponse;
 import com.oway.model.response.SendDriverResponse;
 import com.oway.otto.BusProvider;
-import com.oway.otto.OnApplyPushNotificationEvent;
+import com.oway.otto.OnApplyPushNotificationEventArrivingNow;
+import com.oway.otto.OnApplyPushNotificationEventArrived;
 import com.oway.ui.home.MainActivity;
 import com.oway.utillis.AppConstants;
 import com.oway.utillis.CommonUtils;
@@ -72,6 +75,8 @@ import retrofit2.Response;
 public class MotorTripActivity extends BaseActivity implements Location.OnLocationChangeListener, Location.OnLocationSatiListener, CancelButtonClick, DriverProfileDialog, TripActivityView, CancelReasonDialog, TermsAndConditionCallBack {
     private static final String LOG_TAG = MotorTripActivity.class.getSimpleName();
     private boolean isClicked = true;
+    private OnApplyPushNotificationEventArrivingNow mEvent;
+    private OnApplyPushNotificationEventArrived mEventArriving;
 
     private boolean isPickUpClick = true;
     private ArrayList<PopularLocationsModal> modalArrayList = new ArrayList<PopularLocationsModal>();
@@ -89,7 +94,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     private String tranxId;
     private String startAddress, startLat, startLng, endAddress, endLat, endLng, no_reason = "no reason";
     private ArrayList<VehicleTypeModal> vehicleTypeModalArrayList = new ArrayList<>();
-    private int seat=0;
+    private int seat = 0;
 
     private VehicleTypeModal vehicleTypeModal = new VehicleTypeModal();
     private GetPriceBySeatResponse mResponse;
@@ -131,7 +136,6 @@ ImageView btnxLocFloat;
     @BindView(R.id.btn_map_next)
     Button btn_map_next;
 
-
     @BindView(R.id.btn_map_source)
     Button btn_map_source;
 
@@ -154,12 +158,12 @@ ImageView btnxLocFloat;
 
     @OnClick(R.id.ib_call_driver)
     public void onCall() {
-        CommonUtils.callDriver();
+        CommonUtils.callDriver("event.getDriver_phone()", null);
     }
 
     @OnClick(R.id.ib_call_driver_bottom_sheet)
     public void onCallFromBottomSheet() {
-        CommonUtils.callDriver();
+        CommonUtils.callDriver("event.getDriver_phone()", null);
     }
 
 
@@ -206,6 +210,8 @@ ImageView btnxLocFloat;
         layoutSourceDestination.setVisibility(View.GONE);
         layoutBottomSheet.setVisibility(View.VISIBLE);
         layoutDriverRidingToYou.setVisibility(View.VISIBLE);
+        CommonUtils.setDrivingArrivingData(layoutDriverRidingToYou, mEvent);
+        CommonUtils.setBottomSheetData(this, layoutBottomSheet, mEvent);
     }
 
 
@@ -222,25 +228,23 @@ ImageView btnxLocFloat;
                 tripActivityPresenter.getEstimatePriceBike(mRequest);
             }
         } else if (PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, "").equals("2")) {
-            if(mResponse==null) {
+            if (mResponse == null) {
                 GetPriceBySeatRequest mRequestPrice = new GetPriceBySeatRequest();
                 mRequestPrice.setLatitude(String.valueOf(mlocation.latitude));
                 mRequestPrice.setLongitude(String.valueOf(mlocation.longitude));
                 mRequestPrice.setDistance(String.valueOf(CommonUtils.distance(Double.parseDouble(startLat), Double.parseDouble(startLng), Double.parseDouble(endLat), Double.parseDouble(endLng))));
                 mRequestPrice.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
                 tripActivityPresenter.getPriceBySeat(mRequestPrice);
-            }
-            else {
+            } else {
                 boolean selectCar = false;
-                for(int i=0;i<vehicleTypeModalArrayList.size();i++)
-                {
-                    if(vehicleTypeModalArrayList.get(i).isSelect()) {
+                for (int i = 0; i < vehicleTypeModalArrayList.size(); i++) {
+                    if (vehicleTypeModalArrayList.get(i).isSelect()) {
                         seat = Integer.parseInt(vehicleTypeModalArrayList.get(i).getNoOfSeats());
-                        selectCar=true;
+                        selectCar = true;
                     }
                 }
-                if(selectCar)
-                CommonUtils.showCancelRideDialog(this, profileDialog, mResponse.getData().get(1).getCash(),mResponse.getData().get(1).getBalance());
+                if (selectCar)
+                    CommonUtils.showCancelRideDialog(this, profileDialog, mResponse.getData().get(1).getCash(), mResponse.getData().get(1).getBalance());
                 else
                     ToastUtils.shortToast(getResources().getString(R.string.seat_validation));
             }
@@ -249,7 +253,7 @@ ImageView btnxLocFloat;
 
     @OnClick(R.id.cencel_ride)
     public void onCancel() {
-        CommonUtils.showCancelRide(reasonDialog,this);
+        CommonUtils.showCancelRide(reasonDialog, this);
 
     }
 
@@ -339,8 +343,20 @@ ImageView btnxLocFloat;
     }
 
     @Subscribe
-    public void OnApplyPushNotificationEvent(OnApplyPushNotificationEvent event) {
-        CommonUtils.showCancelDialog(this, cancelButtonClick,event);
+    public void OnApplyPushNotificationEventArrivingNow(OnApplyPushNotificationEventArrivingNow event) {
+        CommonUtils.showCancelDialog(this, cancelButtonClick, event);
+        mEvent = event;
+    }
+
+    @Subscribe
+    public void OnApplyPushNotificationEventArrived(OnApplyPushNotificationEventArrived event) {
+        mEvent = CommonUtils.cloneObject(event);
+        layoutSourceDestination.setVisibility(View.GONE);
+        layoutPopularLocations.setVisibility(View.GONE);
+        layoutBottomSheet.setVisibility(View.VISIBLE);
+        layoutDriverRidingToYou.setVisibility(View.VISIBLE);
+        CommonUtils.setDrivingArrivingData(layoutDriverRidingToYou, mEvent);
+        CommonUtils.setBottomSheetData(this, layoutBottomSheet, mEvent);
     }
 
     @Override
@@ -363,7 +379,6 @@ ImageView btnxLocFloat;
         tvxBalance.setText(intent.getStringExtra(AppConstants.BALANCE));
 
     }
-
 
     private void getNearByDriver() {
         GetNearestDriverRequest nearRequest = new GetNearestDriverRequest();
@@ -419,7 +434,7 @@ ImageView btnxLocFloat;
             public void run() {
                 cancelRide();
             }
-        }, 60000);
+        }, 10000);
     }
 
     @Override
@@ -476,7 +491,7 @@ ImageView btnxLocFloat;
 
     @Override
     public void onGetBikePriceSuccess(GetEstimateBikeResponse response) {
-        CommonUtils.showCancelRideDialog(this, profileDialog, response.getPrice().getCash(),response.getPrice().getBalance());
+        CommonUtils.showCancelRideDialog(this, profileDialog, response.getPrice().getCash(), response.getPrice().getBalance());
     }
 
     @Override
@@ -504,7 +519,7 @@ ImageView btnxLocFloat;
         layoutPopularLocations.setVisibility(View.GONE);
         layoutSourceDestination.setVisibility(View.GONE);
         layoutPleaseWaitForRide.setVisibility(View.VISIBLE);
-       // setOneMinuteHandler();
+        setOneMinuteHandler();
 
     }
 
@@ -519,6 +534,8 @@ ImageView btnxLocFloat;
         layoutPopularLocations.setVisibility(View.VISIBLE);
         layoutSourceDestination.setVisibility(View.VISIBLE);
         layoutPleaseWaitForRide.setVisibility(View.GONE);
+        layoutBottomSheet.setVisibility(View.GONE);
+        layoutDriverRidingToYou.setVisibility(View.GONE);
 
     }
 
@@ -530,7 +547,7 @@ ImageView btnxLocFloat;
 
     @Override
     public void onGetPriceBySeatSuccess(GetPriceBySeatResponse response) {
-        mResponse=response;
+        mResponse = response;
         for (int i = 0; i < response.getData().size(); i++) {
             vehicleTypeModal = new VehicleTypeModal();
             vehicleTypeModal.setCarImage(R.drawable.car);
@@ -612,16 +629,18 @@ ImageView btnxLocFloat;
 
     @Override
     public void onCancelYesClick() {
-        etxPickUp.setText("");
-        etxDropDown.setText("");
+        // etxPickUp.setText("");
+       /* etxDropDown.setText("");
         btn_map_next.setEnabled(false);
-        btn_map_next.setBackgroundColor(getResources().getColor(R.color.col_gray));
+        btn_map_next.setBackgroundColor(getResources().getColor(R.color.col_gray));*/
+        manageVisibility();
         rvxVehicleTypes.setVisibility(View.GONE);
-        mResponse=null;
+        mResponse = null;
         cancelRide();
     }
 
     private void cancelRide() {
+
         CancelRideRequest mRequest = new CancelRideRequest();
         mRequest.setAccess_token(PreferenceHandler.readString(this, AppConstants.MBR_TOKEN, ""));
         mRequest.setReason(no_reason);
@@ -631,6 +650,9 @@ ImageView btnxLocFloat;
 
     @Override
     public void onOkReasonDialogClick(String reason, String selectionId) {
+        if (tranxId == null)
+            tranxId = String.valueOf(mEvent.getId_transaksi());
+        manageVisibility();
         CancelRideRequest mRequest = new CancelRideRequest();
         mRequest.setAccess_token(PreferenceHandler.readString(this, AppConstants.MBR_TOKEN, ""));
         mRequest.setReason(reason);
@@ -638,10 +660,18 @@ ImageView btnxLocFloat;
         tripActivityPresenter.cancelRide(mRequest);
     }
 
-    public static void startOnclick(String balance) {
+    private void manageVisibility() {
+        // etxPickUp.setText("");
+        etxDropDown.setText("");
+        btn_map_next.setEnabled(false);
+        btn_map_next.setBackgroundColor(getResources().getColor(R.color.col_gray));
+
+    }
+
+    public static void startOnclick(String balance, FragmentActivity activity) {
         Intent intent = new Intent(App.getInstance(), MotorTripActivity.class);
         intent.putExtra(AppConstants.BALANCE, balance);
-        App.getInstance().startActivity(intent);
+        activity.startActivity(intent);
     }
 
     @Override
@@ -652,5 +682,12 @@ ImageView btnxLocFloat;
     @Override
     public void onYesClick() {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        BusProvider.getInstance().unregister(this);
+        tripActivityPresenter.onDetach();
     }
 }
