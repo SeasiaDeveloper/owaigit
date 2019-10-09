@@ -69,7 +69,7 @@ public class DashBoardAccountFragment extends Fragment implements TermsAndCondit
         // CommonUtils.showPopUpWindow(App.getInstance(), Objects.requireNonNull(getActivity()), llxparent, termsAndConditionCallBack);
        /* Intent intent = new Intent(getActivity(), FinishTripActivity.class);
         startActivity(intent);*/
-       CommonUtils.showWaitForMeDialog(getActivity());
+      // CommonUtils.showWaitForMeDialog(getActivity());
     }
 
 

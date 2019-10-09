@@ -16,7 +16,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.facebook.accountkit.internal.Utility;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.here.android.mpa.common.OnEngineInitListener;
@@ -36,6 +35,7 @@ import com.oway.customviews.CustomTextView;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.PopularLocationsModal;
 import com.oway.model.VehicleTypeModal;
+import com.oway.model.request.CalculateRouteRequest;
 import com.oway.model.request.CancelRideRequest;
 import com.oway.model.request.CustomerTransactionRequest;
 import com.oway.model.request.GetCurrentLocationRequest;
@@ -44,6 +44,7 @@ import com.oway.model.request.GetNearestDriverRequest;
 import com.oway.model.request.GetPriceBySeatRequest;
 import com.oway.model.request.GetRecommendedPlacesRequest;
 import com.oway.model.request.SendDriverRequest;
+import com.oway.model.response.CalculateRouteResponse;
 import com.oway.model.response.CancelRideResponse;
 import com.oway.model.response.CustomerTransactionResponse;
 import com.oway.model.response.GetEstimateBikeResponse;
@@ -53,8 +54,9 @@ import com.oway.model.response.GetRecommendedPlacesResponse;
 import com.oway.model.response.LocationDetailsResponse;
 import com.oway.model.response.SendDriverResponse;
 import com.oway.otto.BusProvider;
-import com.oway.otto.OnApplyPushNotificationEventArrivingNow;
 import com.oway.otto.OnApplyPushNotificationEventArrived;
+import com.oway.otto.OnApplyPushNotificationEventArrivingNow;
+import com.oway.otto.OnApplyPushNotificationEventTripStart;
 import com.oway.ui.home.MainActivity;
 import com.oway.utillis.AppConstants;
 import com.oway.utillis.CommonUtils;
@@ -135,12 +137,18 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     Button cencel_ride;
     @BindView(R.id.btn_map_next)
     Button btn_map_next;
-
+    @BindView(R.id.ll_search_locs)
+    LinearLayout llxSearchLocs;
     @BindView(R.id.btn_map_source)
     Button btn_map_source;
-
+    @BindView(R.id.ll_trip_info)
+    LinearLayout llxTripInfo;
     @BindView(R.id.btn_map_destination)
     Button btn_map_destination;
+    @BindView(R.id.tv_trip_distance)
+    CustomTextView tvxTripDistance;
+    @BindView(R.id.tv_traffic_time)
+    CustomTextView tvxTrafficTime;
 
     @Inject
     TripActivityPresenter<TripActivityView> tripActivityPresenter;
@@ -148,6 +156,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @Inject
     ValidationUtils validationUtils;
 
+    @BindView(R.id.ll_bottom_sheet_loc)
+    RelativeLayout layoutTripStart;
 
     @OnClick(R.id.btn_cancel_ride)
     public void onCancelRideClick() {
@@ -165,7 +175,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     public void onCallFromBottomSheet() {
         CommonUtils.callDriver("event.getDriver_phone()", null);
     }
-
 
     @OnClick(R.id.btn_float)
     public void onFloatButtonClick() {
@@ -196,6 +205,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
             btnxLocFloat.setRotation(360);
         }
     }
+
     /*@OnClick(R.id.cencel_ride)
     public void onCancelRide() {
         layoutPleaseWaitForRide.setVisibility(View.GONE);
@@ -302,16 +312,28 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @OnClick(R.id.etxPickUp)
     public void onPicUp() {
-        etxPickUp.requestFocus();
         isPickUpClick = true;
-        startSearchPlaceActivity();
+
+        if (llxTripInfo.getVisibility() == View.VISIBLE) {
+            llxTripInfo.setVisibility(View.GONE);
+            llxSearchLocs.setVisibility(View.VISIBLE);
+
+        } else {
+            etxPickUp.requestFocus();
+            startSearchPlaceActivity();
+        }
     }
 
     @OnClick(R.id.etxDropDown)
     public void onDropDown() {
-        etxDropDown.requestFocus();
         isPickUpClick = false;
-        startSearchPlaceActivity();
+        if (llxTripInfo.getVisibility() == View.VISIBLE) {
+            llxTripInfo.setVisibility(View.GONE);
+            llxSearchLocs.setVisibility(View.VISIBLE);
+        } else {
+            etxDropDown.requestFocus();
+            startSearchPlaceActivity();
+        }
     }
 
     private void startSearchPlaceActivity() {
@@ -333,6 +355,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         sheetBehavior = BottomSheetBehavior.from(view);
         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         sheetBehavior.setPeekHeight(0);
+
 
         View viewWithLoc = findViewById(R.id.include_sheets_loc);
         sheetBehavior = BottomSheetBehavior.from(viewWithLoc);
@@ -362,6 +385,12 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         CommonUtils.setBottomSheetData(this, layoutBottomSheet, mEvent);
     }
 
+    @Subscribe
+    public void OnApplyPushNotificationEventTripStart(OnApplyPushNotificationEventTripStart event) {
+        CommonUtils.setTripStartData(this, layoutTripStart, event);
+
+    }
+
     @Override
     protected void setUp() {
     }
@@ -380,7 +409,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         initializeMap();
         Intent intent = getIntent();
         tvxBalance.setText(intent.getStringExtra(AppConstants.BALANCE));
-
     }
 
     private void getNearByDriver() {
@@ -457,12 +485,18 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         MapPopularLocationsRecyclerAdapter adapter = new MapPopularLocationsRecyclerAdapter(modalArrayList, this, new PopularLocationsCallBack() {
             @Override
-            public void onItemClick(View v, String address) {
+            public void onItemClick(View v, String address,String lat,String lng) {
                 if (isPickUpClick) {
+                    startLat=lat;
+                    startLng=lng;
                     etxPickUp.setText(address);
                 } else {
+                    endLat=lat;
+                    endLng=lng;
                     etxDropDown.setText(address);
                 }
+                if(startLng!=null&&endLng!=null)
+                hitApiGetRoute();
             }
         });
         recyclerView.setAdapter(adapter);
@@ -571,6 +605,22 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     }
 
+    @Override
+    public void onCalculateRouteSuccess(CalculateRouteResponse response) {
+
+        tvxTripDistance.setText(String.valueOf(response.getData().getDistance()));
+        tvxTrafficTime.setText(String.valueOf(response.getData().getTrafficTime()));
+        llxSearchLocs.setVisibility(View.GONE);
+        llxTripInfo.setVisibility(View.VISIBLE);
+        CommonUtils.getDirections(map,Double.valueOf(startLat),Double.valueOf(startLng),Double.valueOf(endLat),Double.valueOf(endLng));
+
+    }
+
+    @Override
+    public void onCalculateRouteFailure(String response) {
+
+    }
+
     void initializeMap() {
         mapFragment.init(new OnEngineInitListener() {
             @Override
@@ -628,8 +678,21 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         if (!etxPickUp.getText().toString().isEmpty() && !etxDropDown.getText().toString().isEmpty()) {
             CommonUtils.getDirections(map, Double.valueOf(startLat), Double.valueOf(startLng), Double.valueOf(endLat), Double.valueOf(endLng));
             btn_map_next.setEnabled(true);
+            llxSearchLocs.setVisibility(View.GONE);
+            llxTripInfo.setVisibility(View.VISIBLE);
             btn_map_next.setBackgroundColor(getResources().getColor(R.color.col_orange));
         }
+        hitApiGetRoute();
+    }
+
+    public void hitApiGetRoute() {
+        CalculateRouteRequest mRequest = new CalculateRouteRequest();
+        mRequest.setLat1(startLat);
+        mRequest.setLon1(startLng);
+        mRequest.setLat2(endLat);
+        mRequest.setLon2(endLng);
+        mRequest.setAccess_token(PreferenceHandler.readString(this, AppConstants.MBR_TOKEN, ""));
+        tripActivityPresenter.getCalculateRoute(mRequest);
     }
 
     @Override

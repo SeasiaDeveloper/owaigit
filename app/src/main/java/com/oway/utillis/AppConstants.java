@@ -50,6 +50,9 @@ public final class AppConstants {
 
     public static final String BALANCE ="balance";
 
+    public static final String MESSAGE_ID ="message_id";
+
+
 
     public static final int REQUEST_CODE_PICK=1001;
     public static final int REQUEST_CODE_DROP=1002;

@@ -2,6 +2,7 @@ package com.oway.ui.trip;
 
 
 import com.oway.base.MvpView;
+import com.oway.model.response.CalculateRouteResponse;
 import com.oway.model.response.CancelRideResponse;
 import com.oway.model.response.CustomerTransactionResponse;
 import com.oway.model.response.GetEstimateBikeResponse;
@@ -45,5 +46,9 @@ public interface TripActivityView extends MvpView {
     void onGetPriceBySeatSuccess(GetPriceBySeatResponse response);
 
     void onGetPriceBySeatFailure(String response);
+
+    void onCalculateRouteSuccess(CalculateRouteResponse response);
+
+    void onCalculateRouteFailure(String response);
 
 }

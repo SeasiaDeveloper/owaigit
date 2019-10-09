@@ -136,7 +136,7 @@
     <string name="cancel_reason_two">I have wrong submit destination</string>
     <string name="cancel_reason_three">Driver is too late</string>
     <string name="other">Others</string>
-    <string name="notes">Notes</string>
+    <string name="notes">1.5 to 2 Jam</string>
 
     <!--Login -->
     <string name="logged_in">Login Successfully</string>
@@ -174,16 +174,15 @@
     <string name="terms_and_conditions">Terms &amp; Conditions\nLorem ipsum dolor sit amet, consectetur adipiscing\nelit, sed doeiusmod tempor incididunt ut labore et\ndolore magna aliqua. Ut enim ad minim veniam,\nquis nostrud exercitation ullamco laboris nisi ut\naliquip ex ea commodo consequat. Duis aute irure\ndolor in reprehenderit in voluptate velit esse cillum\ndolore eu fugiat nulla pariatur. Excepteur sint\noccaecat cupidatat non proident, sunt in culpa\nqui officia deserunt mollit anim id est laborum.</string>
     <string name="understand">Yes,Understand</string>
     <string name="cancel">Cancel</string>
+    <string name="tv_cash">Cash</string>
+    <string name="tv_saldo">Saldo</string>
+
     <string name="colon">:</string>
     <string name="tujuan">Tujuan</string>
     <string name="jarak">Jarak tempuh</string>
     <string name="total">Total biaya</string>
     <string name="feedback">Give a feedback</string>
-    <string name="finish">Finish</string>
     <string name="dist">12 Km</string>
-    <string name="amt">12,000,000.00</string>
-    <string name="message">Message</string>
-    <string name="replay">Replay</string>
-    <string name="wait_for_me">Sir Please Wait For Me</string>
+    <string name="amt">Rp 1209.0000</string>
 
 </resources>

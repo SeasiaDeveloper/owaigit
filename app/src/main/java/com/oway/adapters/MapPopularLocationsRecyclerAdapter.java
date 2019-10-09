@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,12 +35,7 @@ public class MapPopularLocationsRecyclerAdapter extends RecyclerView.Adapter<Map
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.map_popular,parent,false);
         ViewHolder holder = new ViewHolder(view);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onItemClick(view, holder.textView.getText().toString());
-            }
-        });
+
         return holder;
     }
 
@@ -47,6 +43,13 @@ public class MapPopularLocationsRecyclerAdapter extends RecyclerView.Adapter<Map
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         holder.textView.setText(itemList.get(position).getAddress());
+        holder.layPlaces.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onItemClick(view, holder.textView.getText().toString(),itemList.get(position).getLatitude().toString(),itemList.get(position).getLongitude().toString());
+            }
+        });
+
     }
 
 
@@ -58,10 +61,12 @@ public class MapPopularLocationsRecyclerAdapter extends RecyclerView.Adapter<Map
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView textView;
+        LinearLayout layPlaces;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.tvxItemLocation);
+            layPlaces=itemView.findViewById(R.id.layPlaces);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.oway.datasource.implementation;
 
 import com.oway.di.BaseUrl;
+import com.oway.model.request.CalculateRouteRequest;
 import com.oway.model.request.CancelRideRequest;
 import com.oway.model.request.CustomerTransactionRequest;
 import com.oway.model.request.GetCurrentLocationRequest;
@@ -13,6 +14,7 @@ import com.oway.model.request.GetSearchPlacesRequest;
 import com.oway.model.request.LoginRequest;
 import com.oway.model.request.RegisterRequest;
 import com.oway.model.request.SendDriverRequest;
+import com.oway.model.response.CalculateRouteResponse;
 import com.oway.model.response.CancelRideResponse;
 import com.oway.model.response.CustomerTransactionResponse;
 import com.oway.model.response.GetEstimateBikeResponse;
@@ -130,6 +132,10 @@ public class ApiService {
         return apiService.getPriceBySeat(mRequest);
     }
 
+    public Call<CalculateRouteResponse> getCalculateRouteRequest(CalculateRouteRequest mRequest) {
+        return apiService.calculateRoute(mRequest);
+    }
+
     public Call<LocationDetailsResponse> getCurrentAddress(GetCurrentLocationRequest mRequest) {
         return apiService.getLocationDetails(mRequest);
     }
@@ -161,6 +167,10 @@ public class ApiService {
 
         @POST("api/customer/price_by_seat")
         Call<GetPriceBySeatResponse> getPriceBySeat(@Body GetPriceBySeatRequest request);
+
+
+        @POST("api/customer/calculate_route")
+        Call<CalculateRouteResponse> calculateRoute(@Body CalculateRouteRequest request);
 
         @POST("api/customer/getaddressbycoordinate")
         Call<LocationDetailsResponse> getLocationDetails(@Body GetCurrentLocationRequest mRequest);

@@ -5,6 +5,7 @@ import com.oway.R;
 import com.oway.base.BasePresenter;
 import com.oway.base.MvpView;
 import com.oway.datasource.implementation.ApiService;
+import com.oway.model.request.CalculateRouteRequest;
 import com.oway.model.request.CancelRideRequest;
 import com.oway.model.request.CustomerTransactionRequest;
 import com.oway.model.request.GetCurrentLocationRequest;
@@ -13,6 +14,7 @@ import com.oway.model.request.GetNearestDriverRequest;
 import com.oway.model.request.GetPriceBySeatRequest;
 import com.oway.model.request.GetRecommendedPlacesRequest;
 import com.oway.model.request.SendDriverRequest;
+import com.oway.model.response.CalculateRouteResponse;
 import com.oway.model.response.CancelRideResponse;
 import com.oway.model.response.CustomerTransactionResponse;
 import com.oway.model.response.GetEstimateBikeResponse;
@@ -264,6 +266,40 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
 
             @Override
             public void onFailure(Call<GetPriceBySeatResponse> call, Throwable t) {
+                dismissLoading();
+                if (getMvpView() != null) {
+                    String msg = t.getMessage();
+                    getMvpView().showMessage(R.string.something_went_wrong);
+                }
+            }
+        });
+    }
+
+    public void getCalculateRoute(CalculateRouteRequest request) {
+
+        if (!NetworkUtils.isNetworkConnected(getMvpView().getActivityContext())) {
+            getMvpView().showMessage(R.string.internet_check);
+            return;
+        }
+        showLoading();
+        apiService.getCalculateRouteRequest(request).enqueue(new Callback<CalculateRouteResponse>() {
+            @Override
+            public void onResponse(Call<CalculateRouteResponse> call, Response<CalculateRouteResponse> response) {
+                dismissLoading();
+                CalculateRouteResponse body = response.body();
+                if (body != null) {
+                    if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
+                        getMvpView().onCalculateRouteSuccess(body);
+                    } else if (response.body().getCode() == ConstsCore.STATUS_CODE_FAILED) {
+                        getMvpView().onCalculateRouteFailure(response.body().getStatus());
+                    }
+                } else {
+                    getMvpView().onGetPriceBySeatFailure(App.getInstance().getResources().getString(R.string.something_went_wrong));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CalculateRouteResponse> call, Throwable t) {
                 dismissLoading();
                 if (getMvpView() != null) {
                     String msg = t.getMessage();
