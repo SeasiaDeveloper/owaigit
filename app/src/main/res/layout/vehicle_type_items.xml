@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:id="@+id/layCar"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/_8sdp"
     android:layout_marginTop="@dimen/_8sdp"
@@ -53,10 +53,10 @@
             android:id="@+id/tv_amount_to_be_paid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textSize="@dimen/_10sdp"
             android:layout_gravity="center"
-            android:gravity="start" />
+            android:gravity="start"
+            android:singleLine="true"
+            android:textSize="@dimen/_10sdp" />
 
 
     </LinearLayout>

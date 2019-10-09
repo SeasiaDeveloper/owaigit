@@ -10,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.content.Intent;
 
 import com.oway.App;
 import com.oway.R;
 import com.oway.callbacks.TermsAndConditionCallBack;
+import com.oway.ui.trip.FinishTripActivity;
 import com.oway.utillis.CommonUtils;
 
 import java.util.Objects;
@@ -64,8 +66,10 @@ public class DashBoardAccountFragment extends Fragment implements TermsAndCondit
 
     @OnClick(R.id.ll_rate_app)
     public void onRateClick() {
-       // CommonUtils.showPopUpWindow(App.getInstance(), Objects.requireNonNull(getActivity()), llxparent, termsAndConditionCallBack);
-
+        // CommonUtils.showPopUpWindow(App.getInstance(), Objects.requireNonNull(getActivity()), llxparent, termsAndConditionCallBack);
+       /* Intent intent = new Intent(getActivity(), FinishTripActivity.class);
+        startActivity(intent);*/
+      // CommonUtils.showWaitForMeDialog(getActivity());
     }
 
 

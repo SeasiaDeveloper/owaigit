@@ -34,16 +34,18 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:textColor="@color/white"
             android:text="@string/name" />
 
         <RatingBar
-            style="@style/customRatingBar"
+            style="@style/customRatingBarFinish"
             android:layout_width="@dimen/_150sdp"
             android:layout_height="@dimen/_25sdp"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/_5sdp"
             android:isIndicator="false"
-            android:theme="@style/RatingBar" />
+            android:stepSize="0.5"
+            android:theme="@style/RatingBarFinish" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,7 +57,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="@dimen/_90sdp"
+                android:layout_width="@dimen/_80sdp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
 
@@ -76,6 +78,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="end"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:singleLine="true"
                 android:text="@string/tv_logout_text"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12sdp" />
@@ -91,7 +96,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="@dimen/_90sdp"
+                android:layout_width="@dimen/_80sdp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/jarak"
@@ -111,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="end"
-                android:text="@string/tv_logout_text"
+                android:text="@string/dist"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12sdp" />
 
@@ -127,7 +132,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="@dimen/_90sdp"
+                android:layout_width="@dimen/_80sdp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/total"
@@ -147,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="end"
-                android:text="@string/tv_logout_text"
+                android:text="@string/amt"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12sdp" />
 
@@ -178,8 +183,7 @@
             android:background="@android:color/transparent"
             android:hint="@string/notes"
             android:id="@+id/et_cancel_reason_notes"
-            android:maxLength="100"
-            android:maxLines="5"
+            android:maxLines="8"
             android:paddingStart="@dimen/_8sdp"
             android:paddingTop="@dimen/_4sdp"
             android:paddingEnd="@dimen/_8sdp"
@@ -189,6 +193,11 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/btn_finish"
+        android:text="@string/tv_selemat"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
         android:background="@drawable/save_button_orange"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
