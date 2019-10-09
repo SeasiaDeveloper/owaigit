@@ -583,7 +583,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @Override
     public void onCalculateRouteSuccess(CalculateRouteResponse response) {
-        ToastUtils.shortToast(response.getTrafficTime());
+        ToastUtils.shortToast(String.valueOf(response.getData().getDistance()));
 
     }
 

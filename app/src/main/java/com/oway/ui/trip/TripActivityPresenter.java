@@ -288,12 +288,11 @@ public class TripActivityPresenter<V extends MvpView> extends BasePresenter<Trip
                 dismissLoading();
                 CalculateRouteResponse body = response.body();
                 if (body != null) {
-                    getMvpView().onCalculateRouteSuccess(body);
-                    /*if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
-                        getMvpView().onGetPriceBySeatSuccess(body);
+                    if (isBodyVerified(response.body().getCode()) && response.body().getCode() == ConstsCore.STATUS_CODE_SUCCESS) {
+                        getMvpView().onCalculateRouteSuccess(body);
                     } else if (response.body().getCode() == ConstsCore.STATUS_CODE_FAILED) {
-                        //getMvpView().onGetPriceBySeatFailure(response.body().getRespMessage());
-                    }*/
+                        getMvpView().onCalculateRouteFailure(response.body().getStatus());
+                    }
                 } else {
                     getMvpView().onGetPriceBySeatFailure(App.getInstance().getResources().getString(R.string.something_went_wrong));
                 }
