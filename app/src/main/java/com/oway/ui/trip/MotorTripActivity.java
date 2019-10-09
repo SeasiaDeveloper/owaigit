@@ -35,6 +35,7 @@ import com.oway.customviews.CustomTextView;
 import com.oway.datasource.pref.PreferenceHandler;
 import com.oway.model.PopularLocationsModal;
 import com.oway.model.VehicleTypeModal;
+import com.oway.model.request.CalculateRouteRequest;
 import com.oway.model.request.CancelRideRequest;
 import com.oway.model.request.CustomerTransactionRequest;
 import com.oway.model.request.GetCurrentLocationRequest;
@@ -43,6 +44,7 @@ import com.oway.model.request.GetNearestDriverRequest;
 import com.oway.model.request.GetPriceBySeatRequest;
 import com.oway.model.request.GetRecommendedPlacesRequest;
 import com.oway.model.request.SendDriverRequest;
+import com.oway.model.response.CalculateRouteResponse;
 import com.oway.model.response.CancelRideResponse;
 import com.oway.model.response.CustomerTransactionResponse;
 import com.oway.model.response.GetEstimateBikeResponse;
@@ -58,6 +60,7 @@ import com.oway.otto.OnApplyPushNotificationEventTripStart;
 import com.oway.ui.home.MainActivity;
 import com.oway.utillis.AppConstants;
 import com.oway.utillis.CommonUtils;
+import com.oway.utillis.ConstsCore;
 import com.oway.utillis.Location;
 import com.oway.utillis.ToastUtils;
 import com.oway.utillis.ValidationUtils;
@@ -578,6 +581,17 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     }
 
+    @Override
+    public void onCalculateRouteSuccess(CalculateRouteResponse response) {
+        ToastUtils.shortToast(response.getTrafficTime());
+
+    }
+
+    @Override
+    public void onCalculateRouteFailure(String response) {
+
+    }
+
     void initializeMap() {
         mapFragment.init(new OnEngineInitListener() {
             @Override
@@ -635,6 +649,13 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
             btn_map_next.setEnabled(true);
             btn_map_next.setBackgroundColor(getResources().getColor(R.color.col_orange));
         }
+        CalculateRouteRequest mRequest=new CalculateRouteRequest();
+        mRequest.setLat1(startLat);
+        mRequest.setLon1(startLng);
+        mRequest.setLon2(endLat);
+        mRequest.setLon2(endLng);
+        mRequest.setAccess_token(PreferenceHandler.readString(this, AppConstants.MBR_TOKEN,""));
+        tripActivityPresenter.getCalculateRoute(mRequest);
     }
 
     @Override
