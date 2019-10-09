@@ -18,8 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.here.android.mpa.common.GeoCoordinate;
+import com.here.android.mpa.common.Image;
 import com.here.android.mpa.common.OnEngineInitListener;
 import com.here.android.mpa.mapping.Map;
+import com.here.android.mpa.mapping.MapMarker;
 import com.here.android.mpa.mapping.SupportMapFragment;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.oway.App;
@@ -66,6 +69,7 @@ import com.oway.utillis.ValidationUtils;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -228,7 +232,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @OnClick(R.id.btn_map_next)
     public void onClickNextOnMap() {
-
+        llxTripInfo.setVisibility(View.GONE);
         if (PreferenceHandler.readString(this, AppConstants.SELECTION_GRID, "").equals("1")) {
             isValid = validationUtils.checkPickAndDestination(etxPickUp, etxDropDown);
             if (isValid) {
@@ -485,18 +489,18 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         MapPopularLocationsRecyclerAdapter adapter = new MapPopularLocationsRecyclerAdapter(modalArrayList, this, new PopularLocationsCallBack() {
             @Override
-            public void onItemClick(View v, String address,String lat,String lng) {
+            public void onItemClick(View v, String address, String lat, String lng) {
                 if (isPickUpClick) {
-                    startLat=lat;
-                    startLng=lng;
+                    startLat = lat;
+                    startLng = lng;
                     etxPickUp.setText(address);
                 } else {
-                    endLat=lat;
-                    endLng=lng;
+                    endLat = lat;
+                    endLng = lng;
                     etxDropDown.setText(address);
                 }
-                if(startLng!=null&&endLng!=null)
-                hitApiGetRoute();
+                if (startLng != null && endLng != null)
+                    hitApiGetRoute();
             }
         });
         recyclerView.setAdapter(adapter);
@@ -515,7 +519,13 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
                 startLat = String.valueOf(mlocation.latitude);
                 startLng = String.valueOf(mlocation.longitude);
                 startAddress = response.body().getFormatted_address();
+                Image image=new Image();
+
+                image.setImageResource(R.drawable.source_mark);
+                MapMarker mapMarker_source = new MapMarker(new GeoCoordinate(Double.valueOf(startLat), Double.valueOf(startLng), 0.0), image);
+                Objects.requireNonNull(map).addMapObject(mapMarker_source);
             }
+
         } catch (Exception e) {
             e.getStackTrace();
         }
@@ -612,7 +622,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         tvxTrafficTime.setText(String.valueOf(response.getData().getTrafficTime()));
         llxSearchLocs.setVisibility(View.GONE);
         llxTripInfo.setVisibility(View.VISIBLE);
-        CommonUtils.getDirections(map,Double.valueOf(startLat),Double.valueOf(startLng),Double.valueOf(endLat),Double.valueOf(endLng));
+        CommonUtils.getDirections(map, Double.valueOf(startLat), Double.valueOf(startLng), Double.valueOf(endLat), Double.valueOf(endLng));
 
     }
 
