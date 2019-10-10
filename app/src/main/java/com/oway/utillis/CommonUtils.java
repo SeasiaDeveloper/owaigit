@@ -59,6 +59,7 @@ import com.here.android.mpa.common.GeoCoordinate;
 import com.here.android.mpa.common.Image;
 import com.here.android.mpa.mapping.Map;
 import com.here.android.mpa.mapping.MapMarker;
+import com.here.android.mpa.mapping.MapObject;
 import com.here.android.mpa.mapping.MapRoute;
 import com.here.android.mpa.routing.RouteManager;
 import com.here.android.mpa.routing.RouteOptions;
@@ -85,6 +86,7 @@ import com.oway.otto.OnApplyPushNotificationEventTripStart;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -105,6 +107,7 @@ public final class CommonUtils {
     static Map mMap;
     private static MapMarker mapMarker = null;
     private static MapMarker mapMarker_source = null;
+    private static List<MapObject> marker=new ArrayList<>();
 
     private CommonUtils() {
         // This utility class is not publicly instantiable
@@ -563,13 +566,12 @@ public final class CommonUtils {
     public static void getDirections(Map map, double startLatitude, double startLongitude, double endLatitude, double endLongitude) {
         // 1. clear previous results
         mMap = map;
-
         if (map != null && mapRoute != null) {
-            map.removeMapObject(mapRoute);
-            map.removeMapObject(mapMarker_source);
-            map.removeMapObject(mapMarker);
+           // map.removeMapObject(mapRoute);
+           // map.removeMapObject(mapMarker_source);
+            //map.removeMapObject(mapMarker);
             mapRoute = null;
-
+            map.removeMapObjects(marker);
         }
 
         // 2. Initialize RouteManager
@@ -592,6 +594,7 @@ public final class CommonUtils {
             image.setImageResource(R.drawable.source_mark);
             mapMarker_source = new MapMarker(new GeoCoordinate(startLatitude, startLongitude, 0.0), image);
             Objects.requireNonNull(map).addMapObject(mapMarker_source);
+            marker.add(mapMarker_source);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -601,6 +604,7 @@ public final class CommonUtils {
             image.setImageResource(R.drawable.destination_mark);
             mapMarker = new MapMarker(new GeoCoordinate(endLatitude, endLongitude, 0.0), image);
             Objects.requireNonNull(map).addMapObject(mapMarker);
+            marker.add(mapMarker);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -631,7 +635,7 @@ public final class CommonUtils {
                 // Get the bounding box containing the route and zoom in (no animation)
                 GeoBoundingBox gbb = result.get(0).getRoute().getBoundingBox();
                 mMap.zoomTo(gbb, Map.Animation.NONE, Map.MOVE_PRESERVE_ORIENTATION);
-
+                marker.add(mapRoute);
 
             }
         }

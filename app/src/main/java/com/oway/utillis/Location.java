@@ -42,7 +42,7 @@ public class Location implements GoogleApiClient.ConnectionCallbacks, GoogleApiC
     public Location(Context context) {
         mContext = context;
         client = new GoogleApiClient.Builder(context).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(LocationServices.API).build();
-        request = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(1000).setFastestInterval(5000).setSmallestDisplacement(50);
+        request = LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(1000).setFastestInterval(5000).setSmallestDisplacement(90);
     }
 
     public void setOnLocationChangeListener(OnLocationChangeListener l, OnLocationSatiListener onLocationSatiListener) {

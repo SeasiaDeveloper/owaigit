@@ -64,10 +64,12 @@ import com.oway.ui.home.MainActivity;
 import com.oway.utillis.AppConstants;
 import com.oway.utillis.CommonUtils;
 import com.oway.utillis.Location;
+import com.oway.utillis.Logger;
 import com.oway.utillis.ToastUtils;
 import com.oway.utillis.ValidationUtils;
 import com.squareup.otto.Subscribe;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -101,10 +103,11 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     private String startAddress, startLat, startLng, endAddress, endLat, endLng, no_reason = "no reason";
     private ArrayList<VehicleTypeModal> vehicleTypeModalArrayList = new ArrayList<>();
     private int seat = 0;
-
+    private Handler handler;
     private VehicleTypeModal vehicleTypeModal = new VehicleTypeModal();
     private GetPriceBySeatResponse mResponse;
-
+    private Runnable myRunnable;
+    private MapMarker mapMarker_source;
     @BindView(R.id.popular_location)
     RecyclerView recyclerView;
     @BindView(R.id.etxPickUp)
@@ -125,10 +128,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     RelativeLayout layoutBelowFloatButton;
     @BindView(R.id.ll_bottom_sheet_view)
     RelativeLayout layoutBottomSheet;
-
     @BindView(R.id.ll_driver_riding_to_you)
     RelativeLayout layoutDriverRidingToYou;
-
     @BindView(R.id.imgCurrent)
     ImageView imgCurrent;
     @BindView(R.id.btn_float)
@@ -366,8 +367,6 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         sheetBehavior = BottomSheetBehavior.from(view);
         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         sheetBehavior.setPeekHeight(0);
-
-
         View viewWithLoc = findViewById(R.id.include_sheets_loc);
         sheetBehavior = BottomSheetBehavior.from(viewWithLoc);
         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -399,7 +398,11 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @Subscribe
     public void OnApplyPushNotificationEventTripStart(OnApplyPushNotificationEventTripStart event) {
         CommonUtils.setTripStartData(this, layoutTripStart, event);
-
+        layoutSourceDestination.setVisibility(View.GONE);
+        layoutPopularLocations.setVisibility(View.GONE);
+        layoutBottomSheet.setVisibility(View.GONE);
+        layoutDriverRidingToYou.setVisibility(View.GONE);
+        layoutTripStart.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -439,9 +442,11 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         mRequest.setLatitude(String.valueOf(location.latitude));
         mRequest.setLongitude(String.valueOf(location.longitude));
         mRequest.setAccess_token(PreferenceHandler.readString(MotorTripActivity.this, AppConstants.MBR_TOKEN, ""));
-        tripActivityPresenter.getLocationDetails(mRequest);
-        getNearByDriver();
-        getRecommendedPlaces();
+        if(tripActivityPresenter!=null) {
+            tripActivityPresenter.getLocationDetails(mRequest);
+            getNearByDriver();
+            getRecommendedPlaces();
+        }
     }
 
     private void getRecommendedPlaces() {
@@ -471,12 +476,13 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     }
 
     private void setOneMinuteHandler() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
+         handler= new Handler();
+         myRunnable= new Runnable() {
             public void run() {
                 cancelRide();
             }
-        }, 10000);
+        };
+        handler.postDelayed(myRunnable, 3000);
     }
 
     @Override
@@ -508,6 +514,12 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
                 }
                 if (startLng != null && endLng != null)
                     hitApiGetRoute();
+
+                if(etxDropDown.getText().toString().isEmpty())
+                {
+                    map.removeMapObject(mapMarker_source);
+                    addCurrentMarker();
+                }
             }
         });
         recyclerView.setAdapter(adapter);
@@ -526,16 +538,25 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
                 startLat = String.valueOf(mlocation.latitude);
                 startLng = String.valueOf(mlocation.longitude);
                 startAddress = response.body().getFormatted_address();
-                Image image = new Image();
-
-                image.setImageResource(R.drawable.source_mark);
-                MapMarker mapMarker_source = new MapMarker(new GeoCoordinate(Double.valueOf(startLat), Double.valueOf(startLng), 0.0), image);
-                Objects.requireNonNull(map).addMapObject(mapMarker_source);
+                addCurrentMarker();
             }
 
         } catch (Exception e) {
             e.getStackTrace();
         }
+    }
+
+    private void addCurrentMarker() {
+        Image image = new Image();
+        try {
+
+            image.setImageResource(R.drawable.source_mark);
+            mapMarker_source= new MapMarker(new GeoCoordinate(Double.valueOf(startLat), Double.valueOf(startLng), 0.0), image);
+            Objects.requireNonNull(map).addMapObject(mapMarker_source);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -625,8 +646,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     @Override
     public void onCalculateRouteSuccess(CalculateRouteResponse response) {
 
-        tvxTripDistance.setText(String.valueOf(response.getData().getDistance()));
-        tvxTrafficTime.setText(String.valueOf(response.getData().getTrafficTime()));
+        tvxTripDistance.setText(String.valueOf(response.getData().getDistance()+" KM"));
+        tvxTrafficTime.setText(String.valueOf(response.getData().getTrafficTime()+" Jam"));
         llxSearchLocs.setVisibility(View.GONE);
         llxTripInfo.setVisibility(View.VISIBLE);
         CommonUtils.getDirections(map, Double.valueOf(startLat), Double.valueOf(startLng), Double.valueOf(endLat), Double.valueOf(endLng));
@@ -698,6 +719,14 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
             llxSearchLocs.setVisibility(View.GONE);
             llxTripInfo.setVisibility(View.VISIBLE);
             btn_map_next.setBackgroundColor(getResources().getColor(R.color.col_orange));
+        }
+        if(etxDropDown.getText().toString().isEmpty())
+        {
+            map.removeMapObject(mapMarker_source);
+            addCurrentMarker();
+        }
+        else {
+            map.removeMapObject(mapMarker_source);
         }
         hitApiGetRoute();
     }
@@ -774,5 +803,12 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         super.onDestroy();
         BusProvider.getInstance().unregister(this);
         tripActivityPresenter.onDetach();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(handler!=null)
+        handler.removeCallbacks(myRunnable);
     }
 }
