@@ -30,7 +30,7 @@
                 <ImageView
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_25sdp"
-                    android:background="@drawable/saldo_color"
+                    android:background="@drawable/ic_warning"
                     />
 
             <com.oway.customviews.CustomTextView
