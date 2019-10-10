@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -425,7 +426,7 @@ public final class CommonUtils {
         dialog.show();
     }
 
-    public static void showPopUpWindow(Context context, Activity activity, LinearLayout layout, TermsAndConditionCallBack conditionCallBack) {
+    public static void showPopUpWindow(Context context, Activity activity, RelativeLayout layout, TermsAndConditionCallBack conditionCallBack) {
         DisplayMetrics dm = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
 

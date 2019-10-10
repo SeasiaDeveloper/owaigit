@@ -125,8 +125,10 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     RelativeLayout layoutBelowFloatButton;
     @BindView(R.id.ll_bottom_sheet_view)
     RelativeLayout layoutBottomSheet;
+
     @BindView(R.id.ll_driver_riding_to_you)
     RelativeLayout layoutDriverRidingToYou;
+
     @BindView(R.id.imgCurrent)
     ImageView imgCurrent;
     @BindView(R.id.btn_float)
@@ -153,6 +155,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     CustomTextView tvxTripDistance;
     @BindView(R.id.tv_traffic_time)
     CustomTextView tvxTrafficTime;
+
 
     @Inject
     TripActivityPresenter<TripActivityView> tripActivityPresenter;
@@ -210,6 +213,10 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         }
     }
 
+    @OnClick(R.id.civ_help_alart)
+    public void onHelpClick() {
+        CommonUtils.showPopUpWindow(this, MotorTripActivity.this, layoutTripStart, termsAndConditionCallBack);
+    }
     /*@OnClick(R.id.cencel_ride)
     public void onCancelRide() {
         layoutPleaseWaitForRide.setVisibility(View.GONE);
@@ -519,7 +526,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
                 startLat = String.valueOf(mlocation.latitude);
                 startLng = String.valueOf(mlocation.longitude);
                 startAddress = response.body().getFormatted_address();
-                Image image=new Image();
+                Image image = new Image();
 
                 image.setImageResource(R.drawable.source_mark);
                 MapMarker mapMarker_source = new MapMarker(new GeoCoordinate(Double.valueOf(startLat), Double.valueOf(startLng), 0.0), image);
