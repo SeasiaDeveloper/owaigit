@@ -91,6 +91,8 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     private Map map = null;
     private SupportMapFragment mapFragment = null;
     private BottomSheetBehavior sheetBehavior;
+    private BottomSheetBehavior sheetBehaviorInfo;
+
     private Location location;
     private CancelReasonDialog reasonDialog;
     private CancelButtonClick cancelButtonClick;
@@ -186,14 +188,14 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
 
     @OnClick(R.id.btn_float)
     public void onFloatButtonClick() {
-        if ((sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED)) {
+        if ((sheetBehaviorInfo.getState() != BottomSheetBehavior.STATE_EXPANDED)) {
             btnFab.setRotation(180);
-            sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            sheetBehaviorInfo.setState(BottomSheetBehavior.STATE_EXPANDED);
 
             layoutBelowFloatButton.setVisibility(View.GONE);
 
         } else {
-            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            sheetBehaviorInfo.setState(BottomSheetBehavior.STATE_COLLAPSED);
             layoutBelowFloatButton.setVisibility(View.VISIBLE);
             btnFab.setRotation(360);
         }
@@ -218,14 +220,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
     public void onHelpClick() {
         CommonUtils.showPopUpWindow(this, MotorTripActivity.this, layoutTripStart, termsAndConditionCallBack);
     }
-    /*@OnClick(R.id.cencel_ride)
-    public void onCancelRide() {
-        layoutPleaseWaitForRide.setVisibility(View.GONE);
-        layoutPopularLocations.setVisibility(View.VISIBLE);
-        layoutSourceDestination.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.VISIBLE);
-        CommonUtils.showCancelDialog(this, cancelButtonClick);
-    }*/
+
 
     @Override
     public void onCancelClick() {
@@ -364,9 +359,10 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
         initialize();
         BusProvider.getInstance().register(this);
         View view = findViewById(R.id.include_sheets);
-        sheetBehavior = BottomSheetBehavior.from(view);
-        sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        sheetBehavior.setPeekHeight(0);
+        sheetBehaviorInfo = BottomSheetBehavior.from(view);
+        sheetBehaviorInfo.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        sheetBehaviorInfo.setPeekHeight(0);
+
         View viewWithLoc = findViewById(R.id.include_sheets_loc);
         sheetBehavior = BottomSheetBehavior.from(viewWithLoc);
         sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
