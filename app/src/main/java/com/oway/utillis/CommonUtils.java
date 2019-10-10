@@ -27,7 +27,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -36,7 +35,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -46,7 +44,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.res.ResourcesCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.model.LatLng;
@@ -88,7 +85,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -107,7 +103,7 @@ public final class CommonUtils {
     static Map mMap;
     private static MapMarker mapMarker = null;
     private static MapMarker mapMarker_source = null;
-    private static List<MapObject> marker=new ArrayList<>();
+    private static List<MapObject> marker = new ArrayList<>();
 
     private CommonUtils() {
         // This utility class is not publicly instantiable
@@ -392,7 +388,6 @@ public final class CommonUtils {
     }
 
 
-
     public static PushNotificationResponseStart getNotificationArrivedNowResponse(java.util.Map<String, String> data) {
         PushNotificationResponseStart response = new PushNotificationResponseStart();
         response.setType(data.get("type"));
@@ -516,7 +511,7 @@ public final class CommonUtils {
         TextView tv_distance = (TextView) bottomSheet.findViewById(R.id.tvDistance);
         TextView tv_description = (TextView) bottomSheet.findViewById(R.id.tvDescription);
         TextView tv_price = (TextView) bottomSheet.findViewById(R.id.tvPrice);
-        TextView tvCash=(TextView)bottomSheet.findViewById(R.id.tvCash);
+        TextView tvCash = (TextView) bottomSheet.findViewById(R.id.tvCash);
 
         ImageView iv_driver_image_below_loc = (ImageView) bottomSheet.findViewById(R.id.iv_driver_image_below_loc);
         TextView tv_driver_name_loc = (TextView) bottomSheet.findViewById(R.id.tv_driver_name_loc);
@@ -533,10 +528,10 @@ public final class CommonUtils {
         tv_text_two_loc.setText(mEvent.getReach_estimate());
         tv_source.setText(mEvent.getPickup_address());
         tv_destination.setText(mEvent.getDestination_address());
-        tv_distance.setText(String.valueOf(mEvent.getDistance())+" KM");
+        tv_distance.setText(String.valueOf(mEvent.getDistance()) + " KM");
         tv_description.setText(mEvent.getReach_estimate());
-        tv_price.setText("RP "+String.valueOf(mEvent.getPrice()));
-        if(mEvent.getUsing_balance()==0)
+        tv_price.setText("RP " + String.valueOf(mEvent.getPrice()));
+        if (mEvent.getUsing_balance() == 0)
             tvCash.setText(context.getResources().getString(R.string.tv_cash));
         else
             tvCash.setText(context.getResources().getString(R.string.saldo));
@@ -570,8 +565,8 @@ public final class CommonUtils {
         // 1. clear previous results
         mMap = map;
         if (map != null && mapRoute != null) {
-           // map.removeMapObject(mapRoute);
-           // map.removeMapObject(mapMarker_source);
+            // map.removeMapObject(mapRoute);
+            // map.removeMapObject(mapMarker_source);
             //map.removeMapObject(mapMarker);
             mapRoute = null;
             map.removeMapObjects(marker);

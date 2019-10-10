@@ -478,7 +478,7 @@ public class MotorTripActivity extends BaseActivity implements Location.OnLocati
                 cancelRide();
             }
         };
-        handler.postDelayed(myRunnable, 3000);
+        handler.postDelayed(myRunnable, 10000);
     }
 
     @Override
