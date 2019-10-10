@@ -560,6 +560,9 @@ public final class CommonUtils {
         response.setType_vehicle(data.get("type_vehicle"));
         response.setVehicle(data.get("vehicle"));
         response.setColor(data.get("color"));
+        response.setReach_estimate(data.get("reach_estimate"));
+        response.setMessage(data.get("message"));
+        response.setMessage_id(data.get("message_id"));
         return response;
     }
 
