@@ -105,7 +105,7 @@
                     android:gravity="left"
                     android:padding="@dimen/_10sdp"
                     android:background="@android:color/transparent"
-                    android:hint="@string/notes"
+                    android:hint="@string/notes_reason"
                     android:id="@+id/et_cancel_reason_notes"
                     android:maxLines="5"
                     android:paddingStart="@dimen/_8sdp"
